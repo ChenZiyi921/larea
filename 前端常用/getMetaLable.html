@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="桔子分期">
+<meta name="description" content="">
+<meta name="sharetitle" content="桔子分期">
+<meta name="sharedesc" content="桔子分期，价更低！！！桔子分期，价更低！！！">
+<meta name="shareicon" content="https://p.juzifenqi.com/activity/act_mi170926/images/logo.png">
+<meta name="sharelink" content="https://p.juzifenqi.com">
+<meta name="shareType" content="yes">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no" />
+<meta name="format-detection" content="telephone=no">
+<meta name="copyright" content="Copyright (c) juzifenqi.com">
+<title id="title">桔子分期</title>
+<style>
+    html,body,h1{ margin: 0; padding: 0; }
+    h1{ width: 260px; height: 30px; line-height: 30px; padding: 5px 20px; font-family: "微软雅黑"; font-style: normal; font-weight: normal; font-size: 24px; }
+    .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; font-size:0; }
+    .clearfix{ zoom:1; }
+    .wrap{ width: 300px; height: 140px; margin: 60px auto; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent; }
+    .content{ width: 100%; padding-top: 10px; overflow: hidden; }
+    .left{ width: 180px; height: 90px; line-height: 30px; padding: 0 10px; float: left; }
+    .right{ width: 90px; height: 90px; padding-right: 10px; float: left; }
+    .right img{ display: block; width: 80%; margin: 0 auto; }
+    .active{ width: 20px; height: 20px; position: absolute; right: -11px; bottom: 60px; border-right: 1px solid #ccc; border-top: 1px solid #ccc; transform: rotate(45deg); z-index: 99; background: #fff; }
+</style>
+</head>
+<body>
+    <div class="wrap" id="wrap">
+        <h1 class="h1"></h1>
+        <div class="content clearfix">
+            <div class="left"></div>
+            <div class="right"><img src="" id="img"/></div>
+        </div>
+        <div class="active"></div>
+    </div>
+    <script>
+        var wrap = document.getElementById('wrap');
+        function getMetaContent(t){
+            return document.getElementsByName(t)[0].content;
+        }
+        document.querySelectorAll('.left')[0].innerHTML = getMetaContent('sharedesc');
+        document.querySelector('#img').src = getMetaContent('shareicon');
+        document.querySelectorAll('.h1')[0].innerHTML = getMetaContent('sharetitle');
+        wrap.addEventListener('click',function(){
+            location.href = getMetaContent('sharelink');
+        }, false);
+    </script>
+</body>
+</html>

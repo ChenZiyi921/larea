@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>轮播图和选项卡JS套用</title>
+	<style type="text/css">
+		body,div,p,span,i,b,strong,em,ul,li,a{ margin: 0; padding: 0; font-size: 12px; color: #333; }
+		ul,ol{ list-style: none; }
+		.slide-wrap{ width: 100%; height: 545px; position: relative; background: #ccc; }
+		.slide{ width: 100%; height: 545px; position: absolute; z-index: 1; }
+		.prev,.next{ display: block; width: 39px; height: 76px; position: absolute; z-index: 33; top: 50%; margin-top: -38px; }
+		.prev{ left: 20px; background: url(images/prev-2.png) no-repeat left top; }
+		.next{ right: 20px; background: url(images/next-2.png) no-repeat left top; }
+		.prev:hover,.next:hover{ opacity: 0.6; }
+		.item{ width: 100%; height: 18px; position: absolute; z-index: 22; bottom: 20px; left: 0; text-align: center; }
+		.item a{ display: inline-block; width: 18px; height: 18px; margin: 0 10px; background: url(images/item-1.png) no-repeat -40px top; }
+		.item a.cur{ background-position: left top; }
+		/* 为了扩展CSS3动画 */
+		.animation{ z-index: 9; }
+		/* tab  */
+		.tab{ width: 200px; height: 200px; margin: 20px auto; border: 1px solid #ccc; }
+		.tab-list{ width: 180px; height: 26px; padding: 4px 10px 0 10px; background: url(images/hr.png) repeat-x left 29px; overflow: hidden; }
+		.tab-list li{ width: 40px; height: 25px; line-height: 25px; border-left: 1px solid #fff; border-right: 1px solid #fff; text-align: center; float: left; cursor: pointer; }
+		.tab-list li.gzcur{ height: 24px; line-height: 24px; background: #fff; border-right-color: #ccc; border-left-color: #ccc; border-bottom: 1px solid #fff; border-top: 2px solid #0fa6c5; font-weight: bold; color: #0f6ac5; }
+		.content-list{ display: none; width: 180px; padding: 10px; }
+		.content-list li{ width: 180px; height: 26px; line-height: 26px; font-size: 12px; float: left; }
+	</style>
+</head>
+<body>
+	<div class="slide-wrap" id="slideWrap">
+		<a class="prev" href="javascript:;"></a>
+		<div class="slide" style="background:url(images/s-1.jpg) no-repeat center top"></div>
+		<div class="slide" style="background:url(images/s-2.jpg) no-repeat center top"></div>
+		<div class="slide" style="background:url(images/s-3.jpg) no-repeat center top"></div>
+		<div class="slide" style="background:url(images/s-4.jpg) no-repeat center top"></div>
+		<a class="next" href="javascript:;"></a>
+		<div class="item">
+			<a class="cur" href="javascript:;"></a><a href="javascript:;"></a><a href="javascript:;"></a><a href="javascript:;"></a>
+		</div>
+	</div>
+	<div class="tab" id="tabObj">
+		<ul class="tab-list">
+			<li class="gzcur">体育</li>
+			<li>美女</li>
+			<li>财经</li>
+			<li>股票</li>
+		</ul>
+		<div class="tab-wrap">
+			<ul class="content-list" style="display:block;">
+				<li>小范:公牛贬人抬己111</li>
+				<li>小范:公牛贬人抬己111</li>
+				<li>小范:公牛贬人抬己111</li>
+				<li>小范:公牛贬人抬己111</li>
+				<li>小范:公牛贬人抬己111</li>
+				<li>小范:公牛贬人抬己111</li>
+			</ul>
+			<ul class="content-list">
+				<li>小范:公牛贬人抬己222</li>
+				<li>小范:公牛贬人抬己222</li>
+				<li>小范:公牛贬人抬己222</li>
+				<li>小范:公牛贬人抬己222</li>
+				<li>小范:公牛贬人抬己222</li>
+				<li>小范:公牛贬人抬己222</li>
+			</ul>
+			<ul class="content-list">
+				<li>小范:公牛贬人抬己333</li>
+				<li>小范:公牛贬人抬己333</li>
+				<li>小范:公牛贬人抬己333</li>
+				<li>小范:公牛贬人抬己333</li>
+				<li>小范:公牛贬人抬己333</li>
+				<li>小范:公牛贬人抬己333</li>
+			</ul>
+			<ul class="content-list">
+				<li>小范:公牛贬人抬己444</li>
+				<li>小范:公牛贬人抬己444</li>
+				<li>小范:公牛贬人抬己444</li>
+				<li>小范:公牛贬人抬己444</li>
+				<li>小范:公牛贬人抬己444</li>
+				<li>小范:公牛贬人抬己444</li>
+			</ul>
+		</div>
+	</div>
+	<!-- script -->
+	<script type="text/javascript" src="http://www.liebao.cn/lbjs/jquery.js"></script>
+	<script type="text/javascript" src="js/slide.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #systemTips{ min-width: 70%; line-height: 150%; padding: .2rem; box-sizing: border-box; background: rgba(0, 0, 0, 0.9); border-radius: 0.1rem; position: fixed; z-index: 999999; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: .28rem; text-align: center; color: #fff; }
+    </style>
+</head>
+
+<body>
+    <script>
+        var tips = {
+            tips: function (txt) {
+                if (txt && txt != '') {
+                    var tout = null;
+                    var createDiv = document.createElement('div');
+                    createDiv.id = 'systemTips';
+                    createDiv.innerHTML = txt.toString() || '';
+                    document.querySelectorAll('body')[0].appendChild(createDiv);
+                    tout = setTimeout(function () {
+                        var getSystemTips = document.getElementById('systemTips');
+                        if (getSystemTips.parentNode) {
+                            getSystemTips.parentNode.removeChild(getSystemTips);
+                            clearTimeout(tout);
+                        }
+                    }, 2000);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
