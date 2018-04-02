@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="shareType" content="yes">
+    <meta name="sharetitle" content="">
+    <meta name="sharedesc" content="">
+    <meta name="sharelink" content="http://pre.mall.juzifenqi.com/scene/act_180402_sport/index.html">
+    <meta name="shareicon" content="http://pre.mall.juzifenqi.com/scene/act_180402_sport/images/share.jpg">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="email=no" />
+    <meta name="format-detection" content="address=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="copyright" content="Copyright (c) juzifenqi.com" />
+    <title>弹窗</title>
+    <link rel="stylesheet" type="text/css" href="css/h5reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+</head>
+
+<body>
+    <div class="web-wrap clearfix" id="wrap">
+        <a data-id="11" id="btn" href="javascript:;">点击弹窗</a>
+        <!-- <div class="mask" style="display: block;">
+        <div class="pop-wrap">
+            <img src="images/rule-t.png" alt="">
+            <div class="pop-main">
+                <h4 class="pop-tit">testTitle</h4>
+                <p class="pop-desc">多元化场景分类、上百品牌、万种商品、多种免息方案多元化场景分类、</p>
+                <div class="btn-wrap">
+                    <a class="confirm" href="javascript:;">确认</a>
+                    <a class="cancel" href="javascript:;">取消</a>
+                </div>
+            </div>
+            <i class="closeBtn">×</i>
+        </div>
+    </div> -->
+    </div>
+    <script>
+        ; (function () {
+            function Pop() {
+                this.getBody = document.getElementsByTagName('body')[0];
+            };
+            Pop.prototype = {
+                init: function (opts) {
+                    opts && typeof opts == 'object';
+                    this.createDom(opts);
+                    this.setCloseBtn(opts);
+                },
+                createDom: function (opts) {
+                    var popWrap = document.createElement('div');
+                    var popHtml = '';
+                    popWrap.className = 'mask';
+                    popHtml += '<div class="pop-wrap">';
+                    if (opts.imgIsTrue && opts.imgIsTrue == true) {
+                        popHtml += '<div class="pop-main">';
+                        popHtml += '<img src="images/rule-t.png" alt="">';
+                    } else {
+                        popHtml += '<div class="pop-main" style="padding-top:.24rem;">';
+                    }
+                    popHtml += '<h4 class="pop-tit">' + opts.tit + '</h4>';
+                    popHtml += '<p class="pop-desc">' + opts.tips + '</p>';
+                    if (opts.confirmTxt && opts.confirmTxt != '' && opts.cancelTxt && opts.cancelTxt != '') {
+                        popHtml += '<div class="btn-wrap">' +
+                            '<a class="confirm" href="javascript:;">' + opts.confirmTxt + '</a>' +
+                            '<a class="cancel" href="javascript:;">' + opts.cancelTxt + '</a></div>';
+                    } else if (!opts.confirmTx || opts.confirmTx == '') {
+                        popHtml += '<div class="btn-wrap">' +
+                            '<a class="cancel" href="javascript:;">' + opts.cancelTxt + '</a></div>';
+                    } else if (!opts.cancelTxt || opts.cancelTxt == '') {
+                        popHtml += '<div class="btn-wrap">' +
+                            '<a class="confirm" href="javascript:;">' + opts.confirmTxt + '</a></div>';
+                    }
+                    popHtml += '</div>' +
+                        '<i class="closeBtn">×</i>' +
+                        '</div>';
+                    popWrap.innerHTML = popHtml;
+
+                    this.getBody.appendChild(popWrap);
+                },
+                setCloseBtn: function (opts) {
+                    var _this = this;
+                    var getConfirmBtn = document.querySelectorAll('.confirm')[0];
+                    _this.getBody.onclick = function (e) {
+                        var e = e || window.event;
+                        var target = e.target || e.srcElement;
+                        if (target.className == 'closeBtn') {
+                            if (/^mask/.test(_this.getBody.lastChild.className)) {
+                                _this.getBody.removeChild(_this.getBody.lastChild);
+                                return;
+                            }
+                        }
+                        if (target.className == 'confirm') {
+                            _this.getBody.removeChild(_this.getBody.lastChild);
+                            if (opts.confirmBtnRun && typeof opts.confirmBtnRun == 'function') {
+                                opts.confirmBtnRun();
+                            }
+
+                        }
+                        if (target.className == 'cancel') {
+                            _this.getBody.removeChild(_this.getBody.lastChild);
+                            if (opts.cancelBtnRun && typeof opts.cancelBtnRun == 'function') {
+                                opts.cancelBtnRun();
+                            }
+                        }
+                    };
+                }
+            };
+            var newPop = new Pop;
+            var getBtn = document.getElementById('btn');
+            getBtn.onclick = function () {
+                newPop.init({
+                    tit: '提示',
+                    tips: '6576757657675765767576576',
+                    confirmTxt: '确定',
+                    cancelTxt: '取消',
+                    imgIsTrue: true,
+                    confirmBtnRun: function () {
+                        alert(1);
+                    },
+                    cancelBtnRun: function () {
+                        alert(2);
+                    }
+                });
+            };
+        })();
+    </script>
+</body>
+
+</html>
