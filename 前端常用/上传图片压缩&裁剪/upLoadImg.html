@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="shareType" content="yes">
+    <meta name="keywords" content="上传图片" />
+    <meta name="description" content="上传图片" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="email=no" />
+    <meta name="format-detection" content="address=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="copyright" content="Copyright (c) juzifenqi.com" />
+    <title>上传图片</title>
+    <link rel="stylesheet" type="text/css" href="css/h5reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/upload.css">
+</head>
+
+<body>
+    <div class="web-wrap clearfix" id="wrap">
+        <p class="user-t" style="background: #999;">
+            <span id="headPortrait">
+                <img src="../queen/images/img-1.jpg" alt="">
+            </span>
+            <em>昵称：陈子义</em>
+        </p>
+        <div id="upLoadWrap" style="display: block;">
+            <div class="upload-main">
+                <div class="upload-content">
+                    <h4>活动报名</h4>
+                    <h5>昵称（必填）</h5>
+                    <input type="text" placeholder="限6个字内" />
+                    <h5>上传头像（必填）</h5>
+                    <div class="upload-b">
+                        <div class="upload-l">
+                            <div id="replaceImg">
+                                <img id="finalImg" width="100%">
+                            </div>
+                        </div>   
+                        <div class="upload-r">
+                            <h6>您要上传的头像要求</h6>
+                            <p>本地照片：选择一张本地图片编辑后上传为头像</p>
+                            <p>照片仅支持JPG，GIF，PNG图片文件且文件小于5M</p>
+                        </div>
+                    </div>
+                </div>
+                <a id="upLoadBtn" href="javascript:;">提交</a>
+                <i id="closeUp">×</i>
+            </div>
+        </div>
+        <div class="aspen_laodimg_wrap" id="aspenLoadimgWrap" style="display:none;">
+            <p id="log2" style="display:none;"></p>
+            <p id="log" style="display:none;"></p>
+            <div class="aspen_canvas">
+            <canvas id="aspenCanvas"></canvas></div>
+            <div class="aspen_tool_box">
+                <div class="aspen_left">
+                    <div class="file_main">
+                        <input id="aspenFile" type="file" name="cover" accept="image/*" />选择图片
+                    </div>
+                    <a id="aspenSave" href="javascript:;">保存图片</a>
+                </div>
+                <div class="aspen_img"><img id="aspenImg" src="images/load-img.png"/></div>
+                <div class="aspen_right">
+                    <a id="rotateR" href="javascript:;">旋转图片</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/aspen.lib.min.js"></script>
+    <script type="text/javascript" src="js/upload.img.lib.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+</body>
+
+</html>

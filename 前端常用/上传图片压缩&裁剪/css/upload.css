@@ -1,0 +1,38 @@
+/* 用户信息 */
+.user-t{ width: 100%; height: 1.3rem; margin: 0 auto; padding: .1rem .2rem; box-sizing: border-box; }
+.user-t span{ display: block; width: 1rem; height: 1rem; border: 2px solid #fff; border-radius: 100%; overflow: hidden; float: left; }
+.user-t span img{ width: 100%; }
+.user-t em{ height: 100%; line-height: 1rem; padding-left: .2rem; float: left; font-size: .3rem; }
+/* 上传头像弹窗 */
+.upload-main{ width: 80%; height: 6rem; position: absolute; left: 10%; top: 50%; transform: translateY(-50%); border-radius: .2rem; background: linear-gradient(to bottom, #ea4389, #e837f8); }
+.upload-main a{ display: block; width: 50%; height: .6rem; line-height: .6rem; margin: .26rem auto 0; text-align: center; background: #ffde00; border-radius: .6rem; color: #c21c63; font-size: .3rem; }
+.upload-content{ width: 96%; height: 4.8rem; line-height: .44rem; margin: .2rem auto 0; border-radius: .2rem; padding: .16rem; box-sizing: border-box; background: #fce9ff; text-align: center; font-size: .26rem; color: #666; }
+.upload-content h4{ text-align: left; font-size: .28rem; color: #e838ee; }
+.upload-content h5,.upload-content h6{ text-align: left; }
+.upload-content h5{ padding: .1rem 0; }
+.upload-content input{ width: 100%; height: .6rem; padding: .12rem; box-sizing: border-box; background: #fff; font-size: .24rem; color: #333; }
+.upload-b{ width: 100%; height: 2rem; }
+.upload-l{ width: 1.6rem; height: 1.6rem; background: #f1f1f1 url(../images/icon-2.png) center center no-repeat; background-size: 50%; border: .04rem solid #fff; float: left; position: relative; top: 0; left: 0; z-index: 11; }
+.upload-l img{ width: 100%; height: 100%; }
+.upload-r{ width: 100%; height: 100%; padding-left: 1.8rem; box-sizing: border-box; text-align: left; }
+.upload-r h6{ color: #e837f8; }
+.upload-r p{ line-height: .28rem; font-size: .2rem; }
+#upLoadWrap{ max-width: 750px; width: 100%; height: 100%; position: fixed; top: 0; background: rgba(0, 0, 0, 0.7); }
+.upload-main i{ display: block; position: absolute; right: .3rem; top: .2rem; font-size: .5rem; color: #333; cursor: pointer; }
+#replaceImg{ position: relative; width: 1.6rem; height: 1.6rem; }
+.upload-content input.public-file-inpt{ background: red; position: absolute; z-index: 8999; top: 0; left: 0; width: 1.6rem; height: 1.6rem; opacity: 0; }
+/* upload img wrap */
+.aspen_laodimg_wrap{ width: 100%; height: 100%; position: fixed; z-index: 89899999; top: 0; left: 0; }
+.aspen_canvas{ background: #fff; }
+.aspen_tool_box{ position: absolute; bottom: 0; left: 0; box-sizing: border-box; width: 100%; height: 100px; border-top: 1px solid #ccc; background: #fff; }
+.aspen_tool_box .aspen_left{ float: left; box-sizing: border-box; width: 30%; padding: 10px 0 10px 20px; }
+.aspen_tool_box .file_main{ width: 100%; height: .6rem; line-height: .6rem; font-size: .24rem; text-align: center; color: #fff; background: #F23030; position: relative; border-radius: 4px; }
+.aspen_tool_box .file_main #aspenFile{ opacity: 0; position: absolute; left: 0; top: 0; height: .32rem; width: 100%; z-index: 999; }
+.aspen_tool_box #aspenSave{ display: block; width: 100%; height: .6rem; margin-top: .22rem; line-height: .6rem; font-size: .24rem; text-align: center; color: #fff; background: #F23030; border-radius: 4px; }
+.aspen_tool_box .aspen_img{ width: 40%; height: 100%; float: left; }
+.aspen_tool_box #aspenImg{ display: block; width: 1.4rem; height: 1.4rem; border: 2px solid #ccc; margin: .2rem auto; background: #fff; }
+.aspen_tool_box .aspen_right{ float: left; width: 30%; box-sizing: border-box; padding: 10px 20px 10px 0; }
+.aspen_tool_box .aspen_right a{ display: block; width: 100%; height: .6rem; line-height: .6rem;font-size: .24rem; text-align: center; color: #fff; background: #F23030; border-radius: 4px; }
+.aspen_tool_box .aspen_right #rotateL{ margin-top: .1rem; }
+#canvas01{ background: none; }
+.aspen_tool_box #aspenUploadBtns{ margin-top: .22rem; border-radius: 4px; }
