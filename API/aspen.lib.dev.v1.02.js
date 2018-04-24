@@ -114,7 +114,7 @@ aspenLib.h5PopClass = {
     }
 };
 
-aspenLib.h5PopClass.isMobile(function () {});
+aspenLib.h5PopClass.isMobile(function () { });
 
 aspenLib.ajax = function (opts) {
     var defaults = {
@@ -126,8 +126,8 @@ aspenLib.ajax = function (opts) {
         cache: true,
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
         param: "",
-        success: function () {},
-        error: function () {}
+        success: function () { },
+        error: function () { }
     };
     for (var key in opts) {
         defaults[key] = opts[key];
@@ -168,11 +168,11 @@ aspenLib.ajax = function (opts) {
                     if (defaults["dataType"] == "json") {
                         try {
                             defaults["success"].call(oXhr, eval("(" + oXhr.responseText + ")"));
-                        } catch (e) {}
+                        } catch (e) { }
                     } else {
                         try {
                             defaults["success"].call(oXhr, oXhr.responseText);
-                        } catch (e) {}
+                        } catch (e) { }
                     }
                 }
             } else {
@@ -263,33 +263,86 @@ aspenLib.tips = function (txt) {
 };
 
 aspenLib.jsonpAjax = function (opts) {
-    if (typeof opts != "undefined" && typeof opts == "object") {
-        window.jsonpCallback = function (data) {
-            createScript.parentNode.removeChild(createScript);
-            if (typeof data === "string") {
-                try {
-                    opts.success(JSON.parse(data));
-                } catch (e) {}
-            }
-            opts.success(data);
-        };
-        if (opts.url.indexOf("?") == -1) {
-            opts.url += "?callback=jsonpCallback";
-        } else {
-            opts.url += "&callback=jsonpCallback";
-        }
-        var createScript = document.createElement("script");
-        var m = document.getElementsByTagName("script")[0];
-        createScript.type = "text/javascript";
-        createScript.async = 1;
-        createScript.src = opts.url;
-        createScript.onerror = function (e) {
-            createScript.parentNode.removeChild(createScript);
-            opts.error(e);
-        };
-        m.parentNode.insertBefore(createScript, m);
+    var _this = this;
+    var opts = opt || {
+        url: '',
+        data: {} || [],
+        success: function () { },
+        error: function () { }
     }
-};
+    var paraArr = [],
+        paraString = '';
+    var urlArr = '';
+    var callbackName;
+    var creatScript = null;
+    var getHead = null;
+    var supportLoad = '';
+    var onEvent;
+    var timeout = opts.timeout || 0;
+
+    for (var i in opts.data) {
+        if (opts.data.hasOwnProperty(i)) {
+            paraArr.push(encodeURIComponent(i) + "=" + encodeURIComponent(opts.data[i]));
+        }
+    }
+
+    urlArr = opts.url.split("?");
+    urlArr.length > 1 && paraArr.push(urlArr[1]);
+
+    callbackName = 'callback' + new Date().getTime();
+    paraArr.push('callback=' + callbackName);
+    paraString = paraArr.join("&");
+    opts.url = urlArr[0] + "?" + paraString;
+
+    creatScript = document.createElement("script");
+    creatScript.loaded = false;
+    window[callbackName] = function (data) {
+        if (!typeof opts.success == 'function') {
+            return;
+        } else {
+            opts.success(data);
+            creatScript.loaded = true;
+        }
+    }
+
+    getHead = document.getElementsByTagName("head")[0];
+    getHead.insertBefore(creatScript, getHead.firstChild);
+    creatScript.src = opts.url;
+
+    supportLoad = "onload" in creatScript;
+    onEvent = supportLoad ? "onload" : "onreadystatechange";
+
+    creatScript[onEvent] = function () {
+
+        if (creatScript.readyState && creatScript.readyState != "loaded") {
+            return;
+        }
+        if (creatScript.readyState == 'loaded' && creatScript.loaded == false) {
+            creatScript.onerror();
+            return;
+        }
+        (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (getHead.removeNode && getHead.removeNode(this));
+        creatScript = creatScript[onEvent] = creatScript.onerror = window[callbackName] = null;
+    }
+
+    creatScript.onerror = function () {
+        if (window[callbackName] == null) {
+            _this.tips("请求超时，请重试！");
+        }
+        opts.error && opts.error();
+        (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (getHead.removeNode && getHead.removeNode(this));
+        creatScript = creatScript[onEvent] = creatScript.onerror = window[callbackName] = null;
+    }
+
+    if (timeout != 0) {
+        setTimeout(function () {
+            if (creatScript && creatScript.loaded == false) {
+                window[callbackName] = null;
+                creatScript.onerror();
+            }
+        }, timeout);
+    }
+},
 
 aspenLib.parents = function (ele, selector) {
     var matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
@@ -353,7 +406,7 @@ aspenLib.getUrlValue = function (url, name) {
             if (setArray.length > 0) {
                 return setArray[setArray.length - 1].split('=')[1];
             }
-        } catch (e) {}
+        } catch (e) { }
     } else if (getUrl.indexOf('?') != -1) {
         var splitUrl = getUrl.split('?');
         for (var i = 0; i < splitUrl.length; i++) {
