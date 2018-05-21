@@ -1,0 +1,5 @@
+1、全局安装gulp - npm install --global gulp；如果安装不需要安装！
+2、把gulpfile.js 和 package.json 加入到项目内；
+3、执行 npm install；
+4、替换 node_modules > gulp-asset-rev > index.js 文件；
+5、执行gulp；

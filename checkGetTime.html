@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>判断服务器当前时间在哪个时间段内</title>
+</head>
+
+<body>
+    <script>
+        var publicHost = location.protocol + '//' + location.hostname;
+        if (/^http/.test(location.protocol)) {
+            var timeArr = [
+                ['2018-05-09-08:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-08-20:59:59'],
+                ['2018-05-08-20:41:00', '2018-05-09-09:59:59']
+            ];
+            var newTimeArr = [];
+            for (var d = 0; d < timeArr.length; d++) {
+                for (var j = 0; j < timeArr[d].length; j++) {
+                    var arrs = timeArr[d][j].split(/[-:]/);
+                    var startTime = new Date(arrs[0], arrs[1], arrs[2], arrs[3], arrs[4], arrs[5]);
+                    var startTimes = startTime.getTime();
+                    newTimeArr.push(startTimes)
+                }
+            }
+            var num = 2;
+            var Arr = new Array(Math.ceil(newTimeArr.length / num));
+            for (var i = 0; i < Arr.length; i++) {
+                Arr[i] = new Array();
+                for (var j = 0; j < num; j++) {
+                    Arr[i][j] = '';
+                }
+            }
+            for (var i = 0; i < newTimeArr.length; i++) {
+                Arr[parseInt(i / num)][i % num] = newTimeArr[i];
+            }
+
+            function addzero(temp) {
+                if (temp <= 9) return "0" + temp;
+                else return temp;
+            }
+            function getServerDate() {
+                var xhr = null;
+                if (window.XMLHttpRequest) {
+                    xhr = new window.XMLHttpRequest();
+                } else {
+                    xhr = new ActiveObject("Microsoft");
+                }
+                var getxhrTime = new Date().getTime();
+                xhr.open("GET", publicHost + '?t=' + getxhrTime, false);
+                xhr.send(null);
+                var date = xhr.getResponseHeader("Date");
+                var d = new Date(date);
+                var year = d.getFullYear();
+                var month = addzero(d.getMonth() + 1);
+                var day = addzero(d.getDate());
+                var hour = addzero(d.getHours());
+                var minute = addzero(d.getMinutes());
+                var second = addzero(d.getSeconds());
+                d = year + '-' + month + '-' + day + '-' + hour + ':' + minute + ':' + second;
+                return d;
+            }
+            var t = getServerDate();
+            function checkTime(t) {
+                var arrc = t.split(/[-:]/);
+                var ymd = new Date(arrc[0], arrc[1], arrc[2], arrc[3], arrc[4], arrc[5]);
+                var n = ymd.getTime();
+                for (var i = 0; i < Arr.length; i++) {
+                    for (var r = 0; r < Arr[i].length; r++) {
+                        if (n < Arr[0][0]) {
+                            return -1;
+                        }
+                        if (n > Arr[Arr.length - 1][1]) {
+                            return 300;
+                        }
+                        if (n <= Arr[i][r]) {
+                            return i;
+                        }
+                    }
+                }
+            }
+            var timeIndex = checkTime(t);
+            console.log(timeIndex);
+        }
+    </script>
+</body>
+
+</html>
