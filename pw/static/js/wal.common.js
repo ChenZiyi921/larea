@@ -1,7 +1,4 @@
-/*
- * author: UED - Yang Gang
- * email:  yanggang@juzifenqi.com
- */
+
 var cssUrl = 'cssm/wal.pop.css';
 ;
 (function(d, c, b, e) {

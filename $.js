@@ -1,4 +1,4 @@
-//id或class选择器$("elem") 
+
 function $(strExpr) {
     var idExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
     var classExpr = /^(?:\s*(<[\w\W]+>)[^>]*|.([\w-]*))$/;

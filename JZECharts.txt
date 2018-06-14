@@ -45,6 +45,9 @@ var newJzfqECharts = new JzfqECharts({
             tips: '',                              // 默认是 空
             unit: '{c}'+ '万' +'{d}%',             // 默认是 空
             colorArray: ['#09f', '#09f', 'rgb(0,139,0)', '#09f', 'rgba(0,139,0,.5)'] // 字段必填 值可以为空
+            pieTipsPos: 'right',
+            pieTipsData: ['男', '女'],
+            subTipsPos: 'y',
             // line: {                             // 曲线图多条时传对象
             //     name: '',
             //     type: 'line',

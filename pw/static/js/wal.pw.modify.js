@@ -1,7 +1,4 @@
-/*
- * author: UED - Xue Ying
- * email:  xueying@juzifenqi.com
- */
+
 (function(walPw, doc, $, undefined) {
     walPw.pwSetRun = {
         getBody: $('body'),
@@ -28,10 +25,7 @@
     });
 })(window, document, jQuery);
 ;(function(jzfq, undefined) {
-    /*
-     * author: UED - Yang Gang
-     * email:  yanggang@juzifenqi.com
-     */
+
     jzfq.flowPassword = {
         setUsedRun: function(options) {
             var _this = this;
