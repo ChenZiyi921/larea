@@ -219,50 +219,64 @@ aspenLib.isweixin = function () {
     }
 };
 
-aspenLib.loadJS = function (pageUrl, insetPage, callback) {
+aspenLib.loadJS = function (pageUrl, insetPage, callback, id) {
     var loadJs = document.createElement("script");
-    loadJs.src = pageUrl, loadJs.type = "text/javascript";
-    if (insetPage == "after") {
-        document.querySelectorAll("body")[0].appendChild(loadJs);
-    } else {
-        document.querySelectorAll("head")[0].appendChild(loadJs);
-    }
-    if (loadJs.readyState) {
-        loadJs.onreadystatechange = function () {
-            if (loadJs.readyState == "loaded" || loadJs.readyState == "complete") {
-                loadJs.onreadystatechange = null;
+    loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
+    if(!document.getElementById(id)){
+        if (insetPage == "after") {
+            document.querySelectorAll("body")[0].appendChild(loadJs);
+        } else {
+            document.querySelectorAll("head")[0].appendChild(loadJs);
+        }
+        if (loadJs.readyState) {
+            loadJs.onreadystatechange = function () {
+                if (loadJs.readyState == "loaded" || loadJs.readyState == "complete") {
+                    loadJs.onreadystatechange = null;
+                    callback.call(this);
+                }
+            };
+        } else {
+            loadJs.onload = function () {
                 callback.call(this);
-            }
-        };
-    } else {
-        loadJs.onload = function () {
-            callback.call(this);
-        };
-    }
+            };
+        }
+    }else{
+        return false;
+    }    
 };
 
 aspenLib.tips = function (txt) {
-    if (txt && txt != "") {
-        var tout = null;
-        var createDiv = document.createElement("div");
-        createDiv.id = "systemTips";
-        createDiv.innerHTML = txt.toString() || "";
-        document.querySelectorAll("body")[0].appendChild(createDiv);
-        var getSystemTips = document.getElementById("systemTips");
-        if (getSystemTips) {
-            tout = setTimeout(function () {
-                if (getSystemTips.parentNode) {
-                    getSystemTips.parentNode.removeChild(getSystemTips);
-                    clearTimeout(tout);
-                }
-            }, 2000);
-        } else {
-            return;
+    if (!document.getElementById("systemTips")) {
+        if (txt && txt != "") {
+            var tout = null;
+            var createDiv = document.createElement("div");
+            createDiv.id = "systemTips";
+            createDiv.innerHTML = txt.toString() || "";
+            document.querySelectorAll("body")[0].appendChild(createDiv);
+            var getSystemTips = document.getElementById("systemTips");
+            if (getSystemTips) {
+                tout = setTimeout(function () {
+                    if (getSystemTips.parentNode) {
+                        getSystemTips.parentNode.removeChild(getSystemTips);
+                        clearTimeout(tout);
+                    }
+                }, 2000);
+            } else {
+                return;
+            }
         }
     }
 };
 
-aspenLib.jsonpAjax = function (opts) {
+aspenLib.ranStr = function (n) {
+    for (var e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIZKLMNOPQRSTUVWXYZ0123456789", a = "", r = 0; r < n; r++) {
+        var i = Math.floor(Math.random() * (e.length - 1));
+        a += e.charAt(i);
+    }
+    return a;
+};
+
+aspenLib.jsonpAjax = function (opt) {
     var _this = this;
     var opts = opt || {
         url: '',
@@ -279,6 +293,7 @@ aspenLib.jsonpAjax = function (opts) {
     var supportLoad = '';
     var onEvent;
     var timeout = opts.timeout || 0;
+    var ranTxt = _this.ranStr(10);
 
     for (var i in opts.data) {
         if (opts.data.hasOwnProperty(i)) {
@@ -289,7 +304,7 @@ aspenLib.jsonpAjax = function (opts) {
     urlArr = opts.url.split("?");
     urlArr.length > 1 && paraArr.push(urlArr[1]);
 
-    callbackName = 'callback' + new Date().getTime();
+    callbackName = 'callback' + ranTxt;
     paraArr.push('callback=' + callbackName);
     paraString = paraArr.join("&");
     opts.url = urlArr[0] + "?" + paraString;
@@ -300,7 +315,8 @@ aspenLib.jsonpAjax = function (opts) {
         if (!typeof opts.success == 'function') {
             return;
         } else {
-            opts.success(data);
+            opts.success(data)
+
             creatScript.loaded = true;
         }
     }
@@ -310,8 +326,8 @@ aspenLib.jsonpAjax = function (opts) {
     creatScript.src = opts.url;
 
     supportLoad = "onload" in creatScript;
-    onEvent = supportLoad ? "onload" : "onreadystatechange";
 
+    onEvent = supportLoad ? "onload" : "onreadystatechange";
     creatScript[onEvent] = function () {
 
         if (creatScript.readyState && creatScript.readyState != "loaded") {
@@ -321,8 +337,10 @@ aspenLib.jsonpAjax = function (opts) {
             creatScript.onerror();
             return;
         }
-        (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (getHead.removeNode && getHead.removeNode(this));
-        creatScript = creatScript[onEvent] = creatScript.onerror = window[callbackName] = null;
+        setTimeout(function () {
+            (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (getHead.removeNode && getHead.removeNode(this));
+            creatScript = creatScript[onEvent] = creatScript.onerror = window[callbackName] = null;
+        }, 1000);
     }
 
     creatScript.onerror = function () {
@@ -342,7 +360,7 @@ aspenLib.jsonpAjax = function (opts) {
             }
         }, timeout);
     }
-},
+};
 
 aspenLib.parents = function (ele, selector) {
     var matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
@@ -386,9 +404,9 @@ aspenLib.offsetLeft = function (ele) {
     return left;
 };
 
-aspenLib.getUrlValue = function (url, name) {
-    var getUrl = url || location.href;
-    var getName = name || 'token';
+aspenLib.getUrlValue = function (name) {
+    var getUrl = location.href;
+    var getName = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i") || 'token';
     var setArray = [];
     if (getUrl.indexOf('?') != -1 && getUrl.indexOf('&') != -1) {
         var splitUrl = '';
@@ -399,7 +417,7 @@ aspenLib.getUrlValue = function (url, name) {
                 splitUrl = getUrl.split('?');
             }
             for (var i = 0; i < splitUrl.length; i++) {
-                if (splitUrl[i].match(new RegExp(name || 'token'))) {
+                if (splitUrl[i].match(getName)) {
                     setArray.push(splitUrl[i]);
                 }
             }
@@ -410,7 +428,7 @@ aspenLib.getUrlValue = function (url, name) {
     } else if (getUrl.indexOf('?') != -1) {
         var splitUrl = getUrl.split('?');
         for (var i = 0; i < splitUrl.length; i++) {
-            if (splitUrl[i].match(new RegExp(name || 'token'))) {
+            if (splitUrl[i].match(getName)) {
                 setArray.push(splitUrl[i]);
             }
         }
@@ -419,5 +437,16 @@ aspenLib.getUrlValue = function (url, name) {
         }
     } else {
         return false;
+    }
+};
+
+aspenLib.urlSplicing = function (name, value) {
+    var _this = this;
+    if (!_this.getUrlValue(name)) {
+        if (/^\?/.test(location.search)) {
+            location.search += '&' + name + '=' + value;
+        } else {
+            location.search += '?' + name + '=' + value;
+        }
     }
 }

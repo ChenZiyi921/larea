@@ -1,10 +1,5 @@
 ﻿aspen.lib.js 说明文档
 
-/*
-* author: UED - Yang Gang
-* email:  aspencilu@gmail.com
-*/
-
 /* 弹窗 =========================================================*/
 aspenLib.h5PopClass.init({
     title:'弹窗',
