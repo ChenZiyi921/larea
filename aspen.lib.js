@@ -222,7 +222,7 @@ aspenLib.isweixin = function () {
 aspenLib.loadJS = function (pageUrl, insetPage, callback, id) {
     var loadJs = document.createElement("script");
     loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
-    if(!document.getElementById(id)){
+    if (!document.getElementById(id)) {
         if (insetPage == "after") {
             document.querySelectorAll("body")[0].appendChild(loadJs);
         } else {
@@ -240,9 +240,9 @@ aspenLib.loadJS = function (pageUrl, insetPage, callback, id) {
                 callback.call(this);
             };
         }
-    }else{
+    } else {
         return false;
-    }    
+    }
 };
 
 aspenLib.tips = function (txt) {
@@ -449,4 +449,19 @@ aspenLib.urlSplicing = function (name, value) {
             location.search += '?' + name + '=' + value;
         }
     }
-}
+};
+
+aspenLib.CreateLoading = function () {
+    if (!document.getElementById('loadingWrap')) {
+        var createLoading = document.createElement('div');
+        createLoading.id = 'loadingWrap';
+        createLoading.innerHTML = '<div class="loading"><div class="loading-container first"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="loading-container second"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="loading-container last"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div></div>';
+        document.body.appendChild(createLoading);
+    }
+};
+aspenLib.RemoveLoading = function () {
+    var removeLoading = document.getElementById('loadingWrap');
+    if (removeLoading) {
+        document.body.removeChild(removeLoading);
+    }
+};

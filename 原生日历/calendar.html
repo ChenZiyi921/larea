@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>schedule</title>
+	<link rel="stylesheet" href="css/h5.reset.css">
+	<style>
+
+		.schedule-hd {
+			display: flex;
+			justify-content: space-between;
+			height: .4rem;
+			line-height: .4rem;
+			padding: .1rem .15rem;
+		}
+
+		.today { flex: 1; text-align: center; }
+
+		.ul-box { overflow: hidden; }
+
+		.ul-box>li {
+			float: left;
+			width: 14.28%;
+			text-align: center;
+			padding: 5px 0;
+		}
+
+		.other-month { color: #999999; }
+
+		.current-month { color: #333333; }
+
+		.today-style { border-radius: 50%; background: #58d321; }
+
+		.arrow { cursor: pointer; }
+
+		.dayStyle {
+			display: inline-block;
+			width: 35px;
+			height: 35px;
+			border-radius: 50%;
+			text-align: center;
+			line-height: 35px;
+			cursor: pointer;
+		}
+
+		.current-month>.dayStyle:hover { background: #00BDFF; color: #ffffff; }
+
+		.today-flag { background: #00C2B1 ;color: #fff; }
+
+		.boxshaw {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 80%;
+			margin: 0 auto;
+			padding: 35px 20px;
+			background: #fff;
+			border-radius: .2rem;
+			box-shadow: 1px 1px 10px 1px #e3e3e3;
+			box-sizing: border-box;
+			z-index: 99;
+		}
+
+		.selected-style { background: #00BDFF; color: #ffffff; }
+		#h3Ele { text-align: center; padding: 10px; }
+		.calendar-wrap{ position: fixed; width: 100%; max-width: 750px; height: 100%; background: rgba(0, 0, 0, .3); z-index: 88; }
+		#colseBtn{ position: absolute; top: .2rem; right: .3rem; font-size: .4rem; }
+
+		.iconfont { float: left; width: .6rem; font-size: .4rem; }
+		.tc{ text-align: center; }
+		.tr{ text-align: right; }
+
+	</style>
+</head>
+
+<body>
+	<div class="calendar-wrap">
+		<div id='calendarBox' class="boxshaw"></div>
+		<div>
+			<h3 id='h3Ele'></h3>
+		</div>
+	</div>
+</body>
+<script src="js/schedule.js"></script>
+<script>
+	var mySchedule = new Schedule({
+		el: '#calendarBox',
+		// date: '2018-9-20',
+		clickCb: function (y, m, d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+		},
+		nextMonthCb: function (y, m, d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+		},
+		nextYeayCb: function (y, m, d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+		},
+		prevMonthCb: function (y, m, d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+		},
+		prevYearCb: function (y, m, d) {
+			document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+		}
+	});
+</script>
+
+</html>
