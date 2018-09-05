@@ -30,6 +30,7 @@
             <div class="upload-main">
                 <div class="upload-content">
                     <h4>活动报名</h4>
+                    <input type="file" name="files" id="files"   onchange="checkFileType(this)"/> 
                     <h5>昵称（必填）</h5>
                     <input type="text" placeholder="限6个字内" />
                     <h5>上传头像（必填）</h5>
@@ -69,6 +70,70 @@
             </div>
         </div>
     </div>
+    
+    <script type="text/javascript"> 
+ 　　var maxSize=document.getElementById('files'); 
+ console.log(maxSize)
+ 
+ function checkFileType(obj){
+ 
+ var path=obj.value.toString();
+ 
+ var perfix=path.substring(path.indexOf('.')+1);
+ 
+ var regExp=/(jpg|jpeg|gif|png)/gi;
+ 
+ if(perfix.match(regExp)){
+ 
+ checkFileSize(obj); //如果图片文件类型匹配成功则执行文件大小的检测。
+ 
+ }else{
+ 
+ alert('对不起，请选择图片文件'); return false;
+ 
+ } } 
+ function checkFileSize(obj){
+ 
+ var img=new Image();
+ 
+ try{
+ 
+ var imgSize=obj.files.item(0).fileSize;
+ 
+ return isLarged(imgSize,maxSize);//图片文件大小比对。
+ 
+ }catch(e){ try{
+ 
+ img.src=obj.value;
+ 
+ return isLarged(img.fileSize,maxSize);
+ 
+ }catch(e){
+ 
+ obj.select();
+ 
+ var path=document.selection.createRange.text();
+ 
+ img.src=path;
+ 
+ return isLarged(img.fileSize,maxSize);
+ 
+ } } } 
+ function isLarged(imgSize,maxSize){
+ 
+ if(imgSize>maxSize){
+ 
+ alert('对不起，您选择的图片文件超过了'+parseInt(maxSize/1024)+'Kb');
+ 
+ return false;
+ 
+ }else{
+ 
+ alert(parseInt(imgSize/1024)+ 'kb ' + 'This large is OK');
+ 
+ return true;
+ 
+ } } </script>
     <script type="text/javascript" src="js/aspen.lib.min.js"></script>
     <script type="text/javascript" src="js/upload.img.lib.js"></script>
     <script type="text/javascript" src="js/common.js"></script>

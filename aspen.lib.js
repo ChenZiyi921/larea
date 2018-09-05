@@ -465,3 +465,34 @@ aspenLib.RemoveLoading = function () {
         document.body.removeChild(removeLoading);
     }
 };
+
+aspenLib.repNum = function (num) {
+    var num = (num || 0).toString();
+    if (!/\,/.test(num)) {
+        if (/\./.test(num)) {
+            var floatNum = '.' + num.split('.')[1];
+            num = num.split('.')[0];
+        } else {
+            var floatNum = '';
+        }
+        var re = /\d{3}$/,
+            result = '';
+        while (re.test(num)) {
+            result = RegExp.lastMatch + result;
+            if (num !== RegExp.lastMatch) {
+                result = ',' + result;
+                num = RegExp.leftContext;
+            } else {
+                break;
+            }
+        }
+        if (/^\,/.test(result)) result = result.substr(1);
+        if (/\./.test(num + floatNum)) {
+            return result + floatNum;
+        } else {
+            return result;
+        }
+    } else {
+        return num;
+    }
+};

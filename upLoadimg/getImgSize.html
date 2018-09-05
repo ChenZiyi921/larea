@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input id="file" type="file">
+    <input id="Button1" type="button" value="button">
+    <script>
+        var input = document.getElementById("file");
+        document.getElementById('Button1').addEventListener('click', function () {
+            if (input.files > 0) {
+                var f = input.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    var image = new Image();
+                    image.onload = function () {
+                        var width = image.width;
+                        var height = image.height;
+                        alert(width + '======' + height + "=====" + f.size);
+                    };
+                    image.src = data;
+                };
+                reader.readAsDataURL(f);
+            }
+        })
+    </script>
+</body>
+
+</html>
