@@ -211,12 +211,7 @@ aspenLib.uploadImg = function (opts) {
 };
 
 aspenLib.isweixin = function () {
-    var UA = window.navigator.userAgent;
-    if (UA.toLowerCase().match(/MicroMessenger/i) == "micromessenger") {
-        return true;
-    } else {
-        return false;
-    }
+    return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
 };
 
 aspenLib.loadJS = function (pageUrl, insetPage, callback, id) {
@@ -483,10 +478,14 @@ aspenLib.repNum = function (num) {
                 result = ',' + result;
                 num = RegExp.leftContext;
             } else {
+                num = '';
                 break;
             }
         }
-        if (/^\,/.test(result)) result = result.substr(1);
+        console.log(num)
+        if (num) {
+            result = num + result;
+        }
         if (/\./.test(num + floatNum)) {
             return result + floatNum;
         } else {

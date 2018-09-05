@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>分类导航</title>
+<style>
+body,div,a,h2,a{ margin: 0; padding: 0; }
+#barMenu{ display: none; width: 40px; position: fixed; z-index: 9999; top: 50%; left: 50%; margin-left: -650px; transform: translateY(-50%); background: #f30; font-size: 0; }
+#barMenu a{ display: inline-block; width: 40px; height: 40px; line-height: 40px; border-bottom: 1px solid #f4f4f4; font-size: 14px; color: #fff; text-decoration: none; text-align: center; }
+#barMenu a:hover,#barMenu a.active{ background: #000; color: #fff; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; font-size:0; }
+.clearfix{ zoom:1; }
+.web-wrap{ width: 1200px; margin: 0 auto; }
+.web-wrap h2{ width: 98%; height: 60px; line-height: 60px; padding: 0 1%; font-size: 20px; color: #fff; }
+.web-content{ width: 1198px; height: 300px; }
+.ban{ width: 1200px; margin: 0 auto; height: 400px; line-height: 400px; font-size: 140px; color: #fff; background: #666; text-align: center; }
+</style>
+</head>
+<body>
+<div id="barMenu">
+    <a href="javascript:;">1F</a><a href="javascript:;">2F</a><a href="javascript:;">3F</a><a href="javascript:;">4F</a><a href="javascript:;">5F</a><a href="javascript:;">6F</a><a href="javascript:;">7F</a><a href="javascript:;">8F</a><a href="javascript:;" id="returnTopBtns">顶部</a>
+</div>
+<div class="ban">banner</div>
+<div class="web-wrap clearfix" id="webWrap">
+    <h2>品质</h2>
+    <div class="web-content"></div>
+    <h2>服装</h2>
+    <div class="web-content"></div>
+    <h2>爱吃</h2>
+    <div class="web-content"></div>
+    <h2>家居</h2>
+    <div class="web-content"></div>
+    <h2>图书</h2>
+    <div class="web-content"></div>
+    <h2>游戏</h2>
+    <div class="web-content"></div>
+    <h2>电脑</h2>
+    <div class="web-content"></div>
+    <h2>在狂</h2>
+    <div class="web-content"></div>
+</div>
+<script>
+    var barMenuRun = {
+        barMenu: document.getElementById('barMenu'),
+        init: function(){
+            this.setDom();
+            this.bindEvent();
+            this.returnTop('returnTopBtns');
+        },
+        setDom: function(){
+            var colorArray = ['ed4844','ff901a','1bbc9b','9b58b5','2bacff','0dbe09','04c1bf','d55cb1','bda60b','663deb','9b58b5','2bacff'];
+            var getTitle = document.querySelectorAll('#webWrap h2');
+            var getContent = document.querySelectorAll('#webWrap .web-content');
+            if(getTitle && getContent){
+                for(var i = 0; i < getTitle.length; i++){
+                    getTitle[i].style.backgroundColor = '#' + colorArray[i];
+                    getContent[i].style.border = '1px solid #' + colorArray[i];
+                    getContent[i].style.borderBottom = 'none';
+                }
+            }
+        },
+        bindEvent: function(){
+            var _this = this;
+            var offsetArray = [];
+            var txtArray = ['品质','服装','爱吃','家居','图书','游戏','电脑','在狂'];
+            var fArray = ['1F','2F','3F','4F','5F','6F','7F','8F'];
+            var getTitles = document.querySelectorAll('#webWrap h2');
+            var getSubLink = document.querySelectorAll('#barMenu a');
+            if(getTitles && getSubLink){
+                for(var i = 0; i < getTitles.length; i++){
+                    offsetArray.push(_this.offset(getTitles[i]).top);
+                }
+                if(offsetArray.length > 0){
+                    window.addEventListener('scroll', function(){
+                        var sTop = document.body.scrollTop || document.documentElement.scrollTop;
+                        _this.barMenu.style.display = sTop > offsetArray[0] ? 'block' : 'none';
+                        for(var i = 0; i < getTitles.length; i++){
+                            if(sTop >= offsetArray[i]){
+                                for(var j = 0; j < getSubLink.length -1; j++){
+                                    getSubLink[j].classList.remove('active');
+                                    getSubLink[j].innerHTML = fArray[j];
+                                }
+                                getSubLink[i].classList.add('active');
+                                getSubLink[i].innerHTML = txtArray[i];
+                            }
+                        }
+                    }, false);
+                }
+                for(var k = 0; k < getSubLink.length -1; k++){
+                    getSubLink[k].index = k;
+                    getSubLink[k].addEventListener('click',function(){
+                        var index = this.index;
+                        _this.animateRun(offsetArray[index]);
+                    },false);
+                }
+            }
+        },
+        animateRun: function(numbers){
+            var numbers = Math.floor(numbers) || 0;
+            var clearx = null;
+            var sTop = document.body.scrollTop || document.documentElement.scrollTop;
+            var speed = 50;
+            var step = 100;
+            if(sTop > numbers){
+                clearx = setInterval(function(){
+                    var sTops = document.body.scrollTop || document.documentElement.scrollTop;
+                    if(sTops > numbers){
+                        document.body.scrollTop = sTops - step;
+                        document.documentElement.scrollTop = sTops - step;
+                    }else{
+                        document.body.scrollTop = numbers;
+                        document.documentElement.scrollTop = numbers;
+                        clearInterval(clearx);
+                        return;
+                    }
+                },speed);
+            }else{
+                clearx = setInterval(function(){
+                    var sTops = document.body.scrollTop || document.documentElement.scrollTop;
+                    var winHeight = window.innerHeight;
+                    var getDocHeight = document.body.clientHeight || document.documentElement.clientHeight;
+
+                    if(sTops < numbers){
+                        if(getDocHeight > winHeight + sTops){
+                            document.body.scrollTop = sTops + step;
+                            document.documentElement.scrollTop = sTops + step;
+                        }else{
+                            clearInterval(clearx);
+                            return;
+                        }
+                    }else{
+                        document.body.scrollTop = numbers;
+                        document.documentElement.scrollTop = numbers;
+                        clearInterval(clearx);
+                        return;
+                    }
+                },speed);
+            }
+        },
+        returnTop: function(id){
+            var _this = this;
+            var returnTopBtns = document.getElementById(id);
+            returnTopBtns.addEventListener('click',function(){
+                _this.animateRun(0);
+            },false);
+        },
+        offset(curEle) {
+            var totalLeft = null, totalTop = null, par = curEle.offsetParent;
+            totalLeft += curEle.offsetLeft;
+            totalTop += curEle.offsetTop;
+            while (par) {
+                if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
+                    totalLeft += par.clientLeft;
+                    totalTop += par.clientTop;
+                }
+                totalLeft += par.offsetLeft;
+                totalTop += par.offsetTop;
+                par = par.offsetParent;
+            }
+            return {left: totalLeft, top: totalTop};
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+        barMenuRun.init();
+    }, false);
+</script>
+</body>
+</html>
