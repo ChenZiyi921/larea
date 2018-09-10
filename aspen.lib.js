@@ -495,3 +495,16 @@ aspenLib.repNum = function (num) {
         return num;
     }
 };
+
+HTMLElement.prototype.removeAttr = function (attr) {
+    if (this.getAttribute('style')) {
+        if (!(attr instanceof Array)) {
+            attr = attr.split(',')
+        }
+        var getStyles = this.getAttribute('style').replace(/\s+/g, '');
+        for (var i = 0; i < attr.length; i++) {
+            getStyles = getStyles.replace(new RegExp(attr[i] + ':.+?;'), '')
+            this.setAttribute('style', getStyles)
+        }
+    }
+};
