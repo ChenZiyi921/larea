@@ -215,9 +215,9 @@ aspenLib.isweixin = function () {
 };
 
 aspenLib.loadJS = function (pageUrl, insetPage, callback, id) {
-    var loadJs = document.createElement("script");
-    loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
     if (!document.getElementById(id)) {
+        var loadJs = document.createElement("script");
+        loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
         if (insetPage == "after") {
             document.querySelectorAll("body")[0].appendChild(loadJs);
         } else {
@@ -482,7 +482,6 @@ aspenLib.repNum = function (num) {
                 break;
             }
         }
-        console.log(num)
         if (num) {
             result = num + result;
         }
@@ -496,6 +495,24 @@ aspenLib.repNum = function (num) {
     }
 };
 
+aspenLib.goTop = function (id, scrollHeight) {
+    var id = document.getElementById(id);
+    var documentBody = document.documentElement ? document.documentElement : document.body;
+    window.addEventListener('scroll', function () {
+        var getScrTop = documentBody.scrollTop || window.pageYOffset;
+        getScrTop >= (Math.abs(scrollHeight) || documentBody.clientHeight) ? (id.style.display = 'block') : (id.style.display = 'none');
+    }, !1), id.addEventListener('click', function fn() {
+        var scrHeight = documentBody.scrollTop;
+        scrHeight = parseInt(scrHeight - scrHeight / 30);
+        if (scrHeight != 0) {
+            documentBody.scrollTop = scrHeight;
+            setTimeout(fn, 1);
+        } else {
+            documentBody.scrollTop = 0;
+            return false;
+        }
+    }, !1);
+};
 HTMLElement.prototype.removeAttr = function (attr) {
     if (this.getAttribute('style')) {
         if (!(attr instanceof Array)) {
@@ -507,4 +524,20 @@ HTMLElement.prototype.removeAttr = function (attr) {
             this.setAttribute('style', getStyles)
         }
     }
+};
+
+Array.prototype.isInArray = function (value, type) {
+    if (this.indexOf && this.indexOf instanceof Function) {
+        var index = this.indexOf(value);
+        if (index >= 0) {
+            if (type == 'i') {
+                return index;
+            } else if (type == 'v') {
+                return value;
+            } else {
+                return true;
+            }
+        }
+    }
+    return false;
 };
