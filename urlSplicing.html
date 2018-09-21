@@ -9,17 +9,71 @@
 </head>
 
 <body>
-    <script src="js/aspen.lib.act.js"></script>
+    <h1>test</h1>
     <script>
-        function urlSplicing(name, value) {
-            if (/^\?/.test(location.search) && !aspenLib.getUrlValue(name)) {
-                location.search += '&' + name + '=' + value;
+        var aspenLib = {};
+        aspenLib.getUrlValue = function (name) {
+            var getUrl = location.href;
+            var getName = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i") || 'token';
+            var setArray = [];
+            if (getUrl.indexOf('?') != -1 && getUrl.indexOf('&') != -1) {
+                var splitUrl = '';
+                try {
+                    if (getUrl.indexOf('&') != -1) {
+                        splitUrl = getUrl.split('?').reverse()[0].split('&');
+                    } else {
+                        splitUrl = getUrl.split('?');
+                    }
+                    for (var i = 0; i < splitUrl.length; i++) {
+                        if (splitUrl[i].match(getName)) {
+                            setArray.push(splitUrl[i]);
+                        }
+                    }
+                    if (setArray.length > 0) {
+                        return setArray[setArray.length - 1].split('=')[1];
+                    }
+                } catch (e) { }
+            } else if (getUrl.indexOf('?') != -1) {
+                var splitUrl = getUrl.split('?');
+                for (var i = 0; i < splitUrl.length; i++) {
+                    if (splitUrl[i].match(getName)) {
+                        setArray.push(splitUrl[i]);
+                    }
+                }
+                if (setArray.length > 0) {
+                    return setArray[setArray.length - 1].split('=')[1];
+                }
             } else {
-                if (!aspenLib.getUrlValue(name)) {
-                    location.search += '?' + name + '=' + value;
+                return false;
+            }
+        };
+
+        aspenLib.urlSplicing = function (name, value) {
+            var _this = this;
+            if (name instanceof Array && name.length > 0) {
+                for (var i = 0; i < name.length; i++) {
+                    for (var k in name[i]) {
+                        if (!_this.getUrlValue(k)) {
+                            if (/^\?/.test(location.search)) {
+                                location.search += '&' + k + '=' + name[i][k];
+                            } else {
+                                location.search += '?' + k + '=' + name[i][k];
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (!_this.getUrlValue(name)) {
+                    if (/^\?/.test(location.search)) {
+                        location.search += '&' + name + '=' + value;
+                    } else {
+                        location.search += '?' + name + '=' + value;
+                    }
                 }
             }
-        }
+        };
+        aspenLib.urlSplicing([{ 'a': 1 }, { 'b': 2 }, { 'c': 3 }]);
+        aspenLib.urlSplicing('d', 4);
     </script>
 </body>
 

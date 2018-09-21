@@ -437,11 +437,25 @@ aspenLib.getUrlValue = function (name) {
 
 aspenLib.urlSplicing = function (name, value) {
     var _this = this;
-    if (!_this.getUrlValue(name)) {
-        if (/^\?/.test(location.search)) {
-            location.search += '&' + name + '=' + value;
-        } else {
-            location.search += '?' + name + '=' + value;
+    if (name instanceof Array && name.length > 0) {
+        for (var i = 0; i < name.length; i++) {
+            for (var k in name[i]) {
+                if (!_this.getUrlValue(k)) {
+                    if (/^\?/.test(location.search)) {
+                        location.search += '&' + k + '=' + name[i][k];
+                    } else {
+                        location.search += '?' + k + '=' + name[i][k];
+                    }
+                }
+            }
+        }
+    } else {
+        if (!_this.getUrlValue(name)) {
+            if (/^\?/.test(location.search)) {
+                location.search += '&' + name + '=' + value;
+            } else {
+                location.search += '?' + name + '=' + value;
+            }
         }
     }
 };
