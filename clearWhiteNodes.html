@@ -13,19 +13,16 @@
 		<li></li>
 	</ul>
 	<script>
-	// var clearTxtWhiteNodes = {
-		function cleanWhitespace(element){   
+		function cleanWhitespace(ele){   
 			var ul = document.getElementById('ul');
-		    for(var i = 0; i < element.childNodes.length; i++){   
-		        var node = element.childNodes[i];   
+		    for(var i = 0; i < ele.childNodes.length; i++){   
+		        var node = ele.childNodes[i];   
 		        if(node.nodeType == 3 && !/\S/.test(node.nodeValue)){   
 		            node.parentNode.removeChild(node);   
 		        }   
 		    }   
 		}  
 		cleanWhitespace(ul);
-		console.log(ul.childNodes);
-	// }
 	</script>
 </body>
 </html>

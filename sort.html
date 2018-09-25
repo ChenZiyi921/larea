@@ -30,32 +30,32 @@
         var ary = [];
         var btn = document.getElementsByClassName('btn')[0];
         var num = 0;
-        for(var i = 0; i < lis.length; i++){
+        for (var i = 0; i < lis.length; i++) {
             ary.push(lis[i]);
         }
-        var setSort = { 
-            a: function(){
-                ary.sort(function(a,b){
+        var setSort = {
+            a: function () {
+                ary.sort(function (a, b) {
                     return a.innerHTML - b.innerHTML;
                 })
             },
-            b: function(){
-                ary.sort(function(a,b){
+            b: function () {
+                ary.sort(function (a, b) {
                     return b.innerHTML - a.innerHTML;
                 })
             },
-            c: function(){
-                for(var i = ary.length - 1; i >= 0; i--){
+            c: function () {
+                for (var i = ary.length - 1; i >= 0; i--) {
                     ul.appendChild(ary[i]);
                 }
             }
         }
-        btn.addEventListener('click',function(){
+        btn.addEventListener('click', function () {
             num++;
-            if(num % 2 == 0){
+            if (num % 2 == 0) {
                 setSort.b();
                 setSort.c();
-            }else{
+            } else {
                 setSort.a();
                 setSort.c();
             }
