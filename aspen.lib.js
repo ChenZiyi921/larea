@@ -527,6 +527,27 @@ aspenLib.goTop = function (id, scrollHeight) {
         }
     }, !1);
 };
+
+aspenLib.copy = function (ele, target, tips) {
+    var id = document.getElementById(ele);
+    id.addEventListener('click', function () {
+        if (!document.body.querySelectorAll('.cInpt')[0]) {
+            var copyText = document.getElementById(target).innerText,
+                createInput = document.createElement('input');
+            createInput.setAttribute('readonly', 'readonly');
+            createInput.value = copyText;
+            document.body.appendChild(createInput);
+            document.body.className.indexOf('ios') != -1 ? createInput.setSelectionRange(0, copyText.length) : createInput.select();
+            document.execCommand("Copy");
+            createInput.className = 'cInpt', createInput.style.display = 'none';
+            aspenLib.tips(tips || '复制成功');
+            setTimeout(function () {
+                document.body.removeChild(createInput);
+            }, 2e3);
+        }
+    }, false);
+};
+
 HTMLElement.prototype.removeAttr = function (attr) {
     if (this.getAttribute('style')) {
         if (!(attr instanceof Array)) {
