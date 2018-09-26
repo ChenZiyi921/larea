@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div style="width:800px; background:red;">
+        <p style="width:200px; background:#ccc;"></p>
+    </div>
+    <ul id="ul">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <script>
+        function cleanWhitespace(ele) {
+            var ul = document.getElementById('ul');
+            for (var i = 0; i < ele.childNodes.length; i++) {
+                var node = ele.childNodes[i];
+                if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
+                    node.parentNode.removeChild(node);
+                }
+            }
+        }
+        cleanWhitespace(ul);
+    </script>
+    <script>
+        function add() {
+            return Array.prototype.reduce.call(arguments, function (n1, n2) {
+                return n1 + n2;
+            });
+        };
+    </script>
+    <script>
+        function getQueryString(query) {
+            var qstring = self.location.href.split("?");
+            if (qstring.length < 2) return "";
+            return GetParameter(qstring, query);
+        }
+
+        function GetParameter(qstring, query) {
+            var prms = qstring[1].split("&");
+            var frmelements = new Array();
+            var currprmeter, querystr = "";
+
+            for (var i = 0; i < prms.length; i++) {
+                currprmeter = prms[i].split("=");
+                frmelements[i] = new Array();
+                frmelements[i][0] = currprmeter[0];
+                frmelements[i][1] = currprmeter[1];
+            }
+
+            for (j = 0; j < frmelements.length; j++) {
+                if (frmelements[j][0].toLowerCase() == query.toLowerCase()) {
+                    querystr = frmelements[j][1];
+                    break;
+                }
+            }
+            return querystr;
+        }
+
+        function getHashStringVar(query) {
+            var qstring = self.location.href.split("#");
+            if (qstring.length < 2) return "";
+            return GetParameter(qstring, query);
+        }
+    </script>
+</body>
+
+</html>
