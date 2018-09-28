@@ -5,9 +5,15 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .div {
+            height: 40px;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="div" style="width: 100px;"></div>
     <div style="width:800px; background:red;">
         <p style="width:200px; background:#ccc;"></p>
     </div>
@@ -29,15 +35,13 @@
             }
         }
         cleanWhitespace(ul);
-    </script>
-    <script>
+
         function add() {
             return Array.prototype.reduce.call(arguments, function (n1, n2) {
                 return n1 + n2;
             });
         };
-    </script>
-    <script>
+
         function getQueryString(query) {
             var qstring = self.location.href.split("?");
             if (qstring.length < 2) return "";
@@ -69,6 +73,45 @@
             var qstring = self.location.href.split("#");
             if (qstring.length < 2) return "";
             return GetParameter(qstring, query);
+        }
+
+        function getElementStyle(el, attr) {
+            return el.currentStyle ? el.currentStyle[attr] : getComputedStyle(el, null)[attr];
+        }
+        var div = document.querySelectorAll('.div')[0];
+        console.log(getElementStyle(div, 'overflow'));
+
+
+        function setCookie(c_name, value, expiredays) {
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() + expiredays);
+            document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+        }
+
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            return arr = document.cookie.match(reg) ? arr[2] : null;
+        }
+
+        function removeCookie(name) {
+            var exp = new Date();
+            exp.setTime(exp.getTime() - 1);
+            var cval = getCookie(name);
+            if (cval != null) {
+                document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+            }
+        }
+
+        function encodeUnicode(str) {
+            var res = [];
+            for (var i = 0; i < str.length; i++) {
+                res[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
+            }
+            return "\\u" + res.join("\\u");
+        }
+        function decodeUnicode(str) {
+            str = str.replace(/\\/g, "%");
+            return unescape(str);
         }
     </script>
 </body>
