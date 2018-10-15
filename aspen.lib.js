@@ -475,7 +475,7 @@ aspenLib.RemoveLoading = function () {
     }
 };
 
-aspenLib.repNum = function (num) {
+aspenLib.formatNumber = function (num) {
     var num = (num || 0).toString();
     if (!/\,/.test(num)) {
         if (/\./.test(num)) {
@@ -575,4 +575,62 @@ Array.prototype.isInArray = function (value, type) {
         }
     }
     return false;
+};
+
+function Time(opts) {
+    this.obj = document.getElementById(opts.id);
+};
+Time.prototype = {
+    bindEvent: function (opts) {
+        var _this = this;
+        var date = new Date();
+        if (opts.date == true) {
+            var year = date.getFullYear(),
+                month = _this.addZero(date.getMonth() + 1),
+                day = _this.addZero(date.getDate()),
+                dateT = year + "年" + month + "月" + day + "日 ";
+        } else {
+            var dateT = '';
+        }
+        if (opts.time == true) {
+            var hour = _this.addZero(date.getHours()),
+                minute = _this.addZero(date.getMinutes()),
+                second = _this.addZero(date.getSeconds()),
+                timeT = hour + ":" + minute + ":" + second;
+        } else {
+            var timeT = '';
+        }
+        var week = '';
+        if (opts.week == true) {
+            switch (date.getDay()) {
+                case 0:
+                    week = "星期天";
+                    break;
+                case 1:
+                    week = "星期一";
+                    break;
+                case 2:
+                    week = "星期二";
+                    break;
+                case 3:
+                    week = "星期三";
+                    break;
+                case 4:
+                    week = "星期四";
+                    break;
+                case 5:
+                    week = "星期五";
+                    break;
+                case 6:
+                    week = "星期六";
+                    break;
+            }
+        } else {
+            week = '';
+        }
+        this.obj.innerHTML = dateT + timeT + " " + week;
+    },
+    addZero: function (temp) {
+        return (temp <= 9) ? ("0" + temp) : temp;
+    }
 };
