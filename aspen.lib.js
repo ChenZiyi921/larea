@@ -499,11 +499,7 @@ aspenLib.formatNumber = function (num) {
         if (num) {
             result = num + result;
         }
-        if (/\./.test(num + floatNum)) {
-            return result + floatNum;
-        } else {
-            return result;
-        }
+        return /\./.test(num + floatNum) ? result + floatNum : result;
     } else {
         return num;
     }
@@ -516,13 +512,15 @@ aspenLib.goTop = function (id, scrollHeight) {
         var getScrTop = documentBody.scrollTop || window.pageYOffset;
         getScrTop >= (Math.abs(scrollHeight) || documentBody.clientHeight) ? (id.style.display = 'block') : (id.style.display = 'none');
     }, !1), id.addEventListener('click', function fn() {
-        var scrHeight = documentBody.scrollTop;
+        var scrHeight = document.documentElement.scrollTop || document.body.scrollTop;
         scrHeight = parseInt(scrHeight - scrHeight / 30);
         if (scrHeight != 0) {
-            documentBody.scrollTop = scrHeight;
+            document.documentElement.scrollTop = scrHeight;
+            document.body.scrollTop = scrHeight;
             setTimeout(fn, 1);
         } else {
-            documentBody.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
             return false;
         }
     }, !1);
@@ -548,6 +546,19 @@ aspenLib.copy = function (ele, target, tips) {
     }, false);
 };
 
+aspenLib.typeOf = function (value) {
+    var typeArray = ['Number', 'String', 'Boolean', 'Object', 'Array', 'Null', 'Undefined', 'Function'];
+    var i = 0, l = typeArray.length;
+    var value = Object.prototype.toString.call(arguments[0]);
+    var type = value.substring(0, value.length - 1).split(' ')[1];
+    while (i < l) {
+        if (type === typeArray[i]) {
+            return type;
+        }
+        i++;
+    }
+}
+
 HTMLElement.prototype.removeAttr = function (attr) {
     if (this.getAttribute('style')) {
         if (!(attr instanceof Array)) {
@@ -565,13 +576,7 @@ Array.prototype.isInArray = function (value, type) {
     if (this.indexOf && this.indexOf instanceof Function) {
         var index = this.indexOf(value);
         if (index >= 0) {
-            if (type == 'i') {
-                return index;
-            } else if (type == 'v') {
-                return value;
-            } else {
-                return true;
-            }
+            return type == 'i' ? index : type == 'v' ? value : true;
         }
     }
     return false;
@@ -589,48 +594,35 @@ Time.prototype = {
                 month = _this.addZero(date.getMonth() + 1),
                 day = _this.addZero(date.getDate()),
                 dateT = year + "年" + month + "月" + day + "日 ";
-        } else {
-            var dateT = '';
-        }
+        } else { var dateT = '' }
         if (opts.time == true) {
             var hour = _this.addZero(date.getHours()),
                 minute = _this.addZero(date.getMinutes()),
                 second = _this.addZero(date.getSeconds()),
                 timeT = hour + ":" + minute + ":" + second;
-        } else {
-            var timeT = '';
-        }
+        } else { var timeT = '' }
         var week = '';
         if (opts.week == true) {
             switch (date.getDay()) {
-                case 0:
-                    week = "星期天";
+                case 0: week = "星期天";
                     break;
-                case 1:
-                    week = "星期一";
+                case 1: week = "星期一";
                     break;
-                case 2:
-                    week = "星期二";
+                case 2: week = "星期二";
                     break;
-                case 3:
-                    week = "星期三";
+                case 3: week = "星期三";
                     break;
-                case 4:
-                    week = "星期四";
+                case 4: week = "星期四";
                     break;
-                case 5:
-                    week = "星期五";
+                case 5: week = "星期五";
                     break;
-                case 6:
-                    week = "星期六";
+                case 6: week = "星期六";
                     break;
             }
-        } else {
-            week = '';
-        }
+        } else { week = '' }
         this.obj.innerHTML = dateT + timeT + " " + week;
     },
     addZero: function (temp) {
-        return (temp <= 9) ? ("0" + temp) : temp;
+        return temp <= 9 ? "0" + temp : temp;
     }
 };
