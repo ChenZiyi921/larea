@@ -485,10 +485,8 @@ aspenLib.CreateLoading = function () {
     }
 };
 aspenLib.RemoveLoading = function () {
-    var removeLoading = document.getElementById('loadingWrap');
-    if (removeLoading) {
-        document.body.removeChild(removeLoading);
-    }
+    var loading = document.getElementById('loadingWrap');
+    loading && document.body.removeChild(loading);
 };
 
 aspenLib.formatNumber = function (num) {
