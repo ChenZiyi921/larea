@@ -241,25 +241,23 @@ aspenLib.loadJS = function (pageUrl, insetPage, callback, id) {
 };
 
 aspenLib.tips = function (txt) {
-    if (!document.getElementById("systemTips")) {
-        if (txt && txt != "") {
-            var tout = null;
-            var createDiv = document.createElement("div");
-            createDiv.id = "systemTips";
-            createDiv.innerHTML = txt.toString() || "";
-            document.querySelectorAll("body")[0].appendChild(createDiv);
-            var getSystemTips = document.getElementById("systemTips");
-            if (getSystemTips) {
-                tout = setTimeout(function () {
-                    if (getSystemTips.parentNode) {
-                        getSystemTips.parentNode.removeChild(getSystemTips);
-                        clearTimeout(tout);
-                    }
-                }, 2000);
-            } else {
-                return;
-            }
+    if (!document.getElementById("systemTips") && txt && txt != "") {
+        var tout = null;
+        var createDiv = document.createElement("div");
+        createDiv.id = "systemTips";
+        createDiv.innerHTML = txt.toString();
+        document.querySelectorAll("body")[0].appendChild(createDiv);
+        var getSystemTips = document.getElementById("systemTips");
+        if (getSystemTips) {
+            tout = setTimeout(function () {
+                if (getSystemTips.parentNode) {
+                    getSystemTips.parentNode.removeChild(getSystemTips);
+                    clearTimeout(tout);
+                }
+            }, 2000);
         }
+    } else {
+        return false;
     }
 };
 
@@ -399,6 +397,24 @@ aspenLib.offsetLeft = function (ele) {
     return left;
 };
 
+aspenLib.getQueryString = function (name) {
+    var url = window.location.href;
+    if (/\?/.test(url) && !/\?$/.test(url) && /\?(.+)/.test(url)) {
+        var args = url.split('?');
+        if (args[0] !== url) {
+            var arr = args[1].split('&');
+            var obj = {};
+            for (var i = 0; i < arr.length; i++) {
+                var arg = arr[i].split('=');
+                obj[arg[0]] = arg[1];
+            }
+            return !name ? obj : obj[name];
+        }
+    } else {
+        return false;
+    }
+};
+
 aspenLib.getUrlValue = function (name) {
     var getUrl = location.href;
     var getName = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i") || 'token';
@@ -505,23 +521,19 @@ aspenLib.formatNumber = function (num) {
     }
 };
 
-aspenLib.goTop = function (id, scrollHeight) {
+aspenLib.goTop = function (id, scrToShow) {
+    window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
     var id = document.getElementById(id);
-    var documentBody = document.documentElement ? document.documentElement : document.body;
     window.addEventListener('scroll', function () {
-        var getScrTop = documentBody.scrollTop || window.pageYOffset;
-        getScrTop >= (Math.abs(scrollHeight) || documentBody.clientHeight) ? (id.style.display = 'block') : (id.style.display = 'none');
-    }, !1), id.addEventListener('click', function fn() {
-        var scrHeight = document.documentElement.scrollTop || document.body.scrollTop;
-        scrHeight = parseInt(scrHeight - scrHeight / 30);
-        if (scrHeight != 0) {
-            document.documentElement.scrollTop = scrHeight;
-            document.body.scrollTop = scrHeight;
-            setTimeout(fn, 1);
-        } else {
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
-            return false;
+        var currentScroll = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        var clientH = document.documentElement.clientHeight || document.body.clientHeight;
+        currentScroll >= (Math.abs(scrToShow) || clientH) ? (id.style.display = 'block') : (id.style.display = 'none');
+    }, !1);
+    id.addEventListener('click', function fn() {
+        var currentScroll = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        if (currentScroll > 0) {
+            window.animation(fn);
+            window.scrollTo(0, currentScroll - (currentScroll / 30));
         }
     }, !1);
 };
@@ -579,7 +591,6 @@ Array.prototype.isInArray = function (value, type) {
             return type == 'i' ? index : type == 'v' ? value : true;
         }
     }
-    return false;
 };
 
 function Time(opts) {
