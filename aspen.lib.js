@@ -186,6 +186,7 @@ aspenLib.ajax = function (opts) {
 
 aspenLib.uploadImg = function (opts) {
     if (typeof opts == "object") {
+        var _this = this;
         var formData = new FormData();
         var xhr = new XMLHttpRequest();
         formData.append("image", opts.ele.files[0]);
@@ -199,10 +200,10 @@ aspenLib.uploadImg = function (opts) {
                             opts.callback.call(this);
                         }
                     } else {
-                        aspenLib.tips(data.msg);
+                        _this.tips(data.msg);
                     }
                 } else {
-                    aspenLib.tips("ajax error");
+                    _this.tips("ajax error");
                 }
             }
         };
@@ -241,23 +242,20 @@ aspenLib.loadJS = function (pageUrl, insetPage, callback, id) {
 };
 
 aspenLib.tips = function (txt) {
-    if (!document.getElementById("systemTips") && txt && txt != "") {
-        var tout = null;
-        var createDiv = document.createElement("div");
-        createDiv.id = "systemTips";
-        createDiv.innerHTML = txt.toString();
-        document.querySelectorAll("body")[0].appendChild(createDiv);
-        var getSystemTips = document.getElementById("systemTips");
-        if (getSystemTips) {
-            tout = setTimeout(function () {
-                if (getSystemTips.parentNode) {
-                    getSystemTips.parentNode.removeChild(getSystemTips);
-                    clearTimeout(tout);
-                }
-            }, 2000);
-        }
-    } else {
-        return false;
+    if (document.getElementById("systemTips") || !txt || txt == '') return;
+    var tout = null;
+    var createDiv = document.createElement("div");
+    createDiv.id = "systemTips";
+    createDiv.innerHTML = txt.toString();
+    document.querySelectorAll("body")[0].appendChild(createDiv);
+    var getSystemTips = document.getElementById("systemTips");
+    if (getSystemTips) {
+        tout = setTimeout(function () {
+            if (getSystemTips.parentNode) {
+                getSystemTips.parentNode.removeChild(getSystemTips);
+                clearTimeout(tout);
+            }
+        }, 2000);
     }
 };
 
@@ -478,9 +476,17 @@ aspenLib.urlSplicing = function (name, value) {
 
 aspenLib.CreateLoading = function () {
     if (!document.getElementById('loadingWrap')) {
+        var lhtml = '', mainHtml = '';
+        var classArray = ['loadfirst', 'second', 'loadlast'];
         var createLoading = document.createElement('div');
         createLoading.id = 'loadingWrap';
-        createLoading.innerHTML = '<div class="loading"><div class="loading-container first"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="loading-container second"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="loading-container last"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div></div>';
+        for (var l = 1; l < 5; l++) {
+            lhtml += '<div class="circle' + l + '"></div>';
+        }
+        for (var i = 0; i < 3; i++) {
+            mainHtml += '<div class="loading-container ' + classArray[i] + '">' + lhtml + '</div>';
+        }
+        createLoading.innerHTML = '<div class="loading">' + mainHtml + '</div>';
         document.body.appendChild(createLoading);
     }
 };
@@ -510,9 +516,7 @@ aspenLib.formatNumber = function (num) {
                 break;
             }
         }
-        if (num) {
-            result = num + result;
-        }
+        if (num) result = num + result;
         return /\./.test(num + floatNum) ? result + floatNum : result;
     } else {
         return num;
@@ -537,8 +541,9 @@ aspenLib.goTop = function (id, scrToShow) {
 };
 
 aspenLib.copy = function (ele, target, tips) {
-    var id = document.getElementById(ele);
-    id.addEventListener('click', function () {
+    var _this = this;
+    var el = document.getElementById(ele);
+    el.addEventListener('click', function () {
         if (!document.body.querySelectorAll('.cInpt')[0]) {
             var copyText = document.getElementById(target).innerText,
                 createInput = document.createElement('input');
@@ -548,7 +553,7 @@ aspenLib.copy = function (ele, target, tips) {
             document.body.className.indexOf('ios') != -1 ? createInput.setSelectionRange(0, copyText.length) : createInput.select();
             document.execCommand("Copy");
             createInput.className = 'cInpt', createInput.style.display = 'none';
-            aspenLib.tips(tips || '复制成功');
+            _this.tips(tips || '复制成功');
             setTimeout(function () {
                 document.body.removeChild(createInput);
             }, 2e3);
@@ -567,50 +572,26 @@ aspenLib.typeOf = function (value) {
         }
         i++;
     }
-}
-
-HTMLElement.prototype.removeAttr = function (attr) {
-    if (this.getAttribute('style')) {
-        if (!(attr instanceof Array)) {
-            attr = attr.split(',')
-        }
-        var getStyles = this.getAttribute('style').replace(/\s+/g, '');
-        for (var i = 0; i < attr.length; i++) {
-            getStyles = getStyles.replace(new RegExp(attr[i] + ':.+?;'), '')
-            this.setAttribute('style', getStyles)
-        }
-    }
 };
 
-Array.prototype.isInArray = function (value, type) {
-    if (this.indexOf && this.indexOf instanceof Function) {
-        var index = this.indexOf(value);
-        if (index >= 0) {
-            return type == 'i' ? index : type == 'v' ? value : true;
-        }
-    }
-};
-
-function Time(opts) {
-    this.obj = document.getElementById(opts.id);
-};
-Time.prototype = {
-    bindEvent: function (opts) {
-        var _this = this;
+aspenLib.getTimes = function (opts) {
+    var clearI = null;
+    var ele = document.getElementById(opts.id);
+    var dateT = '', timeT = '', week = '';
+    clearI = setInterval(function () {
         var date = new Date();
         if (opts.date == true) {
             var year = date.getFullYear(),
-                month = _this.addZero(date.getMonth() + 1),
-                day = _this.addZero(date.getDate()),
-                dateT = year + "年" + month + "月" + day + "日 ";
-        } else { var dateT = '' }
+                month = addZero(date.getMonth() + 1),
+                day = addZero(date.getDate());
+            dateT = year + "年" + month + "月" + day + "日 ";
+        } else dateT = '';
         if (opts.time == true) {
-            var hour = _this.addZero(date.getHours()),
-                minute = _this.addZero(date.getMinutes()),
-                second = _this.addZero(date.getSeconds()),
-                timeT = hour + ":" + minute + ":" + second;
-        } else { var timeT = '' }
-        var week = '';
+            var hour = addZero(date.getHours()),
+                minute = addZero(date.getMinutes()),
+                second = addZero(date.getSeconds());
+            timeT = hour + ":" + minute + ":" + second;
+        } else timeT = '';
         if (opts.week == true) {
             switch (date.getDay()) {
                 case 0: week = "星期天";
@@ -628,10 +609,33 @@ Time.prototype = {
                 case 6: week = "星期六";
                     break;
             }
-        } else { week = '' }
-        this.obj.innerHTML = dateT + timeT + " " + week;
-    },
-    addZero: function (temp) {
-        return temp <= 9 ? "0" + temp : temp;
+        } else week = '';
+        ele.innerHTML = dateT + timeT + " " + week;
+        clearI = null;
+    }, 1000);
+    function addZero(t) {
+        return t <= 9 ? "0" + t : t;
+    }
+};
+
+HTMLElement.prototype.removeAttr = function (attr) {
+    if (this.getAttribute('style')) {
+        if (aspenLib.typeOf(attr) !== 'Array') {
+            attr = attr.split(',')
+        }
+        var getStyles = this.getAttribute('style').replace(/\s+/g, '');
+        for (var i = 0; i < attr.length; i++) {
+            getStyles = getStyles.replace(new RegExp(attr[i] + ':.+?;'), '')
+            this.setAttribute('style', getStyles)
+        }
+    }
+};
+
+Array.prototype.isInArray = function (value, type) {
+    if (this.indexOf && aspenLib.typeOf(this.indexOf) === 'Function') {
+        var index = this.indexOf(value);
+        if (index >= 0) {
+            return type == 'i' ? index : type == 'v' ? value : true;
+        }
     }
 };
