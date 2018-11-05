@@ -5,11 +5,55 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    /*竖屏*/
+    
+    <link rel="stylesheet" media="all and (orientation:portrait)" href="portrait.css" />
+    /*横屏*/
+
+    <link rel="stylesheet" media="all and (orientation:landscape)" href="landscape.css" />
     <style>
         .div {
             height: 40px;
         }
     </style>
+        <style type="text/css">
+            /*在根元素中定义了一个基本字体大小为62.5%（也就是10px。设置这个值主要方便计算，如果没有设置，将是以“16px”为基准 ）。从下面的计算结果，我们使用(“rem”||"em")就像使用“px”一样的方便，而且同时解决了“px”和(“rem”||"em")两者不同之处。*/
+
+            /* 在使用“em”作单位时，一定需要知道其父元素的设置，因为“em”就是一个相对值，而且是一个相对于父元素的值， 计算公式：1 ÷ 父元素的font-size × 需要转换的像素值=em值 */
+            .tag{ width: 190px; height: 46px; background: #00aceb; position: relative; } .tag em{ display: block; border-width: 8px; position: absolute; top: 16px; left: 190px; border-style: solid dashed dashed; border-color: transparent transparent transparent #00aceb; font-size: 0; line-height: 0; } html { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ } p { font-size: 1.6rem; }
+            body { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ } p { font-size: 1.6em; }
+            /*-webkit-appearance: none; 修复iPhone上submit按钮圆角bug*/
+    
+            /*点击清空默认值*/
+    
+            /*autocomplete="off" 禁止输入框记录 输入记录*/
+    
+            /*a:active{ background-color: transparent !important;} 去掉a点击时候出现的颜色*/
+    
+            /*<embed src="Going Home.mp3" autostart="true" loop="true" hidden="true"></embed> 添加网页背景音乐*/
+    
+            /*<marquee scrolldelay=150 direction=up >nihao，Chen Ziyi</marquee> 向上滚动*/
+    
+            /*<meta http-equiv="refresh" content="0; url=http://www.baidu.com">  url跳转*/
+    
+            @media screen and (min-width: 768px) and (max-width: 1023px) {}
+    
+            /*利用CSS3中@media媒体查询实现横竖屏不同样式排版定义*/
+    
+            @media all and (orientation: landscape) {
+                footer p {
+                    color: red;
+                }
+                /*横屏时字体红色*/
+            }
+    
+            @media all and (orientation: portrait) {
+                footer p {
+                    color: green;
+                }
+                /*竖屏时字体绿色*/
+            }
+        </style>
 </head>
 
 <body>
@@ -78,7 +122,7 @@
         }
         function decodeUnicode(str) {
             str = str.replace(/\\/g, "%");
-            return unescape(str);
+            return decodeURIComponent(str);
         }
 
         function $(strExpr) {
@@ -116,6 +160,26 @@
             sTop = document.documentElement.scrollTop == 0 ? document.body.scrollTop : document.documentElement.scrollTop;
         }
         window.cancelAnimationFrame = window.cancelAnimationFrame || clearTimeout;
+    </script>
+    <script type="text/javascript">
+        // try{
+        //     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        //         window.location.href="http://www.baidu.com";
+        //     }else{
+        //         window.location.href="http://www.yxsdcti.com";
+        //     }
+        // }catch(e){}
+
+        //判断手机横竖屏状态：
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+            if (window.orientation === 180 || window.orientation === 0) {
+                alert('竖屏状态！');
+            }
+            if (window.orientation === 90 || window.orientation === -90) {
+                alert('横屏状态！');
+            }
+        }, false);
+        //移动端的浏览器一般都支持window.orientation这个参数，通过这个参数可以判断出手机是处在横屏还是竖屏状态。
     </script>
 </body>
 

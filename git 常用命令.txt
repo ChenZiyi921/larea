@@ -1,4 +1,11 @@
+
 git 常用命令
+
+git reset --hard release
+git push origin master -f
+
+
+
 git status — 检查文件状态
 git add . — 添加文件
 git commit -m — 提交文件并添加备注
