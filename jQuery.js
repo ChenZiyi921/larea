@@ -218,15 +218,11 @@
         return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
     };
 
-    jQuery.loadJS = function (pageUrl, insetPage, callback, id) {
+    jQuery.loadJS = function (pageUrl, insetPos, callback, id) {
         if (!document.getElementById(id)) {
             var loadJs = document.createElement("script");
             loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
-            if (insetPage == "after") {
-                document.querySelectorAll("body")[0].appendChild(loadJs);
-            } else {
-                document.querySelectorAll("head")[0].appendChild(loadJs);
-            }
+            document.querySelectorAll(insetPos || "body")[0].appendChild(loadJs);
             if (loadJs.readyState) {
                 loadJs.onreadystatechange = function () {
                     if (loadJs.readyState == "loaded" || loadJs.readyState == "complete") {
@@ -454,7 +450,7 @@
 
     jQuery.urlSplicing = function (name, value) {
         var _this = this;
-        if (name instanceof Array && name.length > 0) {
+        if (name instanceof Array) {
             for (var i = 0; i < name.length; i++) {
                 for (var k in name[i]) {
                     if (!_this.getUrlValue(k)) {
