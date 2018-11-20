@@ -238,7 +238,7 @@ aspenLib.loadJS = function (pageUrl, insetPos, callback, id) {
 };
 
 aspenLib.tips = function (txt) {
-    if (document.getElementById("systemTips") || !txt || txt == '') return;
+    if (document.getElementById("systemTips") || !txt) return;
     var tout = null;
     var createDiv = document.createElement("div");
     createDiv.id = "systemTips";
