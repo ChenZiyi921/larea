@@ -520,7 +520,7 @@ aspenLib.formatNumber = function (num) {
 };
 
 aspenLib.goTop = function (id, scrToShow) {
-    window.animation = window.requestAnimationFrame || function () { return setTimeout(fn, 1000 / 60) };
+    window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
     var id = document.getElementById(id);
     window.addEventListener('scroll', function () {
         var currentScroll = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
@@ -550,8 +550,9 @@ aspenLib.copy = function (ele, target, tips) {
             document.execCommand("Copy");
             createInput.className = 'cInpt', createInput.style.display = 'none';
             _this.tips(tips || '复制成功');
-            setTimeout(function () {
+            var clearCopyO = setTimeout(function () {
                 document.body.removeChild(createInput);
+                clearTimeout(clearCopyO);
             }, 2e3);
         }
     }, false);
