@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <link rel="stylesheet" href="css/h5.reset.css">
+    <style>
+        .wrap{ width: 100%; max-width: 750px; margin: 0 auto; overflow-x: hidden; transition: all 1s; text-align: center; }
+        ul li{width: 1rem;height: 1rem;overflow: hidden;background: yellow;text-align: center;display: inline-block;margin: 0 .01rem;color: #fff;position: relative;}
+        dl{position: absolute;top: 0;left: 0;width: 1rem;height: 1rem;}
+        dd{display: block;width: 1rem;height: 1rem;}
+        .btn{background: #333;text-align: center;color: yellow;margin: 0 auto;display: block;padding: 10px;font-size: 18px;}
+    </style>
+</head>
+
+<body>
+    <ul class="wrap"></ul>
+    <button class="btn">点击</button>
+</body>
+<script>
+    function LuckDraw(){
+        var wrap = document.querySelector('.wrap');
+        var prizehtml = '';
+        var ddhtml = '';
+        for (var d = 0; d < 10; d++) {
+            ddhtml += '<dd><img src="images/' + d + '.png" alt="" /></dd>'
+        }
+        for (var i = 0; i < 6; i++) {
+            prizehtml += '<li><dl class="dl">' + stradd(ddhtml, 0) + '</dl></li>'
+        }
+        wrap.innerHTML = prizehtml;
+        var oli = document.getElementsByTagName("li"),
+            btn = document.querySelector(".btn");
+            timer = null, str = "";
+        function stradd(str, size) {
+            if (Object.prototype.toString.call(str) === "[object String]") {
+                for (var i = 0; i < size; i++) {
+                    str += str;
+                };
+            }
+            return str;
+        }
+        function getStyle(obj, name) {
+            return obj.currentStyle ? obj.currentStyle[name] : getComputedStyle(obj, false)[name];
+        }
+        function starmove(obj, json, funEnd) {
+            clearInterval(obj.timer);
+            var Bstop = true;
+            obj.timer = setInterval(function () {
+                for (var attr in json) {
+                    var speed = 0;
+                    var cur = parseInt(getStyle(obj, attr));
+                    speed = (json[attr] - cur) / 20;
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                    cur != json[attr] ? Bstop = false : Bstop = true;
+                    obj.style[attr] = cur + speed + "px";
+                }
+                if (Bstop) clearInterval(obj.timer) , funEnd ? funEnd() : '';
+            }, 30)
+        }
+        // var prizeNumberArray = [9, 1, 2, 3, 4, 5];
+        function run() {
+            for (var i = 0; i < oli.length; i++) {
+                oli[i].value = Math.floor(Math.random() * 10);
+                // oli[i].value = prizeNumberArray[i];
+                var Num = parseInt(oli[i].value),
+                    odl = oli[i].getElementsByTagName("dl")[0],
+                    odd = odl.getElementsByTagName("dd"),
+                    tops = odd[Num].offsetTop;
+                odl.style.top = 0;
+                str += Num;
+                starmove(odl, { "top": -(tops) }, function () {
+                    var Result = parseInt(str);
+                    console.log(Result)
+                });
+            };
+        }
+        btn.onclick = function () {
+            str = "";
+            run();
+        }
+    }
+    new LuckDraw();
+</script>
+
+</html>

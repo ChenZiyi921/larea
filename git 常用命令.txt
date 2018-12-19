@@ -4,6 +4,11 @@ git 常用命令
 git reset --hard release
 git push origin master -f
 
+git reset --hard 556ca75d4fd01e44a75411f674cd70b918459169
+git push -f -u origin test1
+
+
+git push origin release:dev1 -f
 
 
 git status — 检查文件状态
@@ -174,8 +179,6 @@ git reset --keep <commit>
 
 git submodule add 仓库地址 路径
 
-git submodule add helloworld.git
-git commit -m "Add submodules helloworld.git"
 
 其他人协同
 git clone /path/to/repos/helloworld_parent.git

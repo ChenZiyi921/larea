@@ -1,0 +1,81 @@
+.web-wraps{ width: 100%; max-width: 750px; margin: 0 auto; background: #f2f2f2; overflow-x: hidden; transition: all 1s; }
+*{margin: 0;padding: 0;}
+ul{text-align: center;margin: 1rem auto;overflow: hidden;}
+ul li{width: 1rem;height: 1rem;overflow: hidden;background: #ff00ff;text-align: center;display: inline-block;margin: 0 .01rem;color: #fff;position: relative;}
+dl{position: absolute;top: 0;left: 0;width: 1rem;height: 1rem;}
+dd{display: block;width: 1rem;height: 1rem;}
+.btn{background: #333;text-align: center;color: #ff00ff;margin: 0 auto;display: block;border: none;padding: 10px;font-size: 18px;}
+.panel{text-align: center;margin: 50px auto;}
+.reset{-webkit-animation: flip 1s .2s ease both;display: none;}
+.flash{-webkit-animation: flash 1s .2s ease both;}
+.contant{-webkit-animation: wobble 3s .2s ease both;}
+
+@-webkit-keyframes wobble {
+    0% {
+        -webkit-transform: translateX(0%)
+    }
+
+    15% {
+        -webkit-transform: translateX(-25%) rotate(-5deg)
+    }
+
+    30% {
+        -webkit-transform: translateX(20%) rotate(3deg)
+    }
+
+    45% {
+        -webkit-transform: translateX(-15%) rotate(-3deg)
+    }
+
+    60% {
+        -webkit-transform: translateX(10%) rotate(2deg)
+    }
+
+    75% {
+        -webkit-transform: translateX(-5%) rotate(-1deg)
+    }
+
+    100% {
+        -webkit-transform: translateX(0%)
+    }
+}
+
+@-webkit-keyframes flip {
+    0% {
+        -webkit-transform: perspective(400px) rotateY(0);
+        -webkit-animation-timing-function: ease-out
+    }
+
+    40% {
+        -webkit-transform: perspective(400px) translateZ(150px) rotateY(170deg);
+        -webkit-animation-timing-function: ease-out
+    }
+
+    50% {
+        -webkit-transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(1);
+        -webkit-animation-timing-function: ease-in
+    }
+
+    80% {
+        -webkit-transform: perspective(400px) rotateY(360deg) scale(.95);
+        -webkit-animation-timing-function: ease-in
+    }
+
+    100% {
+        -webkit-transform: perspective(400px) scale(1);
+        -webkit-animation-timing-function: ease-in
+    }
+}
+
+@-webkit-keyframes flash {
+
+    0%,
+    50%,
+    100% {
+        opacity: 1;
+    }
+    25%,
+    75% {
+        opacity: 0;
+    }
+}

@@ -361,7 +361,7 @@ aspenLib.parents = function (ele, selector) {
 };
 
 aspenLib.css = function (ele, opts) {
-    if (typeof opts == "object") {
+    if (/Object/.test(Object.prototype.toString.call(opts))) {
         for (var key in opts) {
             if (opts[key]) {
                 ele.style[key] = opts[key].toString();
