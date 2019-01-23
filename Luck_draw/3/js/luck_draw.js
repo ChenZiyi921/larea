@@ -86,6 +86,7 @@ var grabDoll = {
                 return;
             } else {
                 if (/stop/.test(getTimer.className)) {
+                    getNum.innerHTML = 10;
                     clearInterval(a);
                     return;
                 } else {
@@ -180,7 +181,8 @@ var grabDoll = {
             }
         });
         setInterval(function () {
-            getNum.innerHTML == '00' && (!/stop/.test(getTimer.className)) && _this.luckDrawNum(2);
+            getNum.innerHTML == '00' && (!/stop/.test(getTimer.className)) &&_this.luckDrawNum(2);
+            getNum.innerHTML == '00' && (getNum.innerHTML = '10')
         }, 1000);
     }
 };
