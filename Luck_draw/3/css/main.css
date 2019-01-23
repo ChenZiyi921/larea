@@ -1,0 +1,170 @@
+img{ pointer-events: none; }
+.wrap{ position: relative; max-width: 750px; height: 100%; margin: 0 auto; background: #e62b94; color: #fff; overflow: hidden; }
+
+.rule-main{ width: 100%; margin: 0 auto; padding: .2rem; box-sizing: border-box; }
+.rule-tit{ position: relative; left: 0; top: 0; height: .32rem; line-height: .32rem; }
+.rule-tit img{ position: absolute; left: 0; top: 0.14rem; width: 100%; }
+.rule-tit span{ position: absolute; top: 0; width: 100%; text-align: center; }
+.rule-txt{ width: 100%; padding: .2rem 0; }
+.rule-txt p{ width: 100%; line-height: .32rem; padding: .02rem 0; }
+.return-main{ width: 100%; height: 1rem; padding-top: .1rem; background: #ff4fb2; border-radius: .1rem; text-align: center; overflow: hidden; }
+.return-main img{ display: block; width: 38%; margin: 0 auto; }
+.return-main a{ display: block; width: 1.5rem; height: .36rem; line-height: .36rem; margin: 0 auto; padding: 0 .2rem; border: 2px solid #fff; border-radius: .36rem; text-align: center; position: relative; top: .1rem; }
+.return-main a em{ display: block; width: 1.2rem; color: #fff; float: left; }
+.return-main a i{ display: block; position: absolute; top: .03rem; right: .24rem; width: .3rem; height: .3rem; border-radius: 100%; background: #fff; }
+.return-main a i span{ display: block; width: .1rem; height: .1rem; border-right: 1px solid #f85684; border-top: 1px solid #f85684; transform: rotate(45deg); position: absolute; left: .06rem; top: .1rem; }
+
+.share{ width: 100%; padding: 0 .2rem; box-sizing: border-box; }
+.share img{ width: 100%; }
+
+.head, .head img{ width: 100%; }
+
+.turn-wrap{ width: 100%; padding: 0 .1rem; box-sizing: border-box; background: linear-gradient(to bottom, #d516e2, #e62b94); position: relative; overflow: hidden; }
+.doll-bga{ width: 100%; }
+.doll-bga img{ position: relative; top: -.1rem; width: 100%; z-index: 20; }
+
+.doll-main{ width: 100%; position: absolute; top: 4.72rem; left: 0; padding: 0 .68rem; box-sizing: border-box; }
+.doll-main img{ display: block; width: 100%; float: left; }
+.doll-main span{ display: inline-block; position: absolute; width: 1.2rem; }
+.doll-main span:nth-of-type(1){ z-index: 1; left: .4rem; }
+.doll-main span:nth-of-type(2){ z-index: 9; left: 1.2rem; }
+.doll-main span:nth-of-type(3){ z-index: 3; left: 2.1rem; }
+.doll-main span:nth-of-type(4){ z-index: 10; left: 3.1rem; }
+.doll-main span:nth-of-type(5){ z-index: 5; left: 4.1rem; }
+.doll-main span:nth-of-type(6){ z-index: 6; left: 4.9rem; }
+.doll-main span:nth-of-type(7){ z-index: 11; left: 5.4rem; }
+.doll-main span:nth-of-type(8){ z-index: 8; right: .7rem; }
+
+.doll-bgb, .doll-bgc, .doll-bgd{ position: absolute; left: 0; box-sizing: border-box; }
+.doll-bgb, .doll-bgc{ top: .1rem; padding: .4rem; width: 100%; }
+.doll-bgb img{ width: 100%; z-index: 40; }
+.doll-bgc img{ width: 100%; z-index: 30; }
+
+.doll-bgd{ top: 2.3rem; padding: .68rem; width: 100%; }
+.doll-bgd img{ width: 100%; z-index: 30; }
+
+.grab{ position: absolute; left: 35%; top: .54rem; padding: 0 .4rem; box-sizing: border-box; }
+.grab img{ width: 1.2rem; }
+/* 钩子滑动 */
+.grabSlide{
+    animation: grabAnimation 4s linear .1s infinite alternate;
+    -moz-animation: grabAnimation 4s linear .1s infinite alternate;
+    -webkit-animation: grabAnimation 4s linear .1s infinite alternate;
+    -o-animation: grabAnimation 4s linear .1s infinite alternate;
+}
+@keyframes grabAnimation{
+    0%   { left: 0; top: .6rem; }
+    100% { left: 71%; top: .6rem; }
+}
+@-webkit-keyframes grabAnimation{
+    0%   { left: 0; top: .6rem; }
+    100% { left: 71%; top: .6rem; }
+}
+/* 钩子下去 */
+.grabDown{ 
+    animation: grabDown 2s linear .1s 1 normal forwards;
+    -moz-animation: grabDown 2s linear .1s 1 normal forwards;
+    -webkit-animation: grabDown 2s linear .1s 1 normal forwards;
+    -o-animation: grabDown 2s linear .1s 1 normal forwards;
+}
+@keyframes grabDown{
+    0%   { top: .6rem; }
+    100% { top: 3.7rem; }
+}
+@-webkit-keyframes grabDown{
+    0%   { top: .6rem; }
+    100% { top: 3.7rem; }
+}
+/* 奖品上来 */
+.prizeUp{
+    animation: prizeUp 2s linear 0s 1 normal forwards;
+    -moz-animation: prizeUp 2s linear 0s 1 normal forwards;
+    -webkit-animation: prizeUp 2s linear 0s 1 normal forwards;
+    -o-animation: prizeUp 2s linear 0s 1 normal forwards;
+}
+@keyframes prizeUp{
+    0%   { transform: translateY(0) }
+    100% { transform: translateY(-3.1rem); }
+}
+@-webkit-keyframes prizeUp{
+    0%   { transform: translateY(0) }
+    100% { transform: translateY(-3.1rem); }
+}
+/* 钩子上来 */
+.grabUp{ 
+    animation: grabUp 2s linear 0s 1 normal forwards;
+    -moz-animation: grabUp 2s linear 0s 1 normal forwards;
+    -webkit-animation: grabUp 2s linear 0s 1 normal forwards;
+    -o-animation: grabUp 2s linear 0s 1 normal forwards;
+}
+@keyframes grabUp{
+    0%   { top: 3.7rem; }
+    100% { top: .6rem; }
+}
+@-webkit-keyframes grabUp{
+    0%   { top: 3.7rem; }
+    100% { top: .6rem; }
+}
+
+/* 按钮 */
+.btnAnimation{
+    animation: btnAnimation .1s linear 0s 1 normal forwards;
+    -moz-animation: btnAnimation .1s linear 0s 1 normal forwards;
+    -webkit-animation: btnAnimation .1s linear 0s 1 normal forwards;
+    -o-animation: btnAnimation .1s linear 0s 1 normal forwards;
+}
+@keyframes btnAnimation{
+    0%   { transform: translateY(0) }
+    75%  { transform: translateY(.05rem); }
+    100% { transform: translateY(0); }
+}
+@-webkit-keyframes btnAnimation{
+    0%   { transform: translateY(0) }
+    75%  { transform: translateY(.05rem); }
+    100% { transform: translateY(0); }
+}
+.grab span{ position: absolute; left: 50%; bottom: 1.9rem; border: .07rem solid #ccc; height: 300px; margin-left: -.05rem; }
+
+.btn-wrap{ position: absolute; left: 0; bottom: 1.78rem; z-index: 50; width: 100%; height: 1.06rem; overflow: hidden; }
+.btn-wrap a{ display: inline-block; width: 1.4rem;  }
+#beginBtn{ position: absolute; left: 1.22rem; }
+#grabBtn{ position: absolute; right: 1.04rem; }
+.btn-wrap span{ display: block; width: 100%; height: .3rem; z-index: 55; color: #fff; position: absolute; text-align: center; }
+#beginBtn span{ left: 0; top: .2rem; }
+#grabBtn span{ left: 0; top: .2rem; }
+
+.activity-marquee-info{ width: 68%; height: .48rem; margin: 0 auto; border-radius: .48rem; box-shadow:  0 0 0 2px #f7abfe; box-sizing: border-box; padding-left: .8rem; position: absolute; left: 16%; top: 3rem; overflow: hidden; background: #fbba55; z-index: 30; }
+.marquee-tag{ position: absolute; z-index: 21; top: 0; left: .05rem; width: .6rem; height: .5rem; line-height: .5rem; border-radius: .5rem; text-align: center; font-size: .28rem; color: #fff; }
+.activity-marquee-wrap{ width: 100%; height: .5rem; line-height: .5rem; overflow: hidden; margin-top: 0; }
+.activity-marquee-main{ width: 100%; height: auto; }
+.activity-marquee-main p{ width: 100%; height: .5rem; line-height: .5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: .2rem; box-sizing: border-box; }
+.activity-marquee-main p i,.activity-marquee-main p em{ display: inline-block; font-size: .26rem; padding-right: .04rem; }
+.activity-head-title{ padding: .1rem 0; height: 1rem; text-align: center; }
+.activity-head-title em,.activity-head-title strong{ display: inline-block; vertical-align: top; }
+.activity-marquee-main p i{ color: #fff; }
+.activity-marquee-main p em{ color: #fff; }
+.activity-head-title em{ width: 6%; height: 1rem; background: url(../images/d-1.png) no-repeat center center; background-size: 100% auto; }
+.activity-head-title strong{ width: 76%; padding: .1rem .1rem 0 .1rem; height: 1rem; font-size: .26rem; color: #fff; box-sizing: border-box; line-height: 160%; }
+
+/* 奖品弹窗 */
+.coup-wrap, .ttips-img{ width: 100%; height: 100%; position: fixed; left: 0; top: 0; background: rgba(0, 0, 0, .7); z-index: 88; padding: 0 10px; box-sizing: border-box; }
+.coup-tit{ width: 100%; position: absolute; left: 0; top: 0; z-index: 80; }
+.coup-tit img{ width: 100%; }
+.coup-main{ width: 88%; height: 50%; position: absolute; left: 6%; top: 25%; }
+.coup-container{ width: 80%; padding: .2rem 0; position: absolute; left: 10%; top: 2.6rem; background: #fff; border-radius: .1rem; }
+.coupon-img{ width: 90%; margin: .4rem auto; text-align: center; font-size: .3rem; color: #a62db1; }
+#closeBtn{ display: block; width: 2rem; margin: 0 auto; position: relative; z-index: 99; }
+#closeBtn em{ position: absolute; left: 0; top: 0; width: 100%; height: 100%; line-height: .6rem; text-align: center; font-size: .28rem; color: #fff; }
+.coup-text{ width: 100%; height: .3rem; line-height: .3rem; text-align: center; font-size: .26rem; color: #777; padding-bottom: .2rem; }
+.ttips-img img:nth-of-type(1){ position: fixed; right: 16px; top: 10px; width: 90px; vertical-align: top; }
+.ttips-main{ width: 60%; height: 3rem; position: absolute; left: 20%; top: 50%; transform: translateY(-40%); }
+.ttips-main img:nth-of-type(1){ width: 100%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+#hideMask{ position: absolute; bottom: -1rem; left: 50%; transform: translateX(-50%); display: block; width: .6rem; height: .6rem; line-height: .6rem; border: .02rem solid #fff ; border-radius: 100%; text-align: center; font-size: .6rem; color: #fff; cursor: pointer; }
+
+.remainder{ width: 70%; height: .36rem; line-height: .36rem; position: absolute; left: 15%; bottom: 3rem; z-index: 60; text-align: center; color: #a62db1; }
+.remainder span{ display: inline-block; height: 100%; margin: 0 .06rem; padding: 0 .06rem; background: #000; border-radius: 4px; font-size: .3rem; color: yellow; }
+
+.watch{ position: absolute; right: 1rem; top: 1.1rem; width: 1.3rem; }
+.time, .second{ display: inline-block; position: absolute; }
+.time{ left: .64rem; top: .1rem; font-size: .3rem; }
+.second{ left: 1rem; top: .18rem; font-size: .2rem; }
