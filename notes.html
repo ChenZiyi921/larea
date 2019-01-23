@@ -1,186 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title></title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    /*竖屏*/
-    
-    <link rel="stylesheet" media="all and (orientation:portrait)" href="portrait.css" />
-    /*横屏*/
-
-    <link rel="stylesheet" media="all and (orientation:landscape)" href="landscape.css" />
-    <style>
-        .div {
-            height: 40px;
+<script>
+    function cleanWhitespace(ele) {
+        var ul = document.getElementById('ul');
+        for (var i = 0; i < ele.childNodes.length; i++) {
+            var node = ele.childNodes[i];
+            if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
+                node.parentNode.removeChild(node);
+            }
         }
-    </style>
-        <style type="text/css">
-            /*在根元素中定义了一个基本字体大小为62.5%（也就是10px。设置这个值主要方便计算，如果没有设置，将是以“16px”为基准 ）。从下面的计算结果，我们使用(“rem”||"em")就像使用“px”一样的方便，而且同时解决了“px”和(“rem”||"em")两者不同之处。*/
+    }
+    cleanWhitespace(ul);
 
-            /* 在使用“em”作单位时，一定需要知道其父元素的设置，因为“em”就是一个相对值，而且是一个相对于父元素的值， 计算公式：1 ÷ 父元素的font-size × 需要转换的像素值=em值 */
-            .tag{ width: 190px; height: 46px; background: #00aceb; position: relative; } .tag em{ display: block; border-width: 8px; position: absolute; top: 16px; left: 190px; border-style: solid dashed dashed; border-color: transparent transparent transparent #00aceb; font-size: 0; line-height: 0; } html { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ } p { font-size: 1.6rem; }
-            body { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ } p { font-size: 1.6em; }
-            /*-webkit-appearance: none; 修复iPhone上submit按钮圆角bug*/
-    
-            /*点击清空默认值*/
-    
-            /*autocomplete="off" 禁止输入框记录 输入记录*/
-    
-            /*a:active{ background-color: transparent !important;} 去掉a点击时候出现的颜色*/
-    
-            /*<embed src="Going Home.mp3" autostart="true" loop="true" hidden="true"></embed> 添加网页背景音乐*/
-    
-            /*<marquee scrolldelay=150 direction=up >nihao，Chen Ziyi</marquee> 向上滚动*/
-    
-            /*<meta http-equiv="refresh" content="0; url=http://www.baidu.com">  url跳转*/
-    
-            @media screen and (min-width: 768px) and (max-width: 1023px) {}
-    
-            /*利用CSS3中@media媒体查询实现横竖屏不同样式排版定义*/
-    
-            @media all and (orientation: landscape) {
-                footer p {
-                    color: red;
-                }
-                /*横屏时字体红色*/
-            }
-    
-            @media all and (orientation: portrait) {
-                footer p {
-                    color: green;
-                }
-                /*竖屏时字体绿色*/
-            }
-        </style>
-</head>
+    function add() {
+        return Array.prototype.reduce.call(arguments, function (n1, n2) {
+            return n1 + n2;
+        });
+    };
 
-<body>
-    <div class="div" style="width: 100px;"></div>
-    <div style="width:800px; background:red;">
-        <p style="width:200px; background:#ccc;"></p>
-    </div>
-    <ul id="ul">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
-    <script>
-        function cleanWhitespace(ele) {
-            var ul = document.getElementById('ul');
-            for (var i = 0; i < ele.childNodes.length; i++) {
-                var node = ele.childNodes[i];
-                if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
-                    node.parentNode.removeChild(node);
+    function getElementStyle(el, attr) {
+        return el.currentStyle ? el.currentStyle[attr] : getComputedStyle(el, null)[attr];
+    }
+    var div = document.querySelectorAll('.div')[0];
+    console.log(getElementStyle(div, 'overflow'));
+
+
+    function setCookie(c_name, value, expiredays) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + expiredays);
+        document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+    }
+
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        return arr = document.cookie.match(reg) ? arr[2] : null;
+    }
+
+    function removeCookie(name) {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval = getCookie(name);
+        if (cval != null) {
+            document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+        }
+    }
+
+    function encodeUnicode(str) {
+        var res = [];
+        for (var i = 0; i < str.length; i++) {
+            res[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
+        }
+        return "\\u" + res.join("\\u");
+    }
+    function decodeUnicode(str) {
+        str = str.replace(/\\/g, "%");
+        return decodeURIComponent(str);
+    }
+
+    function $(strExpr) {
+        var idExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+        var classExpr = /^(?:\s*(<[\w\W]+>)[^>]*|.([\w-]*))$/;
+        if (idExpr.test(strExpr)) {
+            var idMatch = idExpr.exec(strExpr);
+            return document.getElementById(idMatch[2]);
+        } else if (classExpr.test(strExpr)) {
+            var classMatch = classExpr.exec(strExpr);
+            var allElement = document.getElementsByTagName("*");
+            var ClassMatch = [];
+            for (var i = 0, l = allElement.length; i < l; i++) {
+                if (allElement[i].className.match(new RegExp("(\\s|^)" + classMatch[2] + "(\\s|$)"))) {
+                    ClassMatch.push(allElement[i]);
                 }
             }
+            return ClassMatch;
         }
-        cleanWhitespace(ul);
+    }
 
-        function add() {
-            return Array.prototype.reduce.call(arguments, function (n1, n2) {
-                return n1 + n2;
-            });
-        };
+    if (document.compatMode == "BackCompat") {
+        cWidth = document.body.clientWidth;
+        cHeight = document.body.clientHeight;
+        sWidth = document.body.scrollWidth;
+        sHeight = document.body.scrollHeight;
+        sLeft = document.body.scrollLeft;
+        sTop = document.body.scrollTop;
+    } else { //document.compatMode == \"CSS1Compat\"
+        cWidth = document.documentElement.clientWidth;
+        cHeight = document.documentElement.clientHeight;
+        sWidth = document.documentElement.scrollWidth;
+        sHeight = document.documentElement.scrollHeight;
+        sLeft = document.documentElement.scrollLeft == 0 ? document.body.scrollLeft : document.documentElement.scrollLeft;
+        sTop = document.documentElement.scrollTop == 0 ? document.body.scrollTop : document.documentElement.scrollTop;
+    }
+    window.cancelAnimationFrame = window.cancelAnimationFrame || clearTimeout;
+</script>
+<script type="text/javascript">
 
-        function getElementStyle(el, attr) {
-            return el.currentStyle ? el.currentStyle[attr] : getComputedStyle(el, null)[attr];
+    window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+        if (window.orientation === 180 || window.orientation === 0) {
+            alert('竖屏状态！');
         }
-        var div = document.querySelectorAll('.div')[0];
-        console.log(getElementStyle(div, 'overflow'));
-
-
-        function setCookie(c_name, value, expiredays) {
-            var exdate = new Date();
-            exdate.setDate(exdate.getDate() + expiredays);
-            document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+        if (window.orientation === 90 || window.orientation === -90) {
+            alert('横屏状态！');
         }
-
-        function getCookie(name) {
-            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-            return arr = document.cookie.match(reg) ? arr[2] : null;
-        }
-
-        function removeCookie(name) {
-            var exp = new Date();
-            exp.setTime(exp.getTime() - 1);
-            var cval = getCookie(name);
-            if (cval != null) {
-                document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
-            }
-        }
-
-        function encodeUnicode(str) {
-            var res = [];
-            for (var i = 0; i < str.length; i++) {
-                res[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
-            }
-            return "\\u" + res.join("\\u");
-        }
-        function decodeUnicode(str) {
-            str = str.replace(/\\/g, "%");
-            return decodeURIComponent(str);
-        }
-
-        function $(strExpr) {
-            var idExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
-            var classExpr = /^(?:\s*(<[\w\W]+>)[^>]*|.([\w-]*))$/;
-            if (idExpr.test(strExpr)) {
-                var idMatch = idExpr.exec(strExpr);
-                return document.getElementById(idMatch[2]);
-            } else if (classExpr.test(strExpr)) {
-                var classMatch = classExpr.exec(strExpr);
-                var allElement = document.getElementsByTagName("*");
-                var ClassMatch = [];
-                for (var i = 0, l = allElement.length; i < l; i++) {
-                    if (allElement[i].className.match(new RegExp("(\\s|^)" + classMatch[2] + "(\\s|$)"))) {
-                        ClassMatch.push(allElement[i]);
-                    }
+    }, false);
+</script>
+<script>
+    function arrayMerge(arrA, arrB) {
+        var pass
+        arrA.forEach(function (elA) {
+            pass = true
+            arrB.forEach(function (elB) {
+                if (elA.period == elB.period) {
+                    pass = false
                 }
-                return ClassMatch;
+            })
+            if (pass) {
+                elA.sign = 'disabled'
+                arrB.push(elA)
             }
-        }
+        })
+    }
+    arrA = [{ amount: 101.3, period: 3 }, { amount: 2, period: 6 }, { amount: 50.65, period: 12 }];
+    arrB = [{ amount: 1, period: 3 }, { amount: 10.65, period: 12 }]
+    arrayMerge(arrA, arrB)
+    console.log(arrB.sort(function (a, b) {
+        return a.period - b.period
+    }))
 
-        if (document.compatMode == "BackCompat") {
-            cWidth = document.body.clientWidth;
-            cHeight = document.body.clientHeight;
-            sWidth = document.body.scrollWidth;
-            sHeight = document.body.scrollHeight;
-            sLeft = document.body.scrollLeft;
-            sTop = document.body.scrollTop;
-        } else { //document.compatMode == \"CSS1Compat\"
-            cWidth = document.documentElement.clientWidth;
-            cHeight = document.documentElement.clientHeight;
-            sWidth = document.documentElement.scrollWidth;
-            sHeight = document.documentElement.scrollHeight;
-            sLeft = document.documentElement.scrollLeft == 0 ? document.body.scrollLeft : document.documentElement.scrollLeft;
-            sTop = document.documentElement.scrollTop == 0 ? document.body.scrollTop : document.documentElement.scrollTop;
-        }
-        window.cancelAnimationFrame = window.cancelAnimationFrame || clearTimeout;
-    </script>
-    <script type="text/javascript">
-        // try{
-        //     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-        //         window.location.href="http://www.baidu.com";
-        //     }else{
-        //         window.location.href="http://www.yxsdcti.com";
-        //     }
-        // }catch(e){}
-
-        //判断手机横竖屏状态：
-        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
-            if (window.orientation === 180 || window.orientation === 0) {
-                alert('竖屏状态！');
+    var arr = [
+        { id: 1, name: 2 },
+        { id: 2, name: 13 },
+        { id: 3, name: 2 },
+        { id: 10, name: 2 }
+    ];
+    function f(arr) {
+        var mp = {}
+        var ret = []
+        arr.forEach(item => {
+            if (typeof mp[item.name] === 'number') {
+                ret[mp[item.name]].push(item)
+            } else {
+                mp[item.name] = ret.length
+                ret.push([item])
             }
-            if (window.orientation === 90 || window.orientation === -90) {
-                alert('横屏状态！');
-            }
-        }, false);
-        //移动端的浏览器一般都支持window.orientation这个参数，通过这个参数可以判断出手机是处在横屏还是竖屏状态。
-    </script>
-</body>
-
-</html>
+        })
+        return ret
+    }
+    console.log(f(arr))
+</script>
