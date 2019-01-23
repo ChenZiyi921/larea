@@ -52,34 +52,26 @@ var queenList = {
 queenList.loadQuee();
 
 var publicHost = location.protocol + '//' + location.hostname,
-    getGrab = document.querySelectorAll('.grab')[0],
+    getGrab = document.querySelector('.grab'),
     beginBtn = document.getElementById('beginBtn'),
     grabBtn = document.getElementById('grabBtn'),
     getPrize = document.querySelectorAll('.doll-main span'),
-    getTimer = document.querySelectorAll('.watch')[0],
-    getNum = document.querySelectorAll('.time')[0],
+    getTimer = document.querySelector('.watch'),
+    getNum = document.querySelector('.time'),
     btnAnimata = function () { beginBtn.classList.remove('btnAnimation') },
-    btnAnimatb = function () { grabBtn.classList.remove('btnAnimation') },
-    coupWrap = document.querySelectorAll('.coup-wrap')[0],
-    coupTit = document.querySelectorAll('.coup-tit img')[0],
-    coupImg = document.querySelectorAll('.coupon-img')[0],
-    coupTxt = document.querySelectorAll('.coup-text')[0],
-    getBody = document.querySelectorAll("body")[0] || document.body || document.documentElement;
+    btnAnimatb = function () { grabBtn.classList.remove('btnAnimation') };
 var grabDoll = {
     init: function () {
-        var _this = this;
-        _this.main();
+        this.main();
     },
     limit: function (arr, num) {
         var newArr = [];
         arr.map(function (x) {
             newArr.push(Math.abs(x - num));
         });
-        var index = newArr.indexOf(Math.min.apply(null, newArr));
-        return index;
+        return newArr.indexOf(Math.min.apply(null, newArr))
     },
     timer: function () {
-        var getNum = document.querySelectorAll('.time')[0];
         var i = 10;
         var a = setInterval(function () {
             if (i == 0) {
