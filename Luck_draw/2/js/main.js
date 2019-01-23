@@ -1,21 +1,15 @@
 var jzfqAct = {}
 jzfqAct.lotteryRun = {
 	init: function () {
-		var _this = this;
-		_this.binEvent({
-			li: 'lottery-unit',
-			btn: '#lotteryBtn'
-		});
+		this.binEvent();
 	},
 	rollRun: function (opts, callback) {
-		var lottTimeOut;
-		var getLottLi = document.querySelectorAll('.' + opts['li']);
-		var setCount = getLottLi.length;
-		var x = -1;
+		var lottTimeOut,
+			getLottLi = document.querySelectorAll(opts['li']),
+			setCount = getLottLi.length,
+			x = -1;
 		for (var i = 0; i < getLottLi.length; i++) {
-			if (document.querySelectorAll('.' + opts['li'] + "-" + i)[0].className.indexOf('active') != -1) {
-				x = i;
-			}
+			document.querySelectorAll(opts['li'] + "-" + i)[0].className.indexOf('active') != -1 && (x = i)
 		}
 		function rollDown() {
 			opts['times'] += 1;
@@ -23,11 +17,10 @@ jzfqAct.lotteryRun = {
 				document.querySelectorAll(".lottery-unit-" + x)[0].classList.remove("active");
 			}
 			x += 1;
-			if (x > setCount - 1) {
-				x = 0;
-			};
+			x > setCount - 1 && (x = 0);
 			document.querySelectorAll(".lottery-unit-" + x)[0].classList.add("active");
 			if (opts['times'] > opts['cycle'] + 10 && opts['prize'] == x) {
+				lottTimeOut = null;
 				clearTimeout(lottTimeOut);
 				opts['prize'] = -1;
 				opts['times'] = 0;
@@ -36,8 +29,7 @@ jzfqAct.lotteryRun = {
 				if (opts['times'] < opts['cycle']) {
 					opts['speed'] -= 10;
 				} else if (opts['times'] == opts['cycle']) {
-					var index = opts['stop'];
-					opts['prize'] = index;
+					opts['prize'] = opts['stop'];
 				} else {
 					if (opts['times'] > opts['cycle'] + 10 && ((opts['prize'] == 0 && x == 7) || opts['prize'] == x + 1)) {
 						opts['speed'] += 110;
@@ -45,21 +37,19 @@ jzfqAct.lotteryRun = {
 						opts['speed'] += 20;
 					}
 				}
-				if (opts['speed'] < 40) {
-					opts['speed'] = 40;
-				};
+				opts['speed'] < 40 && (opts['speed'] = 40);
 				lottTimeOut = setTimeout(rollDown, opts['speed']);
 			}
 		}
 		lottTimeOut = setTimeout(rollDown, opts['speed']);
 	},
-	binEvent: function (param) {
-		var clickBtn = document.querySelector(param['btn']);
+	binEvent: function () {
+		var clickBtn = document.querySelector('#lotteryBtn');
 		var posVal = '';
 		var _this = this;
 		clickBtn.addEventListener('click', function () {
 			_this.rollRun({
-				li: param['li'],
+				li: '.lottery-unit',
 				speed: 100,
 				times: 0,
 				cycle: 20,
