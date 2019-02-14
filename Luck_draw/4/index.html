@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title id="title">新春开年礼</title>
+	<meta name="keywords" content="桔子分期">
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="email=no" />
+	<meta name="format-detection" content="address=no" />
+	<meta name="format-detection" content="telephone=no">
+	<meta name="copyright" content="Copyright (c) juzifenqi.com">
+	<link rel="stylesheet" href="css/main.css" />
+	<style>
+		@media screen and (min-width: 320px) {html{font-size:42px;}}
+		@media screen and (min-width: 360px) {html{font-size:48px;}}
+		@media screen and (min-width: 375px) {html{font-size:50px;}}
+		@media screen and (min-width: 400px) {html{font-size:54px;}}
+		@media screen and (min-width: 414px) {html{font-size:56px;}}
+		@media screen and (min-width: 440px) {html{font-size:58px;}}
+		@media screen and (min-width: 480px) {html{font-size:64px;}}
+		@media screen and (min-width: 520px) {html{font-size:70px;}}
+		@media screen and (min-width: 560px) {html{font-size:74px;}}
+		@media screen and (min-width: 600px) {html{font-size:80px;}}
+		@media screen and (min-width: 640px) {html{font-size:86px;}}
+		@media screen and (min-width: 680px) {html{font-size:90px;}}
+		@media screen and (min-width: 720px) {html{font-size:96px;}}
+		@media screen and (min-width: 750px) {html{font-size:100px;}}
+		*{margin: 0px;padding: 0px;outline: none;}
+		body { font-size: .26rem; line-height: normal; color: #444; font-family:"Helvetica Neue",Helvetica,sans-serif; -webkit-text-size-adjust: 100%;  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); max-width:750px; margin:0 auto; }
+		img {border: none;max-width: 100%;max-height: 100%;height: auto;vertical-align: middle;}
+		body{ overflow-x: hidden; }
+		.newYear-luckDraw{ width: 100%; max-width: 750px; margin: 0 auto; overflow: hidden; }
+		#luckDraw {
+            width: 6.7rem;
+            height: 6.7rem;
+			position: absolute;
+			top: 2.5rem;
+			left: 50%;
+			transform: translateX(-50%);
+        }
+
+        img[src^="images/pointer"] {
+			width: 2.4rem;
+            position: absolute;
+            z-index: 10;
+            top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+        }
+
+        img[src^="images/turntable"] {
+            position: absolute;
+            z-index: 5;
+            transition: all 6s;
+		}
+		
+    </style>
+</head>
+
+<body>
+	<section class="newYear-luckDraw">
+		<div class="head">
+			<img src="images/banner.png">
+		</div>
+		<div id="luckDraw"><img src="images/pointer.png" alt="pointer"><img src="images/turntable.png" alt="turntable"></div>
+	</section>
+	<script>
+		var oPointer = document.querySelectorAll("#luckDraw img")[0];
+		var oTurntable = document.querySelectorAll("#luckDraw img")[1];
+		var num = 0;
+		var offOn = true;
+		var n = 0;
+		oPointer.addEventListener('click', function () {
+			if (offOn) {
+				n++;
+				offOn = !offOn;
+				num = Math.floor(Math.random() * 7 + 0);
+				var deg = parseInt(oTurntable.style.transform.replace(/[^0-9]/ig, ''));
+				rotating({
+					cycle: 2,
+					deg: deg || 0,
+					type: 8,
+					t: deg % 360 / 45,
+					num: num
+				});
+			}
+		})
+		function rotating(opts) {
+			oTurntable.style.transform = "rotate(" + (opts.deg + opts.cycle * 360 + 360 / opts.type * opts.num) + "deg)";
+			setTimeout(function () {
+				offOn = !offOn;
+				if (n != 1 && (opts.num = (opts.num + opts.t % opts.type) % opts.type));
+				switch (opts.num) {
+					case 0:
+						console.log("美妆五折");
+						break;
+					case 1:
+						console.log("手机五折");
+						break;
+					case 2:
+						console.log("箱包五折");
+						break;
+					case 3:
+						console.log("谢谢参与");
+						break;
+					case 4:
+						console.log("腕表五折");
+						break;
+					case 5:
+						console.log("饰品五折");
+						break;
+					case 6:
+						console.log("运动五折");
+						break;
+					case 7:
+						console.log("全品类五折");
+						break;
+				}
+			}, 6000);
+		}
+	</script>
+</body>
+
+</html>
