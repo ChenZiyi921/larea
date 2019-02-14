@@ -13,7 +13,6 @@
 	<meta name="format-detection" content="address=no" />
 	<meta name="format-detection" content="telephone=no">
 	<meta name="copyright" content="Copyright (c) juzifenqi.com">
-	<link rel="stylesheet" href="css/main.css" />
 	<style>
 		@media screen and (min-width: 320px) {html{font-size:42px;}}
 		@media screen and (min-width: 360px) {html{font-size:48px;}}
@@ -90,10 +89,9 @@
 			}
 		})
 		function rotating(opts) {
-			oTurntable.style.transform = "rotate(" + (opts.deg + opts.cycle * 360 + 360 / opts.type * opts.num) + "deg)";
+			oTurntable.style.transform = "rotate(" + (opts.deg + opts.cycle * 360 + 360 / opts.type * opts.num - opts.deg % 360) + "deg)";
 			setTimeout(function () {
 				offOn = !offOn;
-				if (n != 1 && (opts.num = (opts.num + opts.t % opts.type) % opts.type));
 				switch (opts.num) {
 					case 0:
 						console.log("美妆五折");
