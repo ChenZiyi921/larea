@@ -72,10 +72,8 @@
 		var oTurntable = document.querySelectorAll("#luckDraw img")[1];
 		var num = 0;
 		var offOn = true;
-		var n = 0;
 		oPointer.addEventListener('click', function () {
 			if (offOn) {
-				n++;
 				offOn = !offOn;
 				num = Math.floor(Math.random() * 7 + 0);
 				var deg = parseInt(oTurntable.style.transform.replace(/[^0-9]/ig, ''));
