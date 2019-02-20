@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>浏览器定位</title>
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css" />
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=d8f9a3336b5024eadd388845eef7729b"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+
+    <body>
+        <div id='container' style="display:none;"></div>
+        <script type="text/javascript">
+        
+        function SDKLocationInformation(){
+            this.ROOT = window;
+            this.locationOpts = {
+                state: true,
+                province: '',
+                city: '',
+                area: '',
+                address: '',
+                adCode: '',
+                lng: 0,
+                lat: 0
+            }
+        }
+        SDKLocationInformation.prototype = {
+            isRequestAnimationFrame: function() {
+                var _this = this;
+                var lastTime = 0;
+                var vendors = ['webkit', 'moz', 'ms'];
+                for (var x = 0; x < vendors.length && !_this.ROOT.requestAnimationFrame; ++x) {
+                    _this.ROOT.requestAnimationFrame = _this.ROOT[vendors[x] + 'RequestAnimationFrame'];
+                    _this.ROOT.cancelAnimationFrame = _this.ROOT[vendors[x] + 'CancelAnimationFrame'] ||
+                    _this.ROOT[vendors[x] + 'CancelRequestAnimationFrame'];
+                }
+                if (!_this.ROOT.requestAnimationFrame) {
+                    _this.ROOT.requestAnimationFrame = function(callback, element) {
+                        var currTime = new Date().getTime();
+                        var timeToCall = Math.max(0, 16.7 - (currTime - lastTime));
+                        var id = _this.ROOT.setTimeout(function() {
+                            callback(currTime + timeToCall);
+                        }, timeToCall);
+                        lastTime = currTime + timeToCall;
+                        return id;
+                    };
+                }
+                if (!_this.ROOT.cancelAnimationFrame) {
+                    _this.ROOT.cancelAnimationFrame = function(id) {
+                        clearTimeout(id);
+                    };
+                }
+            },
+            loadLocationPage: function(callback){
+                var _this = this;
+                var geolocation = null;
+                try{
+                    _this.ROOT.map = new AMap.Map('container', {
+                        resizeEnable: true
+                    });
+                    
+                    _this.ROOT.map.plugin('AMap.Geolocation', function () {
+                        geolocation = new AMap.Geolocation({
+                            enableHighAccuracy: true,
+                            timeout: 10000,
+                            buttonOffset: new AMap.Pixel(10, 20),
+                            zoomToAccuracy: true,
+                            buttonPosition: 'RB'
+                        });
+
+                        _this.ROOT.map.addControl(geolocation);
+
+                        geolocation.getCurrentPosition();
+
+                        AMap.event.addListener(geolocation, 'complete', function(data){
+                            if(data){
+                                _this.locationOpts.province = data.addressComponent.province || '';
+                                _this.locationOpts.city = data.addressComponent.city || data.addressComponent.province;
+                                _this.locationOpts.area = data.addressComponent.district || '';
+                                _this.locationOpts.address = data.formattedAddress || '';
+                                _this.locationOpts.adCode = data.addressComponent.adcode || '';
+                                _this.locationOpts.lng = data.position.getLng() || '';
+                                _this.locationOpts.lat = data.position.getLat() || '';
+                                typeof callback == 'function' && (callback.call(this));
+                                return;
+                            }
+                        });
+
+                        AMap.event.addListener(geolocation, 'error', function(){
+                            typeof callback == 'function' && (callback.call(this));
+                            _this.locationOpts.state = false;
+                            return;
+                        });
+                    });
+                }catch(e){}
+            }
+        }
+        var sdkGpsOpts = new SDKLocationInformation();
+        sdkGpsOpts.loadLocationPage(function(){
+            if(sdkGpsOpts.locationOpts.state == true){
+                alert('定位成功!'); 
+                console.log(sdkGpsOpts.locationOpts);
+            }else{
+                alert('定位失败!');
+            }
+        });
+        </script>
+    </body>
+
+</html>

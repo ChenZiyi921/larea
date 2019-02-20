@@ -1,0 +1,47 @@
+@charset "utf-8";
+@media screen and (min-width: 320px) { html{ font-size:42px; }}
+@media screen and (min-width: 360px) { html{ font-size:48px; }}
+@media screen and (min-width: 375px) { html{ font-size:50px; }}
+@media screen and (min-width: 400px) { html{ font-size:54px; }}
+@media screen and (min-width: 414px) { html{ font-size:56px; }}
+@media screen and (min-width: 440px) { html{ font-size:58px; }}
+@media screen and (min-width: 480px) { html{ font-size:64px; }}
+@media screen and (min-width: 520px) { html{ font-size:70px; }}
+@media screen and (min-width: 560px) { html{ font-size:74px; }}
+@media screen and (min-width: 600px) { html{ font-size:80px; }}
+@media screen and (min-width: 640px) { html{ font-size:86px; }}
+@media screen and (min-width: 680px) { html{ font-size:90px; }}
+@media screen and (min-width: 720px) { html{ font-size:96px; }}
+@media screen and (min-width: 750px) { html{ font-size:100px; }}
+@media screen and (min-width: 768px) { html{ font-size:102px; }}
+body{ width: 100%; line-height:normal; margin: 0; font-size: .28rem; color: #555; overflow-x: hidden; }
+body,html{ min-height: 100%; }
+body,input,button,textarea,select,option,label{ font-family:Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",\5B8B\4F53,\5FAE\8F6F\96C5\9ED1,\9ED1\4F53,sans-self; color: #333; }
+div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{ margin:0; padding:0; border:0; outline:0; vertical-align: baseline; background: transparent; font-weight: normal; font-style: normal; }
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{ display:block; }
+input,button,textarea,select,option{ margin: 0; padding: 0; outline: none; border: 0; -webkit-appearance:none; -moz-appearance:none; -ms-appearance:none; -webkit-tap-highlight-color:rgba(0,0,0,0); border-radius: 0; }
+nav,ul,ol{ list-style:none; }
+blockquote,q{ quotes:none; }
+blockquote:before,blockquote:after,q:before,q:after{ content:none; }
+a{ margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent;color: #555;text-decoration: none; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; }
+ins{ background:#ff9; color:#000; text-decoration:none; }
+mark{ background:#ff9; color:#000; font-style:italic; font-weight:bold; }
+del{ text-decoration:line-through; }
+abbr[title],dfn[title]{ border-bottom: 1px dotted; cursor:help; }
+table{ border-collapse:collapse; border-spacing:0; }
+hr{ display:block; height:1px; border:0; margin: .1rem 0; padding: 0; }
+input,select{ vertical-align:middle; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; font-size:0; }
+.clearfix{ zoom:1; }
+.fl { float: left; }
+.fr { float: right; }
+.flex { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex; }
+.fx1 { -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1; }
+/* aspen slide style */
+.aspen-slide-wrap { width: 100%; height: 3.8rem; position: relative; /* 启动硬件加速，提高性能 */ transform: translate3d(0, 0, 0); overflow: hidden; }
+.aspen-slide-element { width: 100%; height: 3.8rem; position: absolute; top: 0; left: 0; overflow: hidden; }
+.aspen-slide-element a{ display: block; margin: 0; padding: 0; }
+.aspen-slide-element img{ border: none; width: 100%; height: 100%; vertical-align: top; }
+.aspen-slide-item{ width: 100%; height: .04rem; position: absolute; z-index: 99; bottom: .2rem; left: 0; text-align: center; }
+.aspen-slide-item i{ display: inline-block; width: .4rem; height: .04rem; background: #ccc; margin: 0 .05rem; vertical-align: top;     background: rgba(255,255,255,.6); }
+.aspen-slide-item i.actives{ background: #fff; }

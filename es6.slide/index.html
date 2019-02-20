@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播图类</title>
+    <link rel="stylesheet" type="text/css" href="common.css" />
+</head>
+
+<body>
+    <div class="aspen-slide-wrap" id="aspenSlideWrap">
+        <div class="aspen-slide-element"><img src="http://img.mall.juzifenqi.com/180122/1e9ca5e9-664c-413f-8e85-e9bb15f26a85.jpg" title="超级秒杀"></div>
+        <div class="aspen-slide-element"><img src="http://img.mall.juzifenqi.com/180827/030d3d01-575c-4623-8b12-89721fdd3253.jpg" title="线下体验店"></div>
+        <div class="aspen-slide-element"><img src="http://img.mall.juzifenqi.com/181016/08a0fd54-15bd-46ad-84d3-6d6ba79c289c.jpg" title="浦发银行"></div>
+        <div class="aspen-slide-item" id="aspenSlideitem"><i class="actives"></i><i></i><i></i></div>
+    </div>
+    <div class="aspen-slide-wrap" id="aspenSlideWrap1">
+        <div class="aspen-slide-element"><img src="http://img.mall.juzifenqi.com/180122/1e9ca5e9-664c-413f-8e85-e9bb15f26a85.jpg" title="超级秒杀"></div>
+        <div class="aspen-slide-element"><img src="http://img.mall.juzifenqi.com/180827/030d3d01-575c-4623-8b12-89721fdd3253.jpg" title="线下体验店"></div>
+        <div class="aspen-slide-element"><img src="http://img.mall.juzifenqi.com/181016/08a0fd54-15bd-46ad-84d3-6d6ba79c289c.jpg" title="浦发银行"></div>
+        <div class="aspen-slide-item" id="aspenSlideitem1"><i class="actives"></i><i></i><i></i></div>
+    </div>
+    <script type="text/javascript" src="aspenSlideClass.min.js"></script>
+    <script type="text/javascript">
+        new aspenJZFQSlide({
+            wrap: document.getElementById('aspenSlideWrap'),
+            content: document.querySelectorAll('#aspenSlideWrap .aspen-slide-element'),
+            itemEle: document.querySelectorAll('#aspenSlideitem i'),
+            speed: 5000,
+            isAuto: true,
+            lateX: 60,
+        });
+        new aspenJZFQSlide({
+            wrap: document.getElementById('aspenSlideWrap1'),
+            content: document.querySelectorAll('#aspenSlideWrap1 .aspen-slide-element'),
+            itemEle: document.querySelectorAll('#aspenSlideitem1 i'),
+            speed: 5000,
+            isAuto: true,
+            lateX: 60,
+        });
+    </script>
+</body>
+
+</html>
