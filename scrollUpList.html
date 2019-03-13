@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .div {
+            width: 400px;
+            height: 340px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, .1);
+            overflow: hidden;
+        }
+
+        .list {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .list li {
+            width: 100%;
+            line-height: 40px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div">
+        <ul class="list">
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        class slideList {
+            init(opts) {
+                let clearI = setInterval(() => {
+                    opts.list.style.marginTop = --opts.startPos + 'px';
+                    Math.abs(opts.startPos) >= opts.list.offsetHeight - opts.container.offsetHeight && (opts.list.style.marginTop = opts.startPos = 0);
+                    this.slide(opts, clearI);
+                }, opts.speed);
+                let d = setInterval(() => this.data(opts, d), opts.update)
+            }
+            slide(opts, clearI) {
+                if (opts.startPos % opts.list.querySelector('li').offsetHeight == 0) {
+                    clearInterval(clearI);
+                    setTimeout(() => this.init(opts), opts.delay)
+                }
+            }
+            data(opts, d) {
+                opts.list.innerHTML = '';
+                for (let i = 0; i < 20; i++) {
+                    opts.list.innerHTML += '<li>在每一次要创建定时器之前，判断是否已经有定时器在工作了，有则删之</li>';
+                }
+                clearInterval(d)
+            }
+        }
+        new slideList().init({
+            container: document.querySelector('.div'),
+            list: document.querySelector('.list'),
+            startPos: 0,
+            delay: 1000,
+            speed: 25,
+            update: 3e3
+        })
+    </script>
+</body>
+
+</html>
