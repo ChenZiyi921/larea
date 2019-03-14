@@ -47,13 +47,16 @@
     </div>
     <script>
         class slideList {
+            constructor(opts) {
+                this.init(opts)
+                this.data(opts)
+            }
             init(opts) {
                 let clearI = setInterval(() => {
                     opts.list.style.marginTop = --opts.startPos + 'px';
                     Math.abs(opts.startPos) >= opts.list.offsetHeight - opts.container.offsetHeight && (opts.list.style.marginTop = opts.startPos = 0);
                     this.slide(opts, clearI);
                 }, opts.speed);
-                let d = setInterval(() => this.data(opts, d), opts.update)
             }
             slide(opts, clearI) {
                 if (opts.startPos % opts.list.querySelector('li').offsetHeight == 0) {
@@ -61,15 +64,19 @@
                     setTimeout(() => this.init(opts), opts.delay)
                 }
             }
-            data(opts, d) {
-                opts.list.innerHTML = '';
-                for (let i = 0; i < 20; i++) {
-                    opts.list.innerHTML += '<li>在每一次要创建定时器之前，判断是否已经有定时器在工作了，有则删之</li>';
-                }
-                clearInterval(d)
+            data(opts) {
+                new Promise((resolve, reject) => {
+                    opts.list.innerHTML = '';
+                    for (let i = 0; i < 20; i++) {
+                        opts.list.innerHTML += '<li>在每一次要创建定时器之前，判断是否已经有定时器在工作了，有则删之</li>';
+                    }
+                    resolve()
+                }).then((result) => {
+                    setTimeout(() => this.data(opts), opts.update)
+                }).catch((err) => console.log(err));
             }
         }
-        new slideList().init({
+        new slideList({
             container: document.querySelector('.div'),
             list: document.querySelector('.list'),
             startPos: 0,
