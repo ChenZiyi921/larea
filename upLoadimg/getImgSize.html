@@ -15,7 +15,7 @@
     <script>
         var input = document.getElementById("file");
         document.getElementById('Button1').addEventListener('click', function () {
-            if (input.files > 0) {
+            if (input.files.length > 0) {
                 var f = input.files[0];
                 var reader = new FileReader();
                 reader.onload = function (e) {

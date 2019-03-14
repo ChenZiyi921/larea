@@ -1,6 +1,6 @@
 SlideClass = {
     hasPrototype: false,
-    newClass: function(ele) {
+    newClass: function (ele) {
         var ele = ele || {};
         if (!this.hasPrototype) {
             this.init.prototype = SlideClass;
@@ -8,7 +8,7 @@ SlideClass = {
         }
         return new this.init(ele);
     },
-    init: function(ele) {
+    init: function (ele) {
         var _this = this;
         _this.clearAnimation = null;
         _this.item = 0;
@@ -23,32 +23,32 @@ SlideClass = {
         _this.addclassName = ele.addclassName;
         _this.hoveMain = ele.hoverMain;
         clearTimeout(_this.clearAnimation);
-        _this.clearAnimation = setTimeout(function(){
+        _this.clearAnimation = setTimeout(function () {
             _this.autoPlay();
         }, _this.interval);
-        ele.prev.click(function() {
+        ele.prev.click(function () {
             _this.prvePage();
         });
-        ele.next.click(function() {
+        ele.next.click(function () {
             _this.nextPage();
         });
-        ele.aCur.click(function() {
+        ele.aCur.click(function () {
             _this.clickCur(this);
         });
         _this.hoverWrap();
     },
-    autoPlay: function() {
+    autoPlay: function () {
         var _this = this;
         if (!this.slideMain.is(':animated')) {
-            _this.item == _this.length-1 ? _this.item = 0 : _this.item++;
+            _this.item == _this.length - 1 ? _this.item = 0 : _this.item++;
             _this.animationObj(_this.item);
             _this.curAnimation(_this.item);
-            _this.clearAnimation = setTimeout(function() {
+            _this.clearAnimation = setTimeout(function () {
                 _this.autoPlay();
             }, _this.interval);
         }
     },
-    prvePage: function() {
+    prvePage: function () {
         var _this = this;
         if (!_this.slideMain.is(':animated')) {
             _this.item == 0 ? _this.item = this.length - 1 : _this.item--;
@@ -56,7 +56,7 @@ SlideClass = {
             _this.curAnimation(_this.item);
         }
     },
-    nextPage: function() {
+    nextPage: function () {
         var _this = this;
         if (!_this.slideMain.is(':animated')) {
             _this.item == _this.length - 1 ? _this.item = 0 : this.item++;
@@ -64,7 +64,7 @@ SlideClass = {
             _this.curAnimation(_this.item);
         }
     },
-    clickCur: function(ele) {
+    clickCur: function (ele) {
         var _this = this;
         clearTimeout(_this.clearAnimation);
         var getItem = $(ele).index();
@@ -73,22 +73,22 @@ SlideClass = {
         _this.animationObj(getItem);
         _this.item = getItem;
     },
-    animationObj: function(getNum) {
+    animationObj: function (getNum) {
         var _this = this;
         _this.slideMain.removeClass(_this.addclassName).css({ opacity: 0, zIndex: 0 });
-        _this.slideMain.eq(getNum).addClass(_this.addclassName).stop(true, false).animate({ opacity: 1, zIndex: 8}, _this.speed);
+        _this.slideMain.eq(getNum).addClass(_this.addclassName).stop(true, false).animate({ opacity: 1, zIndex: 8 }, _this.speed);
     },
-    curAnimation: function(eqNum) {
+    curAnimation: function (eqNum) {
         var aCur = this.aCur, _this = this;
         aCur.removeClass(_this.curName);
         aCur.eq(eqNum).addClass(_this.curName);
     },
-    hoverWrap: function(ele) {
+    hoverWrap: function (ele) {
         var _this = this;
-        _this.hoveMain.hover(function() {
+        _this.hoveMain.hover(function () {
             clearTimeout(_this.clearAnimation);
-        }, function() {
-            _this.clearAnimation = setTimeout(function() {
+        }, function () {
+            _this.clearAnimation = setTimeout(function () {
                 _this.autoPlay();
             }, _this.interval);
         });
@@ -96,7 +96,7 @@ SlideClass = {
 };
 var tabClass = {
     hasPrototype: false,
-    newClass: function(ele) {
+    newClass: function (ele) {
         var ele = ele || {};
         if (!this.hasPrototype) {
             this.init.prototype = tabClass;
@@ -104,9 +104,9 @@ var tabClass = {
         }
         return new this.init(ele);
     },
-    tabBindEvent: function(ele){
+    tabBindEvent: function (ele) {
         var _this = this;
-        _this.clickEle.on(_this.eventClass,function(){
+        _this.clickEle.on(_this.eventClass, function () {
             var $this = $(this);
             _this.clickEle.removeClass(_this.addCur);
             $this.addClass(_this.addCur);
@@ -115,7 +115,7 @@ var tabClass = {
             _this.tabContent.eq(index).show();
         });
     },
-    init: function(ele){
+    init: function (ele) {
         var _this = this;
         _this.clickEle = ele.clickEle;
         _this.tabContent = ele.tabContent;
@@ -141,11 +141,10 @@ var tabObject = {
     clickEle: $('#tabObj').find('.tab-list li'),
     tabContent: $('#tabObj').find('.content-list'),
     addCur: 'gzcur',
-    eventClass: 'mouseover' 
+    eventClass: 'mouseover'
 };
-;(function($,undefined){
-    /* 轮播图JS运行 */ 
-    SlideClass.newClass(eleObject);
-    /* tab 切换 JS运行 */ 
-    tabClass.newClass(tabObject);
-})(jQuery);
+
+/* 轮播图JS运行 */
+SlideClass.newClass(eleObject);
+/* tab 切换 JS运行 */
+tabClass.newClass(tabObject);
