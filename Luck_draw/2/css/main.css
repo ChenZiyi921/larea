@@ -35,18 +35,6 @@ table { border-collapse: collapse;}
 .act17618{ background-color: #fe7d1b; }
 .act17618 .banner img{width:100%}
 .act17618 .lottbox{margin:0 .2rem .2rem;padding:.2rem;border-radius:.15rem;background:#ffb749}
-.title img{max-width:100%}
-.act17618 .rule{padding: .1rem .8rem .5rem .8rem;color:#fff;font-size:.24rem;line-height:1.8}
-.act17618 .rule-tit{margin-bottom:.2rem;text-align:center}
-.act17618 .rule-tit img{width:3.35rem}
-.act17618 .lott-mask{position:fixed;top:0;left:0;z-index:98;width:100%;height:100%;background-color:rgba(0,0,0,.7)}
-.act17618 .lott-pop{position:fixed;top:50%;left:50%;z-index:99;box-sizing:border-box;margin-top:-3.5rem;margin-left:-2.17rem;padding-top:4.1rem;padding-right:.3rem;padding-left:.3rem;width:4.34rem;height:5.33rem;background-image:url(../images/act17618-pop.png);background-size:100% 100%;background-repeat:no-repeat;color:#000;text-align:center;font-size:.28rem}
-.act17618 .lott-btn{position:absolute;bottom:-.84rem;left:50%;margin-left:-1rem;width:2rem;height:.64rem;border:1px solid #f8f1ba;border-radius:.2rem;background:linear-gradient(#ffe55f,#f9c625 52%,#f7c561);color:#c5433d;font-size:.28rem;cursor:pointer}
-.act17618 .lott-tip{position:fixed;top:50%;left:50%;z-index:99;box-sizing:border-box;margin-top:-2rem;margin-left:-2.5rem;padding:.5rem .1rem;width:5rem;height:2rem;border-radius:.2rem;background-color:#fff;color:#c5433d;text-align:center;font-size:.28rem;line-height:1rem}
-.act17618 .lott-close{position:absolute;top:-.25rem;right:-.25rem;width:.6rem;height:.6rem;border-radius:.3rem;background-color:#fdda47;color:#c5433d;font-size:.4rem;cursor:pointer}
-.act17618 .lott-fl{float:left;width:1.4rem;height:.72rem}
-.act17618 .lott-fl img{margin-top:.03rem;max-height:100%}
-.act17618 .lott-fr{float:right;width:2.2rem;font-size:.24rem;line-height:.36rem}
 #lottery{padding:.2rem;border-radius:.15rem;background:#fff}
 #lottery li{float:left;display:block;margin:.05rem;padding:.05rem .05rem .15rem;width:30%;height:1.8rem;border-radius:.2rem;background-color:#ffd38f;color:#fc9930;vertical-align:middle;text-align:center;font-size:.18rem;line-height:2}
 #lottery li span{display:block;padding-top:.3rem;height:1.5rem;border-radius:.18rem;background-color:#fff}
@@ -60,12 +48,3 @@ table { border-collapse: collapse;}
 #lotteryBtn:active{background:linear-gradient(#e88631,#e88631)}
 #lotteryBtn:active em{background:linear-gradient(#b64035,#b64035)}
 .font-red{color:#c6433d}
-.rule i{display:inline-block;margin:0 .1rem .03rem 0;width:.1rem;height:.1rem;border-radius:100%;background:#fff}
-.titleb{text-align:center}
-.titleb img{width:3.37rem}
-.list{margin:.2rem;padding:.15rem;background:#ffb446}
-.list,.list ul{border-radius:.15rem}
-.list ul{padding:.2rem .3rem;background:#fffeed;color:#695045;font-size:.28rem}
-.list ul li{padding:0 .1rem;border-top:1px dashed #edecde}
-.list ul li.a{border:none;color:#f08934;font-size:.32rem}
-.list ul li span{display:inline-block;overflow:hidden;width:49%;height:.79rem;white-space:nowrap;line-height:.79rem}

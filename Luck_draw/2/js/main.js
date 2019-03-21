@@ -1,5 +1,4 @@
-var jzfqAct = {}
-jzfqAct.lotteryRun = {
+var jzfqLottery = {
 	init: function () {
 		this.binEvent();
 	},
@@ -61,4 +60,4 @@ jzfqAct.lotteryRun = {
 		})
 	}
 };
-jzfqAct.lotteryRun.init();
+jzfqLottery.init();

@@ -10,47 +10,44 @@ var marqueeData = [
     ['用户', '137****6243', '抓到', '彩妆五折券'],
     ['用户', '156****0464', '抓到', '12期免息券']
 ];
-var queenList = {
-    startmarquee: function (heights, speed, delay) {
-        var playStart = false;
-        var clearout;
-        var getMain = document.getElementById("activityMarqueeMain");
-        getMain.innerHTML += getMain.innerHTML;
-        getMain.style.marginTop = 0;
-
-        function queryStart() {
-            clearout = setInterval(queeRun, speed);
-            if (!playStart) getMain.style.marginTop = parseInt(getMain.style.marginTop) - 1 + "px";
+class slideList {
+    constructor(opts) {
+        this.init(opts)
+        this.data(opts)
+    }
+    init(opts) {
+        let clearI = setInterval(() => {
+            opts.list.style.marginTop = --opts.startPos + 'px';
+            Math.abs(opts.startPos) >= opts.list.offsetHeight - opts.container.offsetHeight && (opts.list.style.marginTop = opts.startPos = 0);
+            this.slide(opts, clearI);
+        }, opts.speed);
+    }
+    slide(opts, clearI) {
+        if (opts.startPos % opts.list.querySelector('p').offsetHeight == 0) {
+            clearInterval(clearI);
+            setTimeout(() => this.init(opts), opts.delay)
         }
-
-        function queeRun() {
-            if (parseInt(getMain.style.marginTop) % heights != 0) {
-                getMain.style.marginTop = parseInt(getMain.style.marginTop) - 1 + "px";
-                if (Math.abs(parseInt(getMain.style.marginTop)) >= (getMain.scrollHeight - 20)) getMain.style.marginTop = 0;
-            } else {
-                clearInterval(clearout);
-                setTimeout(queryStart, delay);
+    }
+    data(opts) {
+        new Promise((resolve, reject) => {
+            opts.list.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
+                opts.list.innerHTML += '<p><i>' + marqueeData[i][0] + '</i><em>' + marqueeData[i][1] + '</em><i>' + marqueeData[i][2] + '</i><em>' + marqueeData[i][3] + '</em></p>';
             }
-        }
-        setTimeout(queryStart, delay);
-    },
-    loadQuee: function () {
-        var _this = this;
-        var initQhtml = '';
-        var activityMarqueeMain = document.getElementById('activityMarqueeMain');
-        if (activityMarqueeMain) {
-            for (var i = 0; i < marqueeData.length; i++) {
-                initQhtml += '<p><i>' + marqueeData[i][0] + '</i><em>' + marqueeData[i][1] + '</em><i>' + marqueeData[i][2] + '</i><em>' + marqueeData[i][3] + '</em></p>'
-            }
-            activityMarqueeMain.innerHTML = initQhtml;
-            setTimeout(function () {
-                _this.startmarquee(Math.abs(document.querySelectorAll('#activityMarqueeMain p')[0].offsetHeight), 20, 5000);
-            }, 2000);
-        }
-    },
-};
-queenList.loadQuee();
-
+            return resolve()
+        }).then(() => {
+            setTimeout(() => this.data(opts), opts.update)
+        }).catch(err => console.log(err));
+    }
+}
+new slideList({
+    container: document.querySelector('#activityMarqueeWraps'),
+    list: document.querySelector('#activityMarqueeMain'),
+    startPos: 0,
+    delay: 2000,
+    speed: 25,
+    update: 12e4
+})
 var publicHost = location.protocol + '//' + location.hostname,
     getGrab = document.querySelector('.grab'),
     beginBtn = document.getElementById('beginBtn'),
