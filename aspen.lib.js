@@ -1,6 +1,6 @@
-var aspenLib = {};
+var JZFQ = {};
 
-aspenLib.h5PopClass = {
+JZFQ.h5PopClass = {
     getBody: document.querySelectorAll("body")[0],
     init: function (opts) {
         var _this = this;
@@ -32,8 +32,6 @@ aspenLib.h5PopClass = {
                     _this.getBody.classList.add("android");
                 }
             }, false);
-        } else {
-            return false;
         }
     },
     popMainRun: function (opts) {
@@ -73,7 +71,7 @@ aspenLib.h5PopClass = {
             var e = e || window.event;
             var target = e.target || e.srcElement;
             var targetType = target.className.toLowerCase() ? target.className.toLowerCase() : target.id;
-            if (isEvent == true) {
+            if (isEvent) {
                 if (targetType == "h5pop-close") {
                     e.preventDefault();
                     _this.removePop();
@@ -108,15 +106,13 @@ aspenLib.h5PopClass = {
         if (getMasks.parentNode && getPopMains.parentNode) {
             getMasks.parentNode.removeChild(getMasks);
             getPopMains.parentNode.removeChild(getPopMains);
-        } else {
-            return false;
         }
     }
 };
 
-aspenLib.h5PopClass.isMobile(function () { });
+JZFQ.h5PopClass.isMobile(function () { });
 
-aspenLib.ajax = function (opts) {
+JZFQ.ajax = function (opts) {
     var defaults = {
         type: "GET",
         url: "",
@@ -184,7 +180,7 @@ aspenLib.ajax = function (opts) {
     };
 };
 
-aspenLib.uploadImg = function (opts) {
+JZFQ.uploadImg = function (opts) {
     if (typeof opts == "object") {
         var _this = this;
         var formData = new FormData();
@@ -211,11 +207,11 @@ aspenLib.uploadImg = function (opts) {
     }
 };
 
-aspenLib.isweixin = function () {
+JZFQ.isweixin = function () {
     return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
 };
 
-aspenLib.loadJS = function (pageUrl, insetPos, callback, id) {
+JZFQ.loadJS = function (pageUrl, insetPos, callback, id) {
     if (!document.getElementById(id)) {
         var loadJs = document.createElement("script");
         loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
@@ -232,12 +228,10 @@ aspenLib.loadJS = function (pageUrl, insetPos, callback, id) {
                 callback.call(this);
             };
         }
-    } else {
-        return false;
     }
 };
 
-aspenLib.tips = function (txt) {
+JZFQ.tips = function (txt) {
     if (document.getElementById("systemTips") || !txt) return;
     var tout = null;
     var createDiv = document.createElement("div");
@@ -255,7 +249,7 @@ aspenLib.tips = function (txt) {
     }
 };
 
-aspenLib.ranStr = function (n) {
+JZFQ.ranStr = function (n) {
     for (var e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIZKLMNOPQRSTUVWXYZ0123456789", a = "", r = 0; r < n; r++) {
         var i = Math.floor(Math.random() * (e.length - 1));
         a += e.charAt(i);
@@ -263,7 +257,7 @@ aspenLib.ranStr = function (n) {
     return a;
 };
 
-aspenLib.jsonpAjax = function (opt) {
+JZFQ.jsonpAjax = function (opt) {
     var _this = this;
     var opts = opt || {
         url: '',
@@ -349,7 +343,7 @@ aspenLib.jsonpAjax = function (opt) {
     }
 };
 
-aspenLib.parents = function (ele, selector) {
+JZFQ.parents = function (ele, selector) {
     var matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
     while (ele) {
         if (matchesSelector.call(ele, selector)) {
@@ -360,7 +354,7 @@ aspenLib.parents = function (ele, selector) {
     return ele;
 };
 
-aspenLib.css = function (ele, opts) {
+JZFQ.css = function (ele, opts) {
     if (/Object/.test(Object.prototype.toString.call(opts))) {
         for (var key in opts) {
             if (opts[key]) {
@@ -371,7 +365,7 @@ aspenLib.css = function (ele, opts) {
     return ele;
 };
 
-aspenLib.offsetTop = function (ele) {
+JZFQ.offsetTop = function (ele) {
     var top = ele.offsetTop;
     var parent = ele.offsetParent;
     while (parent) {
@@ -381,7 +375,7 @@ aspenLib.offsetTop = function (ele) {
     return top;
 };
 
-aspenLib.offsetLeft = function (ele) {
+JZFQ.offsetLeft = function (ele) {
     var left = ele.offsetLeft;
     var parent = ele.offsetParent;
     while (parent) {
@@ -391,7 +385,7 @@ aspenLib.offsetLeft = function (ele) {
     return left;
 };
 
-aspenLib.getQueryString = function (name) {
+JZFQ.getQueryString = function (name) {
     var url = window.location.href;
     if (/\?/.test(url) && !/\?$/.test(url) && /\?(.+)/.test(url)) {
         var args = url.split('?');
@@ -404,48 +398,10 @@ aspenLib.getQueryString = function (name) {
             }
             return !name ? obj : obj[name];
         }
-    } else {
-        return false;
     }
 };
 
-aspenLib.getUrlValue = function (name) {
-    var getUrl = location.href;
-    var getName = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i") || 'token';
-    var setArray = [];
-    if (getUrl.indexOf('?') != -1 && getUrl.indexOf('&') != -1) {
-        var splitUrl = '';
-        try {
-            if (getUrl.indexOf('&') != -1) {
-                splitUrl = getUrl.split('?').reverse()[0].split('&');
-            } else {
-                splitUrl = getUrl.split('?');
-            }
-            for (var i = 0; i < splitUrl.length; i++) {
-                if (splitUrl[i].match(getName)) {
-                    setArray.push(splitUrl[i]);
-                }
-            }
-            if (setArray.length > 0) {
-                return setArray[setArray.length - 1].split('=')[1];
-            }
-        } catch (e) { }
-    } else if (getUrl.indexOf('?') != -1) {
-        var splitUrl = getUrl.split('?');
-        for (var i = 0; i < splitUrl.length; i++) {
-            if (splitUrl[i].match(getName)) {
-                setArray.push(splitUrl[i]);
-            }
-        }
-        if (setArray.length > 0) {
-            return setArray[setArray.length - 1].split('=')[1];
-        }
-    } else {
-        return false;
-    }
-};
-
-aspenLib.urlSplicing = function (name, value) {
+JZFQ.urlSplicing = function (name, value) {
     var _this = this;
     if (name instanceof Array) {
         for (var i = 0; i < name.length; i++) {
@@ -470,7 +426,7 @@ aspenLib.urlSplicing = function (name, value) {
     }
 };
 
-aspenLib.CreateLoading = function () {
+JZFQ.CreateLoading = function () {
     if (!document.getElementById('loadingWrap')) {
         var lhtml = '', mainHtml = '';
         var classArray = ['loadfirst', 'second', 'loadlast'];
@@ -486,12 +442,12 @@ aspenLib.CreateLoading = function () {
         document.body.appendChild(createLoading);
     }
 };
-aspenLib.RemoveLoading = function () {
+JZFQ.RemoveLoading = function () {
     var loading = document.getElementById('loadingWrap');
     loading && document.body.removeChild(loading);
 };
 
-aspenLib.formatNumber = function (num) {
+JZFQ.formatNumber = function (num) {
     var num = (num || 0).toString();
     if (!/\,/.test(num)) {
         if (/\./.test(num)) {
@@ -519,7 +475,7 @@ aspenLib.formatNumber = function (num) {
     }
 };
 
-aspenLib.goTop = function (id, scrToShow) {
+JZFQ.goTop = function (id, scrToShow) {
     window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
     var id = document.getElementById(id);
     window.addEventListener('scroll', function () {
@@ -536,7 +492,7 @@ aspenLib.goTop = function (id, scrToShow) {
     }, !1);
 };
 
-aspenLib.copy = function (ele, target, tips) {
+JZFQ.copy = function (ele, target, tips) {
     var _this = this;
     var el = document.getElementById(ele);
     el.addEventListener('click', function () {
@@ -558,7 +514,7 @@ aspenLib.copy = function (ele, target, tips) {
     }, false);
 };
 
-aspenLib.typeOf = function (value) {
+JZFQ.typeOf = function (value) {
     var typeArray = ['Number', 'String', 'Boolean', 'Object', 'Array', 'Null', 'Undefined', 'Function'];
     var i = 0, l = typeArray.length;
     var value = Object.prototype.toString.call(arguments[0]);
@@ -571,25 +527,25 @@ aspenLib.typeOf = function (value) {
     }
 };
 
-aspenLib.getTimes = function (opts) {
+JZFQ.getTimes = function (opts) {
     var clearI = null;
     var ele = document.getElementById(opts.id);
     var dateT = '', timeT = '', week = '';
     clearI = setInterval(function () {
         var date = new Date();
-        if (opts.date == true) {
+        if (opts.date) {
             var year = date.getFullYear(),
                 month = addZero(date.getMonth() + 1),
                 day = addZero(date.getDate());
             dateT = year + "年" + month + "月" + day + "日 ";
         } else dateT = '';
-        if (opts.time == true) {
+        if (opts.timeT) {
             var hour = addZero(date.getHours()),
                 minute = addZero(date.getMinutes()),
                 second = addZero(date.getSeconds());
             timeT = hour + ":" + minute + ":" + second;
         } else timeT = '';
-        if (opts.week == true) {
+        if (opts.week) {
             switch (date.getDay()) {
                 case 0: week = "星期天";
                     break;
@@ -615,9 +571,22 @@ aspenLib.getTimes = function (opts) {
     }
 };
 
+JZFQ.IsPC = function () {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+}
+
 HTMLElement.prototype.removeAttr = function (attr) {
     if (this.getAttribute('style')) {
-        if (aspenLib.typeOf(attr) !== 'Array') {
+        if (JZFQ.typeOf(attr) !== 'Array') {
             attr = attr.split(',')
         }
         var getStyles = this.getAttribute('style').replace(/\s+/g, '');
@@ -629,10 +598,18 @@ HTMLElement.prototype.removeAttr = function (attr) {
 };
 
 Array.prototype.isInArray = function (value, type) {
-    if (this.indexOf && aspenLib.typeOf(this.indexOf) === 'Function') {
+    if (this.indexOf && JZFQ.typeOf(this.indexOf) === 'Function') {
         var index = this.indexOf(value);
         if (index >= 0) {
             return type == 'i' ? index : type == 'v' ? value : true;
         }
     }
+};
+
+HTMLElement.prototype.replaceClass = function replaceClass(...args) {
+    return this.classList.replace.apply(this.classList, args);
+};
+NodeList.prototype.replaceClass = function replaceClass(...args) {
+    this.forEach(item => item.replaceClass(...args));
+    return this;
 };
