@@ -1,7 +1,7 @@
 var JZFQ = {};
 
 JZFQ.h5PopClass = {
-    getBody: document.querySelectorAll("body")[0],
+    getBody: document.querySelector("body"),
     init: function (opts) {
         var _this = this;
         var setTimes;
@@ -43,20 +43,20 @@ JZFQ.h5PopClass = {
         createDiv.className = "h5pop-main clearfix";
         createDiv.id = "h5PopMainEle";
         var popHtml = '';
-        if (opts.hasOwnProperty('isHideClose') && opts['isHideClose'] == true) {
+        if (!!opts['isHideClose']) {
             popHtml += '<a href="javascript:;" class="h5pop-close">×</a>';
         }
-        if (opts.hasOwnProperty('title') && opts['title'] != '') {
+        if (!!opts['title']) {
             popHtml += '<h3 class="h5tips-title">' + opts["title"] + '</h3>';
         }
-        if (opts.hasOwnProperty('tipTxt') && opts['tipTxt'] != '') {
+        if (!!opts['tipTxt']) {
             popHtml += '<div class="h5pop-content clearfix">' + opts["tipTxt"] + '</div>';
         }
         popHtml += '<div class="h5pop-footer">';
-        if (opts.hasOwnProperty('cancelBtn') && opts['cancelBtn'] != '') {
+        if (!!opts['cancelBtn']) {
             popHtml += '<a type="button" class="h5pop-cancel" href="javascript:;">' + opts["cancelBtn"] + '</a>';
         }
-        if (opts.hasOwnProperty('confirmBtn') && opts['confirmBtn'] != '') {
+        if (!!opts['confirmBtn']) {
             popHtml += '<a type="button" class="h5pop-confirm" href="javascript:;">' + opts["confirmBtn"] + '</a>';
         }
         popHtml += '</div>';
@@ -70,7 +70,7 @@ JZFQ.h5PopClass = {
         _this.getBody.onclick = function () {
             var e = e || window.event;
             var target = e.target || e.srcElement;
-            var targetType = target.className.toLowerCase() ? target.className.toLowerCase() : target.id;
+            var targetType = target.className.toLowerCase() || target.id;
             if (isEvent) {
                 if (targetType == "h5pop-close") {
                     e.preventDefault();
@@ -80,7 +80,7 @@ JZFQ.h5PopClass = {
                 }
                 if (targetType == "h5pop-cancel") {
                     e.preventDefault();
-                    if (opts.hasOwnProperty("cancelBtnRun") && typeof opts["cancelBtnRun"] === "function") {
+                    if (opts["cancelBtnRun"] && typeof opts["cancelBtnRun"] === "function") {
                         opts["cancelBtnRun"]();
                     }
                     _this.removePop();
@@ -89,7 +89,7 @@ JZFQ.h5PopClass = {
                 }
                 if (targetType == "h5pop-confirm") {
                     e.preventDefault();
-                    if (opts.hasOwnProperty("confirmBtnRun") && typeof opts["confirmBtnRun"] === "function") {
+                    if (opts["confirmBtnRun"] && typeof opts["confirmBtnRun"] === "function") {
                         opts["confirmBtnRun"]();
                     }
                     _this.removePop();
@@ -100,7 +100,6 @@ JZFQ.h5PopClass = {
         };
     },
     removePop: function () {
-        var _this = this;
         var getMasks = document.getElementById("h5PopMasks");
         var getPopMains = document.getElementById("h5PopMainEle");
         if (getMasks.parentNode && getPopMains.parentNode) {
@@ -237,7 +236,7 @@ JZFQ.tips = function (txt) {
     var createDiv = document.createElement("div");
     createDiv.id = "systemTips";
     createDiv.innerHTML = txt.toString();
-    document.querySelectorAll("body")[0].appendChild(createDiv);
+    document.querySelector("body").appendChild(createDiv);
     var getSystemTips = document.getElementById("systemTips");
     if (getSystemTips) {
         tout = setTimeout(function () {
@@ -449,30 +448,27 @@ JZFQ.RemoveLoading = function () {
 
 JZFQ.formatNumber = function (num) {
     var num = (num || 0).toString();
-    if (!/\,/.test(num)) {
-        if (/\./.test(num)) {
-            var floatNum = '.' + num.split('.')[1];
-            num = num.split('.')[0];
-        } else {
-            var floatNum = '';
-        }
-        var re = /\d{3}$/,
-            result = '';
-        while (re.test(num)) {
-            result = RegExp.lastMatch + result;
-            if (num !== RegExp.lastMatch) {
-                result = ',' + result;
-                num = RegExp.leftContext;
-            } else {
-                num = '';
-                break;
-            }
-        }
-        if (num) result = num + result;
-        return /\./.test(num + floatNum) ? result + floatNum : result;
+    if (/\,/.test(num)) return num;
+    if (/\./.test(num)) {
+        var floatNum = '.' + num.split('.')[1];
+        num = num.split('.')[0];
     } else {
-        return num;
+        var floatNum = '';
     }
+    var re = /\d{3}$/,
+        result = '';
+    while (re.test(num)) {
+        result = RegExp.lastMatch + result;
+        if (num !== RegExp.lastMatch) {
+            result = ',' + result;
+            num = RegExp.leftContext;
+        } else {
+            num = '';
+            break;
+        }
+    }
+    if (num) result = num + result;
+    return /\./.test(num + floatNum) ? result + floatNum : result;
 };
 
 JZFQ.goTop = function (el, scrToShow) {
@@ -492,26 +488,22 @@ JZFQ.goTop = function (el, scrToShow) {
     }, !1);
 };
 
-JZFQ.copy = function (ele, target, tips) {
+JZFQ.copy = function (text,tips) {
     var _this = this;
-    var el = document.getElementById(ele);
-    el.addEventListener('click', function () {
-        if (!document.body.querySelectorAll('.cInpt')[0]) {
-            var copyText = document.getElementById(target).innerText,
-                createInput = document.createElement('input');
-            createInput.setAttribute('readonly', 'readonly');
-            createInput.value = copyText;
-            document.body.appendChild(createInput);
-            document.body.className.indexOf('ios') != -1 ? createInput.setSelectionRange(0, copyText.length) : createInput.select();
-            document.execCommand("Copy");
-            createInput.className = 'cInpt', createInput.style.display = 'none';
-            _this.tips(tips || '复制成功');
-            var clearCopyO = setTimeout(function () {
-                document.body.removeChild(createInput);
-                clearTimeout(clearCopyO);
-            }, 2e3);
-        }
-    }, false);
+    if (!document.body.querySelectorAll('.cInpt')[0]) {
+        createInput = document.createElement('input');
+        createInput.setAttribute('readonly', 'readonly');
+        createInput.value = text;
+        document.body.appendChild(createInput);
+        document.body.className.indexOf('ios') != -1 ? createInput.setSelectionRange(0, text.length) : createInput.select();
+        document.execCommand("Copy");
+        createInput.className = 'cInpt';
+        createInput.style.display = 'none';
+        _this.tips(tips || '复制成功');
+        setTimeout(function () {
+            document.body.removeChild(createInput);
+        }, 2e3);
+    }
 };
 
 JZFQ.typeOf = function (value) {
