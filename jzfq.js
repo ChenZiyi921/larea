@@ -1,37 +1,24 @@
 var JZFQ = {};
 
 JZFQ.h5PopClass = {
-    getBody: document.querySelector("body"),
+    getBody: document.querySelectorAll("body")[0],
     init: function (opts) {
         var _this = this;
-        var setTimes;
         if (opts && typeof opts == "object") {
-            _this.isMobile(function () {
-                clearTimeout(setTimes);
-                setTimes = setTimeout(function () {
-                    _this.popMainRun(opts);
-                    _this.bindEvent(opts);
-                }, 100);
-            });
+            _this.popMainRun(opts);
+            _this.bindEvent(opts);
         }
     },
-    isMobile: function (callback) {
+    isMobile: function () {
         var _this = this;
-        var UA = window.navigator.userAgent,
+        var UA = navigator.userAgent,
             IsAndroid = /Android|HTC/i.test(UA),
             IsIPad = !IsAndroid && /iPad/i.test(UA),
             IsIPhone = !IsAndroid && /iPod|iPhone/i.test(UA),
             IsIOS = IsIPad || IsIPhone;
-        if (!!document.addEventListener && (IsIOS || IsAndroid)) {
-            callback.call(this);
-            document.addEventListener("DOMContentLoaded", function () {
-                _this.getBody.classList.add("mobile");
-                if (IsIOS) {
-                    _this.getBody.classList.add("ios");
-                } else if (IsAndroid) {
-                    _this.getBody.classList.add("android");
-                }
-            }, false);
+        if (IsIOS || IsAndroid) {
+            _this.getBody.classList.add("mobile");
+            _this.getBody.classList.add(IsIOS ? "ios" : "android");
         }
     },
     popMainRun: function (opts) {
@@ -109,7 +96,7 @@ JZFQ.h5PopClass = {
     }
 };
 
-JZFQ.h5PopClass.isMobile(function () { });
+JZFQ.h5PopClass.isMobile();
 
 JZFQ.ajax = function (opts) {
     var defaults = {
@@ -488,9 +475,9 @@ JZFQ.goTop = function (el, scrToShow) {
     }, !1);
 };
 
-JZFQ.copy = function (text,tips) {
+JZFQ.copy = function (text, tips) {
     var _this = this;
-    if (!document.body.querySelectorAll('.cInpt')[0]) {
+    if (!document.body.querySelector('.cInpt')) {
         createInput = document.createElement('input');
         createInput.setAttribute('readonly', 'readonly');
         createInput.value = text;
