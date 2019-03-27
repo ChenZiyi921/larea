@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="">
+    <title>Page Title</title>
+    <style>
+        html,
+        body,
+        div,
+        a,
+        img {
+            margin: 0;
+            padding: 0;
+        }
+
+        .filesWrap {
+            position: relative;
+            min-width: 100px;
+            min-height: 100px;
+            overflow: hidden;
+        }
+
+        .inputFile {
+            position: absolute;
+            opacity: 0;
+        }
+
+        input,
+        img {
+            display: block;
+            width: 100px;
+            height: 100px;
+            float: left;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        a {
+            min-width: 100px;
+            min-height: 100px;
+        }
+
+        #inputFileMore {
+            position: absolute;
+            opacity: 0;
+            max-width: 100px;
+            min-height: 100px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="filesWrap">
+        <input type="file" class="inputFile" />
+        <a class="imgFile" href="javascript:;"><img src="image/icon.png" /></a>
+    </div>
+
+    <div class="filesWrap">
+        <input type="file" id="inputFileMore" multiple>
+        <a class="imgFileMore"><img src="image/icon.png" /></a>
+        <script>
+            var inputJ = document.getElementById("inputFileMore"),
+                Con = document.querySelector(".imgFileMore");
+            inputJ.addEventListener('change', function (e) {
+                var files = e.target.files,
+                    thisSrc = null;
+                for (var i = 0; i < files.length; i++) {
+                    if (/^image\/png$|jpeg$/.test(files[i].type)) {
+                        thisSrc = URL.createObjectURL(files[i]);
+                        Con.innerHTML += '<img src="' + thisSrc + '" />';
+                    }
+                }
+            });
+        </script>
+
+        <script>
+            document.querySelector('.inputFile').addEventListener('change', function () {
+                var files = this.files[0];
+                if (/^image\/png$|jpeg$/.test(files.type)) {
+                    document.querySelectorAll('.imgFile img')[0].src = URL.createObjectURL(files);
+                    URL.revokeObjectURL(URL.createObjectURL(files));
+                }
+            })
+        </script>
+</body>
+
+</html>

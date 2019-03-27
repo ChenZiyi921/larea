@@ -475,15 +475,15 @@ JZFQ.formatNumber = function (num) {
     }
 };
 
-JZFQ.goTop = function (id, scrToShow) {
+JZFQ.goTop = function (el, scrToShow) {
     window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
-    var id = document.getElementById(id);
+    var el = document.querySelector(el);
     window.addEventListener('scroll', function () {
         var currentScroll = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         var clientH = document.documentElement.clientHeight || document.body.clientHeight;
-        currentScroll >= (Math.abs(scrToShow) || clientH) ? (id.style.display = 'block') : (id.style.display = 'none');
+        currentScroll >= (Math.abs(scrToShow) || clientH) ? (el.style.display = 'block') : (el.style.display = 'none');
     }, !1);
-    id.addEventListener('click', function fn() {
+    el.addEventListener('click', function fn() {
         var currentScroll = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
         if (currentScroll > 0) {
             window.animation(fn);
