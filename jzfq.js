@@ -1,28 +1,15 @@
 var JZFQ = {};
-
+JZFQ.body = document.querySelectorAll("body")[0];
 JZFQ.h5PopClass = {
-    getBody: document.querySelectorAll("body")[0],
     init: function (opts) {
         var _this = this;
         if (opts && typeof opts == "object") {
-            _this.popMainRun(opts);
-            _this.bindEvent(opts);
+            _this.popMainRun(opts, function (opts) {
+                _this.bindEvent(opts);
+            })
         }
     },
-    isMobile: function () {
-        var _this = this;
-        var UA = navigator.userAgent,
-            IsAndroid = /Android|HTC/i.test(UA),
-            IsIPad = !IsAndroid && /iPad/i.test(UA),
-            IsIPhone = !IsAndroid && /iPod|iPhone/i.test(UA),
-            IsIOS = IsIPad || IsIPhone;
-        if (IsIOS || IsAndroid) {
-            _this.getBody.classList.add("mobile");
-            _this.getBody.classList.add(IsIOS ? "ios" : "android");
-        }
-    },
-    popMainRun: function (opts) {
-        var _this = this;
+    popMainRun: function (opts, callback) {
         var createDiv = document.createElement("div");
         var createMask = document.createElement("div");
         createMask.className = "h5pop-mask";
@@ -48,40 +35,31 @@ JZFQ.h5PopClass = {
         }
         popHtml += '</div>';
         createDiv.innerHTML = popHtml;
-        _this.getBody.appendChild(createDiv);
-        _this.getBody.appendChild(createMask);
+        JZFQ.body.appendChild(createDiv);
+        JZFQ.body.appendChild(createMask);
+        callback(opts)
     },
     bindEvent: function (opts) {
         var _this = this;
         var isEvent = true;
-        _this.getBody.onclick = function () {
-            var e = e || window.event;
-            var target = e.target || e.srcElement;
+        document.querySelector('#h5PopMainEle').onclick = function (e) {
+            var target = (e = e || window.event).target || e.srcElement;
             var targetType = target.className.toLowerCase() || target.id;
             if (isEvent) {
-                if (targetType == "h5pop-close") {
-                    e.preventDefault();
-                    _this.removePop();
-                    isEvent = false;
-                    return;
-                }
                 if (targetType == "h5pop-cancel") {
-                    e.preventDefault();
                     if (opts["cancelBtnRun"] && typeof opts["cancelBtnRun"] === "function") {
                         opts["cancelBtnRun"]();
                     }
-                    _this.removePop();
-                    isEvent = false;
-                    return;
                 }
                 if (targetType == "h5pop-confirm") {
-                    e.preventDefault();
                     if (opts["confirmBtnRun"] && typeof opts["confirmBtnRun"] === "function") {
                         opts["confirmBtnRun"]();
                     }
+                }
+                if (targetType == "h5pop-close" || targetType == "h5pop-cancel" || targetType == "h5pop-confirm") {
+                    e.preventDefault();
                     _this.removePop();
                     isEvent = false;
-                    return;
                 }
             }
         };
@@ -95,8 +73,6 @@ JZFQ.h5PopClass = {
         }
     }
 };
-
-JZFQ.h5PopClass.isMobile();
 
 JZFQ.ajax = function (opts) {
     var defaults = {
@@ -506,6 +482,33 @@ JZFQ.typeOf = function (value) {
     }
 };
 
+JZFQ.IsPC = function () {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+};
+
+JZFQ.isMobile = function () {
+    var _this = this;
+    var UA = navigator.userAgent,
+        IsAndroid = /Android|HTC/i.test(UA),
+        IsIPad = !IsAndroid && /iPad/i.test(UA),
+        IsIPhone = !IsAndroid && /iPod|iPhone/i.test(UA),
+        IsIOS = IsIPad || IsIPhone;
+    if (IsIOS || IsAndroid) {
+        _this.body.classList.add("mobile");
+        _this.body.classList.add(IsIOS ? "ios" : "android");
+    }
+};
+JZFQ.isMobile();
+
 JZFQ.getTimes = function (opts) {
     var clearI = null;
     var ele = document.getElementById(opts.id);
@@ -549,19 +552,6 @@ JZFQ.getTimes = function (opts) {
         return t <= 9 ? "0" + t : t;
     }
 };
-
-JZFQ.IsPC = function () {
-    var userAgentInfo = navigator.userAgent;
-    var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
-    var flag = true;
-    for (var v = 0; v < Agents.length; v++) {
-        if (userAgentInfo.indexOf(Agents[v]) > 0) {
-            flag = false;
-            break;
-        }
-    }
-    return flag;
-}
 
 HTMLElement.prototype.removeAttr = function (attr) {
     if (this.getAttribute('style')) {
