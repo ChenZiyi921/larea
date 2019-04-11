@@ -65,15 +65,11 @@
                 }
             }
             data(opts) {
-                new Promise((resolve, reject) => {
-                    opts.list.innerHTML = '';
-                    for (let i = 0; i < 20; i++) {
-                        opts.list.innerHTML += '<li>在每一次要创建定时器之前，判断是否已经有定时器在工作了，有则删之</li>';
-                    }
-                    return resolve()
-                }).then(() => {
-                    setTimeout(() => this.data(opts), opts.update)
-                }).catch(err => console.log(err));
+                opts.list.innerHTML = '';
+                for (let i = 0; i < 20; i++) {
+                    opts.list.innerHTML += '<li>在每一次要创建定时器之前，判断是否已经有定时器在工作了，有则删之</li>';
+                }
+                setTimeout(() => this.data(opts), opts.update)
             }
         }
         new slideList({
