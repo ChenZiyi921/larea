@@ -198,12 +198,12 @@ class JZFQ{
                 mainHtml += '<div class="loading-container ' + classArray[i] + '">' + lhtml + '</div>';
             }
             loading.innerHTML = '<div class="loading">' + mainHtml + '</div>';
-            document.body.appendChild(loading);
+            this.body.appendChild(loading);
         }
     }
     RemoveLoading() {
         let loading = document.getElementById('loadingWrap');
-        loading && document.body.removeChild(loading);
+        loading && this.body.removeChild(loading);
     }
     getQueryString(name) {
         let url = window.location.href;
@@ -268,7 +268,7 @@ class JZFQ{
         let createDiv = document.createElement("div");
         createDiv.id = "systemTips";
         createDiv.innerHTML = txt.toString();
-        document.querySelector("body").appendChild(createDiv);
+        this.body.appendChild(createDiv);
         let getSystemTips = document.getElementById("systemTips");
         if (getSystemTips) {
             tout = setTimeout(() => {
@@ -346,7 +346,6 @@ class JZFQ{
         }, !1);
     }
     copy(text, tips) {
-        console.log(this.body)
         if (!this.body.querySelector('.cInpt')) {
             let createInput = document.createElement('input');
             createInput.setAttribute('readonly', 'readonly');
