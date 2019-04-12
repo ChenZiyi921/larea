@@ -1,4 +1,4 @@
-class JZFQ{
+class JZFQ {
     // body = document.querySelector("body");
     constructor() {
         this.body = document.querySelector("body");
@@ -77,13 +77,12 @@ class JZFQ{
         }
         return a;
     }
-    jsonpAjax(opt) {
-        let opts = opt || {
-            url: '',
-            data: {} || [],
-            success: () => { },
-            error: () => { }
-        }
+    jsonpAjax(opts = {
+        url: '',
+        data: {} || [],
+        success: () => { },
+        error: () => { }
+    }) {
         let paraArr = [],
             paraString = '';
         let urlArr = '';
@@ -185,7 +184,7 @@ class JZFQ{
             xhr.send(formData);
         }
     }
-    CreateLoading() {
+    loading() {
         if (!document.getElementById('loadingWrap')) {
             let lhtml = '', mainHtml = '';
             let classArray = ['loadfirst', 'second', 'loadlast'];
@@ -201,7 +200,7 @@ class JZFQ{
             this.body.appendChild(loading);
         }
     }
-    RemoveLoading() {
+    removeLoading() {
         let loading = document.getElementById('loadingWrap');
         loading && this.body.removeChild(loading);
     }
@@ -225,21 +224,13 @@ class JZFQ{
             for (let i = 0; i < name.length; i++) {
                 for (let k in name[i]) {
                     if (!this.getQueryString(k)) {
-                        if (/^\?/.test(location.search)) {
-                            location.search += '&' + k + '=' + name[i][k];
-                        } else {
-                            location.search += '?' + k + '=' + name[i][k];
-                        }
+                        location.search += `${/^\?/.test(location.search) ? '&' : '?'}${k + '=' + name[i][k]}`
                     }
                 }
             }
         } else {
             if (!this.getQueryString(name)) {
-                if (/^\?/.test(location.search)) {
-                    location.search += '&' + name + '=' + value;
-                } else {
-                    location.search += '?' + name + '=' + value;
-                }
+                location.search += `${/^\?/.test(location.search) ? '&' : '?'}${name + '=' + value}`
             }
         }
     }
@@ -256,19 +247,17 @@ class JZFQ{
                     }
                 };
             } else {
-                loadJs.onload = () => {
-                    callback();
-                };
+                loadJs.onload = () => callback();
             }
         }
     }
     tips(txt) {
         if (document.getElementById("systemTips") || !txt) return;
         let tout = null;
-        let createDiv = document.createElement("div");
-        createDiv.id = "systemTips";
-        createDiv.innerHTML = txt.toString();
-        this.body.appendChild(createDiv);
+        let div = document.createElement("div");
+        div.id = "systemTips";
+        div.innerHTML = txt.toString();
+        this.body.appendChild(div);
         let getSystemTips = document.getElementById("systemTips");
         if (getSystemTips) {
             tout = setTimeout(() => {
@@ -282,7 +271,7 @@ class JZFQ{
     isweixin() {
         return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
     }
-    IsPC() {
+    isPC() {
         let userAgentInfo = navigator.userAgent;
         let Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
         let flag = true;
@@ -305,29 +294,27 @@ class JZFQ{
             this.body.classList.add(IsIOS ? "ios" : "android");
         }
     }
-    formatNumber(n) {
-        let num = (n || 0).toString();
-        if (/\,/.test(num)) return num;
-        if (/\./.test(num)) {
-            let floatNum = '.' + num.split('.')[1];
-            num = num.split('.')[0];
+    formatNumber(n = (0).toString()) {
+        if (/\,/.test(n)) return n;
+        if (/\./.test(n)) {
+            let floatNum = '.' + n.split('.')[1];
+            n = n.split('.')[0];
         } else {
             let floatNum = '';
         }
-        let re = /\d{3}$/,
-            result = '';
-        while (re.test(num)) {
+        let [re, result] = [/\d{3}$/, ''];
+        while (re.test(n)) {
             result = RegExp.lastMatch + result;
-            if (num !== RegExp.lastMatch) {
+            if (n !== RegExp.lastMatch) {
                 result = ',' + result;
-                num = RegExp.leftContext;
+                n = RegExp.leftContext;
             } else {
-                num = '';
+                n = '';
                 break;
             }
         }
-        if (num) result = num + result;
-        return /\./.test(num + floatNum) ? result + floatNum : result;
+        if (n) result = n + result;
+        return /\./.test(n + floatNum) ? result + floatNum : result;
     }
     goTop(ele, scrToShow) {
         window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
@@ -347,16 +334,16 @@ class JZFQ{
     }
     copy(text, tips) {
         if (!this.body.querySelector('.cInpt')) {
-            let createInput = document.createElement('input');
-            createInput.setAttribute('readonly', 'readonly');
-            createInput.value = text;
-            this.body.appendChild(createInput);
-            this.body.className.indexOf('ios') != -1 ? createInput.setSelectionRange(0, text.length) : createInput.select();
+            let input = document.createElement('input');
+            input.setAttribute('readonly', 'readonly');
+            input.value = text;
+            this.body.appendChild(input);
+            this.body.className.indexOf('ios') != -1 ? input.setSelectionRange(0, text.length) : input.select();
             document.execCommand("Copy");
-            createInput.className = 'cInpt';
-            createInput.style.display = 'none';
+            input.className = 'cInpt';
+            input.style.display = 'none';
             this.tips(tips || '复制成功');
-            setTimeout(() => this.body.removeChild(createInput), 2e3);
+            setTimeout(() => this.body.removeChild(input), 2e3);
         }
     }
     typeOf(value) {
@@ -403,7 +390,7 @@ class JZFQ{
     getTime(opts) {
         let clearI = null;
         let ele = document.getElementById(opts.id);
-        let dateT = '', timeT = '', week = '';
+        let [dateT, timeT, week] = ['', '', ''];
         let addZero = t => {
             return t <= 9 ? "0" + t : t;
         }
@@ -423,20 +410,13 @@ class JZFQ{
             } else timeT = '';
             if (opts.week) {
                 switch (date.getDay()) {
-                    case 0: week = "星期天";
-                        break;
-                    case 1: week = "星期一";
-                        break;
-                    case 2: week = "星期二";
-                        break;
-                    case 3: week = "星期三";
-                        break;
-                    case 4: week = "星期四";
-                        break;
-                    case 5: week = "星期五";
-                        break;
-                    case 6: week = "星期六";
-                        break;
+                    case 0: week = "星期天"; break;
+                    case 1: week = "星期一"; break;
+                    case 2: week = "星期二"; break;
+                    case 3: week = "星期三"; break;
+                    case 4: week = "星期四"; break;
+                    case 5: week = "星期五"; break;
+                    case 6: week = "星期六"; break;
                 }
             } else week = '';
             ele.innerHTML = dateT + timeT + " " + week;
@@ -454,12 +434,12 @@ class h5PopClass extends JZFQ {
         }
     }
     popMainRun(opts, callback) {
-        let createDiv = document.createElement("div");
-        let createMask = document.createElement("div");
-        createMask.className = "h5pop-mask";
-        createMask.id = "h5PopMasks";
-        createDiv.className = "h5pop-main clearfix";
-        createDiv.id = "h5PopMainEle";
+        let div = document.createElement("div");
+        let mask = document.createElement("div");
+        mask.className = "h5pop-mask";
+        mask.id = "h5PopMasks";
+        div.className = "h5pop-main clearfix";
+        div.id = "h5PopMainEle";
         let popHtml = '';
         if (!!opts['isHideClose']) {
             popHtml += '<a href="javascript:;" class="h5pop-close">×</a>';
@@ -478,9 +458,9 @@ class h5PopClass extends JZFQ {
             popHtml += '<a type="button" class="h5pop-confirm" href="javascript:;">' + opts["confirmBtn"] + '</a>';
         }
         popHtml += '</div>';
-        createDiv.innerHTML = popHtml;
-        this.body.appendChild(createDiv);
-        this.body.appendChild(createMask);
+        div.innerHTML = popHtml;
+        this.body.appendChild(div);
+        this.body.appendChild(mask);
         callback(opts)
     }
     bindEvent(opts) {
