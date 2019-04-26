@@ -231,6 +231,17 @@ class JZFQ {
         } else {
             if (!this.getQueryString(name)) {
                 location.search += `${/^\?/.test(location.search) ? '&' : '?'}${name + '=' + value}`
+            } else {
+                let search = this.getQueryString();
+                let searchStr = '';
+                search[name] = value;
+                for (const key in search) {
+                    if (search.hasOwnProperty(key)) {
+                        const val = search[key];
+                        searchStr += (/\?/.test(searchStr) ? '&' : '?') + key + '=' + val;
+                    }
+                }
+                location.search = searchStr
             }
         }
     }

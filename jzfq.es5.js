@@ -1,79 +1,5 @@
 var JZFQ = {};
 JZFQ.body = document.querySelectorAll("body")[0];
-JZFQ.h5PopClass = {
-    init: function (opts) {
-        var _this = this;
-        if (opts && typeof opts == "object") {
-            _this.popMainRun(opts, function (opts) {
-                _this.bindEvent(opts);
-            })
-        }
-    },
-    popMainRun: function (opts, callback) {
-        var createDiv = document.createElement("div");
-        var createMask = document.createElement("div");
-        createMask.className = "h5pop-mask";
-        createMask.id = "h5PopMasks";
-        createDiv.className = "h5pop-main clearfix";
-        createDiv.id = "h5PopMainEle";
-        var popHtml = '';
-        if (!!opts['isHideClose']) {
-            popHtml += '<a href="javascript:;" class="h5pop-close">×</a>';
-        }
-        if (!!opts['title']) {
-            popHtml += '<h3 class="h5tips-title">' + opts["title"] + '</h3>';
-        }
-        if (!!opts['tipTxt']) {
-            popHtml += '<div class="h5pop-content clearfix">' + opts["tipTxt"] + '</div>';
-        }
-        popHtml += '<div class="h5pop-footer">';
-        if (!!opts['cancelBtn']) {
-            popHtml += '<a type="button" class="h5pop-cancel" href="javascript:;">' + opts["cancelBtn"] + '</a>';
-        }
-        if (!!opts['confirmBtn']) {
-            popHtml += '<a type="button" class="h5pop-confirm" href="javascript:;">' + opts["confirmBtn"] + '</a>';
-        }
-        popHtml += '</div>';
-        createDiv.innerHTML = popHtml;
-        JZFQ.body.appendChild(createDiv);
-        JZFQ.body.appendChild(createMask);
-        callback(opts)
-    },
-    bindEvent: function (opts) {
-        var _this = this;
-        var isEvent = true;
-        document.querySelector('#h5PopMainEle').onclick = function (e) {
-            var target = (e = e || window.event).target || e.srcElement;
-            var targetType = target.className.toLowerCase() || target.id;
-            if (isEvent) {
-                if (targetType == "h5pop-cancel") {
-                    if (opts["cancelBtnRun"] && typeof opts["cancelBtnRun"] === "function") {
-                        opts["cancelBtnRun"]();
-                    }
-                }
-                if (targetType == "h5pop-confirm") {
-                    if (opts["confirmBtnRun"] && typeof opts["confirmBtnRun"] === "function") {
-                        opts["confirmBtnRun"]();
-                    }
-                }
-                if (targetType == "h5pop-close" || targetType == "h5pop-cancel" || targetType == "h5pop-confirm") {
-                    e.preventDefault();
-                    _this.removePop();
-                    isEvent = false;
-                }
-            }
-        };
-    },
-    removePop: function () {
-        var getMasks = document.getElementById("h5PopMasks");
-        var getPopMains = document.getElementById("h5PopMainEle");
-        if (getMasks.parentNode && getPopMains.parentNode) {
-            getMasks.parentNode.removeChild(getMasks);
-            getPopMains.parentNode.removeChild(getPopMains);
-        }
-    }
-};
-
 JZFQ.ajax = function (opts) {
     var defaults = {
         type: "GET",
@@ -141,76 +67,6 @@ JZFQ.ajax = function (opts) {
         }
     };
 };
-
-JZFQ.uploadImg = function (opts) {
-    if (typeof opts == "object") {
-        var _this = this;
-        var formData = new FormData();
-        var xhr = new XMLHttpRequest();
-        formData.append("image", opts.ele.files[0]);
-        xhr.open("post", opts.url, true);
-        xhr.onreadystatechange = function (data) {
-            if (4 === xhr.readyState) {
-                if (200 === xhr.status) {
-                    var data = JSON.parse(xhr.responseText);
-                    if (data.status == "200") {
-                        if (typeof opts.callback == "function") {
-                            opts.callback.call(this);
-                        }
-                    } else {
-                        _this.tips(data.msg);
-                    }
-                } else {
-                    _this.tips("ajax error");
-                }
-            }
-        };
-        xhr.send(formData);
-    }
-};
-
-JZFQ.isweixin = function () {
-    return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
-};
-
-JZFQ.loadJS = function (pageUrl, insetPos, callback, id) {
-    if (!document.getElementById(id)) {
-        var loadJs = document.createElement("script");
-        loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
-        document.querySelectorAll(insetPos || "body")[0].appendChild(loadJs);
-        if (loadJs.readyState) {
-            loadJs.onreadystatechange = function () {
-                if (loadJs.readyState == "loaded" || loadJs.readyState == "complete") {
-                    loadJs.onreadystatechange = null;
-                    callback.call(this);
-                }
-            };
-        } else {
-            loadJs.onload = function () {
-                callback.call(this);
-            };
-        }
-    }
-};
-
-JZFQ.tips = function (txt) {
-    if (document.getElementById("systemTips") || !txt) return;
-    var tout = null;
-    var createDiv = document.createElement("div");
-    createDiv.id = "systemTips";
-    createDiv.innerHTML = txt.toString();
-    document.querySelector("body").appendChild(createDiv);
-    var getSystemTips = document.getElementById("systemTips");
-    if (getSystemTips) {
-        tout = setTimeout(function () {
-            if (getSystemTips.parentNode) {
-                getSystemTips.parentNode.removeChild(getSystemTips);
-                clearTimeout(tout);
-            }
-        }, 2000);
-    }
-};
-
 JZFQ.ranStr = function (n) {
     for (var e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIZKLMNOPQRSTUVWXYZ0123456789", a = "", r = 0; r < n; r++) {
         var i = Math.floor(Math.random() * (e.length - 1));
@@ -304,49 +160,52 @@ JZFQ.jsonpAjax = function (opt) {
         }, timeout);
     }
 };
-
-JZFQ.parents = function (ele, selector) {
-    var matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
-    while (ele) {
-        if (matchesSelector.call(ele, selector)) {
-            break;
-        }
-        ele = ele.parentElement;
-    }
-    return ele;
-};
-
-JZFQ.css = function (ele, opts) {
-    if (/Object/.test(Object.prototype.toString.call(opts))) {
-        for (var key in opts) {
-            if (opts[key]) {
-                ele.style[key] = opts[key].toString();
+JZFQ.uploadImg = function (opts) {
+    if (typeof opts == "object") {
+        var _this = this;
+        var formData = new FormData();
+        var xhr = new XMLHttpRequest();
+        formData.append("image", opts.ele.files[0]);
+        xhr.open("post", opts.url, true);
+        xhr.onreadystatechange = function (data) {
+            if (4 === xhr.readyState) {
+                if (200 === xhr.status) {
+                    var data = JSON.parse(xhr.responseText);
+                    if (data.status == "200") {
+                        if (typeof opts.callback == "function") {
+                            opts.callback.call(this);
+                        }
+                    } else {
+                        _this.tips(data.msg);
+                    }
+                } else {
+                    _this.tips("ajax error");
+                }
             }
+        };
+        xhr.send(formData);
+    }
+};
+JZFQ.CreateLoading = function () {
+    if (!document.getElementById('loadingWrap')) {
+        var lhtml = '', mainHtml = '';
+        var classArray = ['loadfirst', 'second', 'loadlast'];
+        var createLoading = document.createElement('div');
+        createLoading.id = 'loadingWrap';
+        for (var l = 1; l < 5; l++) {
+            lhtml += '<div class="circle' + l + '"></div>';
         }
+        for (var i = 0; i < 3; i++) {
+            mainHtml += '<div class="loading-container ' + classArray[i] + '">' + lhtml + '</div>';
+        }
+        createLoading.innerHTML = '<div class="loading">' + mainHtml + '</div>';
+        document.body.appendChild(createLoading);
     }
-    return ele;
 };
-
-JZFQ.offsetTop = function (ele) {
-    var top = ele.offsetTop;
-    var parent = ele.offsetParent;
-    while (parent) {
-        top += parent.offsetTop;
-        parent = parent.offsetParent;
-    }
-    return top;
+JZFQ.RemoveLoading = function () {
+    var loading = document.getElementById('loadingWrap');
+    loading && document.body.removeChild(loading);
 };
-
-JZFQ.offsetLeft = function (ele) {
-    var left = ele.offsetLeft;
-    var parent = ele.offsetParent;
-    while (parent) {
-        left += parent.offsetLeft;
-        parent = parent.offsetParent;
-    }
-    return left;
-};
-
 JZFQ.getQueryString = function (name) {
     var url = window.location.href;
     if (/\?/.test(url) && !/\?$/.test(url) && /\?(.+)/.test(url)) {
@@ -369,46 +228,94 @@ JZFQ.urlSplicing = function (name, value) {
         for (var i = 0; i < name.length; i++) {
             for (var k in name[i]) {
                 if (!_this.getUrlValue(k)) {
-                    if (/^\?/.test(location.search)) {
-                        location.search += '&' + k + '=' + name[i][k];
-                    } else {
-                        location.search += '?' + k + '=' + name[i][k];
-                    }
+                    location.search += (/^\?/.test(location.search) ? '&' : '?') + k + '=' + name[i][k];
                 }
             }
         }
     } else {
         if (!_this.getUrlValue(name)) {
-            if (/^\?/.test(location.search)) {
-                location.search += '&' + name + '=' + value;
-            } else {
-                location.search += '?' + name + '=' + value;
+            location.search += (/^\?/.test(location.search) ? '&' : '?') + name + '=' + value;
+        } else {
+            var search = this.getQueryString();
+            var searchStr = '';
+            search[name] = value;
+            for (var key in search) {
+                if (search.hasOwnProperty(key)) {
+                    var val = search[key];
+                    searchStr += (/\?/.test(searchStr) ? '&' : '?') + key + '=' + val;
+                }
             }
+            location.search = searchStr
         }
     }
 };
 
-JZFQ.CreateLoading = function () {
-    if (!document.getElementById('loadingWrap')) {
-        var lhtml = '', mainHtml = '';
-        var classArray = ['loadfirst', 'second', 'loadlast'];
-        var createLoading = document.createElement('div');
-        createLoading.id = 'loadingWrap';
-        for (var l = 1; l < 5; l++) {
-            lhtml += '<div class="circle' + l + '"></div>';
+JZFQ.loadJS = function (pageUrl, insetPos, callback, id) {
+    if (!document.getElementById(id)) {
+        var loadJs = document.createElement("script");
+        loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
+        document.querySelectorAll(insetPos || "body")[0].appendChild(loadJs);
+        if (loadJs.readyState) {
+            loadJs.onreadystatechange = function () {
+                if (loadJs.readyState == "loaded" || loadJs.readyState == "complete") {
+                    loadJs.onreadystatechange = null;
+                    callback.call(this);
+                }
+            };
+        } else {
+            loadJs.onload = function () {
+                callback.call(this);
+            };
         }
-        for (var i = 0; i < 3; i++) {
-            mainHtml += '<div class="loading-container ' + classArray[i] + '">' + lhtml + '</div>';
-        }
-        createLoading.innerHTML = '<div class="loading">' + mainHtml + '</div>';
-        document.body.appendChild(createLoading);
     }
 };
-JZFQ.RemoveLoading = function () {
-    var loading = document.getElementById('loadingWrap');
-    loading && document.body.removeChild(loading);
+
+JZFQ.tips = function (txt) {
+    if (document.getElementById("systemTips") || !txt) return;
+    var tout = null;
+    var createDiv = document.createElement("div");
+    createDiv.id = "systemTips";
+    createDiv.innerHTML = txt.toString();
+    document.querySelector("body").appendChild(createDiv);
+    var getSystemTips = document.getElementById("systemTips");
+    if (getSystemTips) {
+        tout = setTimeout(function () {
+            if (getSystemTips.parentNode) {
+                getSystemTips.parentNode.removeChild(getSystemTips);
+                clearTimeout(tout);
+            }
+        }, 2000);
+    }
+};
+JZFQ.isweixin = function () {
+    return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
+};
+JZFQ.IsPC = function () {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
 };
 
+JZFQ.isMobile = function () {
+    var _this = this;
+    var UA = navigator.userAgent,
+        IsAndroid = /Android|HTC/i.test(UA),
+        IsIPad = !IsAndroid && /iPad/i.test(UA),
+        IsIPhone = !IsAndroid && /iPod|iPhone/i.test(UA),
+        IsIOS = IsIPad || IsIPhone;
+    if (IsIOS || IsAndroid) {
+        _this.body.classList.add("mobile");
+        _this.body.classList.add(IsIOS ? "ios" : "android");
+    }
+};
+JZFQ.isMobile();
 JZFQ.formatNumber = function (num) {
     var num = (num || 0).toString();
     if (/\,/.test(num)) return num;
@@ -481,34 +388,120 @@ JZFQ.typeOf = function (value) {
         i++;
     }
 };
-
-JZFQ.IsPC = function () {
-    var userAgentInfo = navigator.userAgent;
-    var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
-    var flag = true;
-    for (var v = 0; v < Agents.length; v++) {
-        if (userAgentInfo.indexOf(Agents[v]) > 0) {
-            flag = false;
-            break;
+JZFQ.h5PopClass = {
+    init: function (opts) {
+        var _this = this;
+        if (opts && typeof opts == "object") {
+            _this.popMainRun(opts, function (opts) {
+                _this.bindEvent(opts);
+            })
+        }
+    },
+    popMainRun: function (opts, callback) {
+        var createDiv = document.createElement("div");
+        var createMask = document.createElement("div");
+        createMask.className = "h5pop-mask";
+        createMask.id = "h5PopMasks";
+        createDiv.className = "h5pop-main clearfix";
+        createDiv.id = "h5PopMainEle";
+        var popHtml = '';
+        if (!!opts['isHideClose']) {
+            popHtml += '<a href="javascript:;" class="h5pop-close">×</a>';
+        }
+        if (!!opts['title']) {
+            popHtml += '<h3 class="h5tips-title">' + opts["title"] + '</h3>';
+        }
+        if (!!opts['tipTxt']) {
+            popHtml += '<div class="h5pop-content clearfix">' + opts["tipTxt"] + '</div>';
+        }
+        popHtml += '<div class="h5pop-footer">';
+        if (!!opts['cancelBtn']) {
+            popHtml += '<a type="button" class="h5pop-cancel" href="javascript:;">' + opts["cancelBtn"] + '</a>';
+        }
+        if (!!opts['confirmBtn']) {
+            popHtml += '<a type="button" class="h5pop-confirm" href="javascript:;">' + opts["confirmBtn"] + '</a>';
+        }
+        popHtml += '</div>';
+        createDiv.innerHTML = popHtml;
+        JZFQ.body.appendChild(createDiv);
+        JZFQ.body.appendChild(createMask);
+        callback(opts)
+    },
+    bindEvent: function (opts) {
+        var _this = this;
+        var isEvent = true;
+        document.querySelector('#h5PopMainEle').onclick = function (e) {
+            var target = (e = e || window.event).target || e.srcElement;
+            var targetType = target.className.toLowerCase() || target.id;
+            if (isEvent) {
+                if (targetType == "h5pop-cancel") {
+                    if (opts["cancelBtnRun"] && typeof opts["cancelBtnRun"] === "function") {
+                        opts["cancelBtnRun"]();
+                    }
+                }
+                if (targetType == "h5pop-confirm") {
+                    if (opts["confirmBtnRun"] && typeof opts["confirmBtnRun"] === "function") {
+                        opts["confirmBtnRun"]();
+                    }
+                }
+                if (targetType == "h5pop-close" || targetType == "h5pop-cancel" || targetType == "h5pop-confirm") {
+                    e.preventDefault();
+                    _this.removePop();
+                    isEvent = false;
+                }
+            }
+        };
+    },
+    removePop: function () {
+        var getMasks = document.getElementById("h5PopMasks");
+        var getPopMains = document.getElementById("h5PopMainEle");
+        if (getMasks.parentNode && getPopMains.parentNode) {
+            getMasks.parentNode.removeChild(getMasks);
+            getPopMains.parentNode.removeChild(getPopMains);
         }
     }
-    return flag;
 };
-
-JZFQ.isMobile = function () {
-    var _this = this;
-    var UA = navigator.userAgent,
-        IsAndroid = /Android|HTC/i.test(UA),
-        IsIPad = !IsAndroid && /iPad/i.test(UA),
-        IsIPhone = !IsAndroid && /iPod|iPhone/i.test(UA),
-        IsIOS = IsIPad || IsIPhone;
-    if (IsIOS || IsAndroid) {
-        _this.body.classList.add("mobile");
-        _this.body.classList.add(IsIOS ? "ios" : "android");
+JZFQ.parents = function (ele, selector) {
+    var matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
+    while (ele) {
+        if (matchesSelector.call(ele, selector)) {
+            break;
+        }
+        ele = ele.parentElement;
     }
+    return ele;
 };
-JZFQ.isMobile();
 
+JZFQ.css = function (ele, opts) {
+    if (/Object/.test(Object.prototype.toString.call(opts))) {
+        for (var key in opts) {
+            if (opts[key]) {
+                ele.style[key] = opts[key].toString();
+            }
+        }
+    }
+    return ele;
+};
+
+JZFQ.offsetTop = function (ele) {
+    var top = ele.offsetTop;
+    var parent = ele.offsetParent;
+    while (parent) {
+        top += parent.offsetTop;
+        parent = parent.offsetParent;
+    }
+    return top;
+};
+
+JZFQ.offsetLeft = function (ele) {
+    var left = ele.offsetLeft;
+    var parent = ele.offsetParent;
+    while (parent) {
+        left += parent.offsetLeft;
+        parent = parent.offsetParent;
+    }
+    return left;
+};
 JZFQ.getTimes = function (opts) {
     var clearI = null;
     var ele = document.getElementById(opts.id);
