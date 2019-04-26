@@ -318,12 +318,11 @@ JZFQ.isMobile = function () {
 JZFQ.isMobile();
 JZFQ.formatNumber = function (num) {
     var num = (num || 0).toString();
+    var floatNum = '';
     if (/\,/.test(num)) return num;
     if (/\./.test(num)) {
-        var floatNum = '.' + num.split('.')[1];
+        floatNum = '.' + num.split('.')[1];
         num = num.split('.')[0];
-    } else {
-        var floatNum = '';
     }
     var re = /\d{3}$/,
         result = '';

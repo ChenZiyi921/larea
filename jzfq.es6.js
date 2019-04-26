@@ -306,12 +306,11 @@ class JZFQ {
         }
     }
     formatNumber(n = (0).toString()) {
+        let floatNum = '';
         if (/\,/.test(n)) return n;
         if (/\./.test(n)) {
-            let floatNum = '.' + n.split('.')[1];
+            floatNum = '.' + n.split('.')[1];
             n = n.split('.')[0];
-        } else {
-            let floatNum = '';
         }
         let [re, result] = [/\d{3}$/, ''];
         while (re.test(n)) {
