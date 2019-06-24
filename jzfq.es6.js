@@ -220,7 +220,7 @@ class JZFQ {
         }
     }
     urlSplicing(name, value) {
-        if (name instanceof Array) {
+        if (/Array/.test(Object.prototype.toString.call(name))) {
             for (let i = 0; i < name.length; i++) {
                 for (let k in name[i]) {
                     if (!this.getQueryString(k)) {
@@ -400,24 +400,22 @@ class JZFQ {
     getTime(opts) {
         let clearI = null;
         let ele = document.getElementById(opts.id);
-        let [dateT, timeT, week] = ['', '', ''];
-        let addZero = t => {
-            return t <= 9 ? "0" + t : t;
-        }
+        let [ymd, hms, week] = ['', '', ''];
+        let addZero = t => { return t <= 9 ? "0" + t : t }
         clearI = setInterval(() => {
             let date = new Date();
-            if (opts.date) {
+            if (opts.ymd) {
                 let year = date.getFullYear(),
                     month = addZero(date.getMonth() + 1),
                     day = addZero(date.getDate());
-                dateT = year + "年" + month + "月" + day + "日 ";
-            } else dateT = '';
-            if (opts.timeT) {
+                ymd = year + "年" + month + "月" + day + "日 ";
+            }
+            if (opts.hms) {
                 let hour = addZero(date.getHours()),
                     minute = addZero(date.getMinutes()),
                     second = addZero(date.getSeconds());
-                timeT = hour + ":" + minute + ":" + second;
-            } else timeT = '';
+                hms = hour + ":" + minute + ":" + second;
+            }
             if (opts.week) {
                 switch (date.getDay()) {
                     case 0: week = "星期天"; break;
@@ -428,8 +426,8 @@ class JZFQ {
                     case 5: week = "星期五"; break;
                     case 6: week = "星期六"; break;
                 }
-            } else week = '';
-            ele.innerHTML = dateT + timeT + " " + week;
+            }
+            ele.innerHTML = ymd + hms + " " + week;
             clearI = null;
         }, 1000);
     }

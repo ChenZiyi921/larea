@@ -1,91 +1,93 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>jQuery宽屏满屏焦点图切换特效touchSlider插件</title>
-	<link type="text/css" href="css/style.css" rel="stylesheet"/>
+	<link type="text/css" href="css/style.css" rel="stylesheet" />
 	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="js/jquery.event.drag-1.5.min.js"></script>
 	<script type="text/javascript" src="js/jquery.touchSlider.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function(){
+		$(document).ready(function () {
 
-		$(".main_visual").hover(function(){
-			$("#btn_prev,#btn_next").fadeIn()
-		},function(){
-			$("#btn_prev,#btn_next").fadeOut()
-		});
-		
-		$dragBln = false;
-		
-		$(".main_image").touchSlider({
-			flexible : true,
-			speed : 200,
-			btn_prev : $("#btn_prev"),
-			btn_next : $("#btn_next"),
-			paging : $(".flicking_con a"),
-			counter : function (e){
-				$(".flicking_con a").removeClass("on").eq(e.current-1).addClass("on");
-			}
-		});
-		
-		$(".main_image").bind("mousedown", function() {
+			$(".main_visual").hover(function () {
+				$("#btn_prev,#btn_next").fadeIn()
+			}, function () {
+				$("#btn_prev,#btn_next").fadeOut()
+			});
+
 			$dragBln = false;
-		});
-		
-		$(".main_image").bind("dragstart", function() {
-			$dragBln = true;
-		});
-		
-		$(".main_image a").click(function(){
-			if($dragBln) {
-				return false;
-			}
-		});
-		
-		timer = setInterval(function(){
-			$("#btn_next").click();
-		}, 5000);
-		
-		$(".main_visual").hover(function(){
-			clearInterval(timer);
-		},function(){
-			timer = setInterval(function(){
-				$("#btn_next").click();
-			},5000);
-		});
-		
-		$(".main_image").bind("touchstart",function(){
-			clearInterval(timer);
-		}).bind("touchend", function(){
-			timer = setInterval(function(){
+
+			$(".main_image").touchSlider({
+				flexible: true,
+				speed: 200,
+				btn_prev: $("#btn_prev"),
+				btn_next: $("#btn_next"),
+				paging: $(".flicking_con a"),
+				counter: function (e) {
+					$(".flicking_con a").removeClass("on").eq(e.current - 1).addClass("on");
+				}
+			});
+
+			$(".main_image").bind("mousedown", function () {
+				$dragBln = false;
+			});
+
+			$(".main_image").bind("dragstart", function () {
+				$dragBln = true;
+			});
+
+			$(".main_image a").click(function () {
+				if ($dragBln) {
+					return false;
+				}
+			});
+
+			timer = setInterval(function () {
 				$("#btn_next").click();
 			}, 5000);
+
+			$(".main_visual").hover(function () {
+				clearInterval(timer);
+			}, function () {
+				timer = setInterval(function () {
+					$("#btn_next").click();
+				}, 5000);
+			});
+
+			$(".main_image").bind("touchstart", function () {
+				clearInterval(timer);
+			}).bind("touchend", function () {
+				timer = setInterval(function () {
+					$("#btn_next").click();
+				}, 5000);
+			});
+
 		});
-		
-	});
 	</script>
 </head>
+
 <body>
 
-<div class="main_visual">
-	<div class="flicking_con">
-		<a href="#">1</a>
-		<a href="#">2</a>
-		<a href="#">3</a>
+	<div class="main_visual">
+		<div class="flicking_con">
+			<a href="#">1</a>
+			<a href="#">2</a>
+			<a href="#">3</a>
+		</div>
+		<div class="main_image">
+			<ul>
+				<li><span class="img_1"></span></li>
+				<li><span class="img_2"></span></li>
+				<li><span class="img_3"></span></li>
+			</ul>
+			<a href="javascript:;" id="btn_prev"></a>
+			<a href="javascript:;" id="btn_next"></a>
+		</div>
 	</div>
-	<div class="main_image">
-		<ul>
-			<li><span class="img_1"></span></li>
-			<li><span class="img_2"></span></li>
-			<li><span class="img_3"></span></li>
-		</ul>
-		<a href="javascript:;" id="btn_prev"></a>
-		<a href="javascript:;" id="btn_next"></a>
-	</div>
-</div>
-<!--main_visual end-->
 
 </body>
+
 </html>

@@ -160,4 +160,3 @@ aspenJZFQSlide.prototype = {
         }, (_this.opts.speed || 5000)));
     }
 }
-/* new aspenJZFQSlide */
