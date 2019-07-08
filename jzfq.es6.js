@@ -2,6 +2,7 @@ class JZFQ {
     // body = document.querySelector("body");
     constructor() {
         this.body = document.querySelector("body");
+        this.head = document.querySelector("head");
     }
     ajax(opts) {
         let defaults = {
@@ -13,8 +14,8 @@ class JZFQ {
             cache: true,
             contentType: "application/x-www-form-urlencoded;charset=utf-8",
             param: "",
-            success: () => { },
-            error: () => { }
+            success() { },
+            error() { }
         };
         for (let key in opts) {
             defaults[key] = opts[key];
@@ -40,27 +41,25 @@ class JZFQ {
             }
         }
         if (defaults["type"] === "GET") {
-            oXhr["send"](null);
+            oXhr.send(null);
         } else {
             oXhr.setRequestHeader("Content-type", defaults["contentType"]);
             oXhr.send(defaults["data"]);
         }
-        if (typeof defaults["setToken"] != "undefined" && typeof defaults["setToken"] == "function") {
+        if (defaults["setToken"] && typeof defaults["setToken"] == "function") {
             defaults["setToken"](oXhr);
         }
         oXhr.onreadystatechange = () => {
             if (oXhr.readyState === 4) {
                 if (oXhr.status === 200) {
                     if (typeof defaults["success"] == "function") {
-                        if (defaults["dataType"] == "json") {
-                            try {
+                        try {
+                            if (defaults["dataType"] == "json") {
                                 defaults["success"].call(oXhr, eval("(" + oXhr.responseText + ")"));
-                            } catch (e) { }
-                        } else {
-                            try {
+                            } else {
                                 defaults["success"].call(oXhr, oXhr.responseText);
-                            } catch (e) { }
-                        }
+                            }
+                        } catch (e) { }
                     }
                 } else {
                     if (typeof defaults["error"] == "function") {
@@ -77,18 +76,15 @@ class JZFQ {
         }
         return a;
     }
-    jsonpAjax(opts = {
+    jsonpAjax(opts = { // 未测试移除 removeNode中this有问题
         url: '',
         data: {} || [],
-        success: () => { },
-        error: () => { }
+        success() { },
+        error() { }
     }) {
-        let paraArr = [],
-            paraString = '';
-        let urlArr = '';
-        let callbackName;
+        let [paraArr, paraString] = [[], ''];
+        let [urlArr, cbName] = ['', ''];
         let creatScript = null;
-        let getHead = null;
         let supportLoad = '';
         let onEvent;
         let timeout = opts.timeout || 0;
@@ -103,14 +99,14 @@ class JZFQ {
         urlArr = opts.url.split("?");
         urlArr.length > 1 && paraArr.push(urlArr[1]);
 
-        callbackName = 'callback' + ranTxt;
-        paraArr.push('callback=' + callbackName);
+        cbName = 'cb' + ranTxt;
+        paraArr.push('cb=' + cbName);
         paraString = paraArr.join("&");
         opts.url = urlArr[0] + "?" + paraString;
 
         creatScript = document.createElement("script");
         creatScript.loaded = false;
-        window[callbackName] = data => {
+        window[cbName] = data => {
             if (!typeof opts.success == 'function') {
                 return;
             } else {
@@ -119,8 +115,7 @@ class JZFQ {
             }
         }
 
-        getHead = document.getElementsByTagName("head")[0];
-        getHead.insertBefore(creatScript, getHead.firstChild);
+        this.head.insertBefore(creatScript, this.head.firstChild);
         creatScript.src = opts.url;
 
         supportLoad = "onload" in creatScript;
@@ -136,24 +131,24 @@ class JZFQ {
                 return;
             }
             setTimeout(() => {
-                (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (getHead.removeNode && getHead.removeNode(this));
-                creatScript = creatScript[onEvent] = creatScript.onerror = window[callbackName] = null;
+                (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (this.head.removeNode && this.head.removeNode(this));
+                creatScript = creatScript[onEvent] = creatScript.onerror = window[cbName] = null;
             }, 1000);
         }
 
         creatScript.onerror = () => {
-            if (window[callbackName] == null) {
+            if (window[cbName] == null) {
                 this.tips("请求超时，请重试！");
             }
             opts.error && opts.error();
-            (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (getHead.removeNode && getHead.removeNode(this));
-            creatScript = creatScript[onEvent] = creatScript.onerror = window[callbackName] = null;
+            (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (this.head.removeNode && this.head.removeNode(this));
+            creatScript = creatScript[onEvent] = creatScript.onerror = window[cbName] = null;
         }
 
         if (timeout != 0) {
             setTimeout(() => {
                 if (creatScript && creatScript.loaded == false) {
-                    window[callbackName] = null;
+                    window[cbName] = null;
                     creatScript.onerror();
                 }
             }, timeout);
@@ -161,8 +156,7 @@ class JZFQ {
     }
     uploadImg(opts) {
         if (typeof opts == "object") {
-            let formData = new FormData();
-            let xhr = new XMLHttpRequest();
+            let [formData, xhr] = [new FormData(), new XMLHttpRequest()];
             formData.append("image", opts.ele.files[0]);
             xhr.open("post", opts.url, true);
             xhr.onreadystatechange = data => {
@@ -170,14 +164,12 @@ class JZFQ {
                     if (200 === xhr.status) {
                         let data = JSON.parse(xhr.responseText);
                         if (data.status == "200") {
-                            if (typeof opts.callback == "function") {
-                                opts.callback();
-                            }
+                            typeof opts.cb == "function" && opts.cb();
                         } else {
                             this.tips(data.msg);
                         }
                     } else {
-                        this.tips("ajax error");
+                        this.tips("error");
                     }
                 }
             };
@@ -245,7 +237,7 @@ class JZFQ {
             }
         }
     }
-    loadJS(pageUrl, insetPos, callback, id) {
+    loadJS(pageUrl, insetPos, cb, id) {
         if (!document.getElementById(id)) {
             let loadJs = document.createElement("script");
             loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
@@ -254,12 +246,11 @@ class JZFQ {
                 loadJs.onreadystatechange = () => {
                     if (loadJs.readyState == "loaded" || loadJs.readyState == "complete") {
                         loadJs.onreadystatechange = null;
-                        callback();
+                        return cb()
                     }
                 };
-            } else {
-                loadJs.onload = () => callback();
             }
+            loadJs.onload = () => cb();
         }
     }
     tips(txt) {
@@ -285,14 +276,12 @@ class JZFQ {
     isPC() {
         let userAgentInfo = navigator.userAgent;
         let Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
-        let flag = true;
         for (let v = 0; v < Agents.length; v++) {
             if (userAgentInfo.indexOf(Agents[v]) > 0) {
-                flag = false;
-                break;
+                return false
             }
         }
-        return flag;
+        return true;
     }
     isMobile() {
         let UA = navigator.userAgent,
@@ -305,7 +294,7 @@ class JZFQ {
             this.body.classList.add(IsIOS ? "ios" : "android");
         }
     }
-    formatNumber(n = (0).toString()) {
+    formatNumber(n = '0') {
         let floatNum = '';
         if (/\,/.test(n)) return n;
         if (/\./.test(n)) {
@@ -362,9 +351,7 @@ class JZFQ {
         let v = Object.prototype.toString.call(value);
         let type = v.substring(0, v.length - 1).split(' ')[1];
         while (i < l) {
-            if (type === typeArray[i]) {
-                return type;
-            }
+            if (type === typeArray[i]) return type;
             i++;
         }
     }
@@ -441,7 +428,7 @@ class h5PopClass extends JZFQ {
             })
         }
     }
-    popMainRun(opts, callback) {
+    popMainRun(opts, cb) {
         let div = document.createElement("div");
         let mask = document.createElement("div");
         mask.className = "h5pop-mask";
@@ -469,7 +456,7 @@ class h5PopClass extends JZFQ {
         div.innerHTML = popHtml;
         this.body.appendChild(div);
         this.body.appendChild(mask);
-        callback(opts)
+        cb(opts)
     }
     bindEvent(opts) {
         let isEvent = true;
