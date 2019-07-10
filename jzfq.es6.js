@@ -180,9 +180,9 @@ class JZFQ {
             for (let l = 1; l < 5; l++) {
                 lhtml += '<div class="circle' + l + '"></div>';
             }
-            for (let i = 0; i < 3; i++) {
+            Array.from(new Array(3).keys()).forEach(i => {
                 mainHtml += '<div class="loading-container ' + classArray[i] + '">' + lhtml + '</div>';
-            }
+            });
             loading.innerHTML = '<div class="loading">' + mainHtml + '</div>';
             this.body.appendChild(loading);
         }

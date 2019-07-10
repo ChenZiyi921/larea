@@ -1,6 +1,6 @@
 var startx, starty;
 function getAngle(angx, angy) {
-    return Math.atan2(angy, angx) * 180 / Math.PI;
+    return Math.atan2(angy, angx) * 180 / Math.PI
 };
 
 function getDirection(startx, starty, endx, endy) {
@@ -9,7 +9,7 @@ function getDirection(startx, starty, endx, endy) {
     var result = 0;
 
     if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
-        return result;
+        return result
     }
 
     var angle = getAngle(angx, angy);
@@ -23,13 +23,13 @@ function getDirection(startx, starty, endx, endy) {
         result = 4;
     }
 
-    return result;
+    return result
 }
 
 document.addEventListener("touchstart", function (e) {
     startx = e.touches[0].pageX;
     starty = e.touches[0].pageY;
-}, false);
+});
 
 document.addEventListener("touchend", function (e) {
     var endx, endy;
@@ -55,4 +55,4 @@ document.addEventListener("touchend", function (e) {
             break;
         default:
     }
-}, false);
+});

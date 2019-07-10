@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1 v-on:click="clickMe">{{title}}</h1>
+    </div>
+    <script src="compile.js"></script>
+    <script>
+        var app = new SelfVue({
+            el: '#app',
+            data: {
+                title: 'hello world'
+            },
+            methods: {
+                clickMe: function () {
+                    this.title = 'hello';
+                }
+            },
+            mounted() {
+                window.setTimeout(() => {
+                    this.title = '你好';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+
+</html>
