@@ -20,7 +20,7 @@ class JZFQ {
         for (let key in opts) {
             defaults[key] = opts[key];
         }
-        if (typeof defaults["data"] === "object") {
+        if (this.typeOf(defaults["data"]) === 'Object') {
             let str = "";
             for (let key in defaults["data"]) {
                 str += key + "=" + defaults["data"][key] + "&";
@@ -55,7 +55,7 @@ class JZFQ {
                     if (typeof defaults["success"] == "function") {
                         try {
                             if (defaults["dataType"] == "json") {
-                                defaults["success"].call(oXhr, eval("(" + oXhr.responseText + ")"));
+                                defaults["success"].call(oXhr, JSON.parse(oXhr.responseText));
                             } else {
                                 defaults["success"].call(oXhr, oXhr.responseText);
                             }
@@ -82,13 +82,13 @@ class JZFQ {
         success() { },
         error() { }
     }) {
-        let [paraArr, paraString] = [[], ''];
-        let [urlArr, cbName] = ['', ''];
-        let creatScript = null;
-        let supportLoad = '';
-        let onEvent;
-        let timeout = opts.timeout || 0;
-        let ranTxt = this.ranStr(10);
+        let [paraArr, paraString] = [[], ''],
+            [urlArr, cbName] = ['', ''],
+            creatScript = null,
+            supportLoad = '',
+            onEvent,
+            timeout = opts.timeout || 0,
+            ranTxt = this.ranStr(10);
 
         for (let i in opts.data) {
             if (opts.data.hasOwnProperty(i)) {
@@ -107,12 +107,9 @@ class JZFQ {
         creatScript = document.createElement("script");
         creatScript.loaded = false;
         window[cbName] = data => {
-            if (!typeof opts.success == 'function') {
-                return;
-            } else {
-                opts.success(data)
-                creatScript.loaded = true;
-            }
+            if (!typeof opts.success == 'function') return;
+            opts.success(data)
+            creatScript.loaded = true;
         }
 
         this.head.insertBefore(creatScript, this.head.firstChild);
@@ -122,13 +119,11 @@ class JZFQ {
 
         onEvent = supportLoad ? "onload" : "onreadystatechange";
         creatScript[onEvent] = () => {
-
             if (creatScript.readyState && creatScript.readyState != "loaded") {
                 return;
             }
             if (creatScript.readyState == 'loaded' && creatScript.loaded == false) {
-                creatScript.onerror();
-                return;
+                return creatScript.onerror()
             }
             setTimeout(() => {
                 (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (this.head.removeNode && this.head.removeNode(this));
@@ -155,11 +150,11 @@ class JZFQ {
         }
     }
     uploadImg(opts) {
-        if (typeof opts == "object") {
+        if (this.typeOf(opts) === 'Object') {
             let [formData, xhr] = [new FormData(), new XMLHttpRequest()];
             formData.append("image", opts.ele.files[0]);
             xhr.open("post", opts.url, true);
-            xhr.onreadystatechange = data => {
+            xhr.onreadystatechange = () => {
                 if (4 === xhr.readyState) {
                     if (200 === xhr.status) {
                         let data = JSON.parse(xhr.responseText);
@@ -212,7 +207,7 @@ class JZFQ {
         }
     }
     urlSplicing(name, value) {
-        if (/Array/.test(Object.prototype.toString.call(name))) {
+        if (Array.isArray(name)) {
             for (let i = 0; i < name.length; i++) {
                 for (let k in name[i]) {
                     if (!this.getQueryString(k)) {
@@ -377,9 +372,7 @@ class JZFQ {
     parents(ele, selector) {
         let matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
         while (ele) {
-            if (matchesSelector.call(ele, selector)) {
-                break;
-            }
+            if (matchesSelector.call(ele, selector)) break;
             ele = ele.parentElement;
         }
         return ele
@@ -429,8 +422,7 @@ class h5PopClass extends JZFQ {
         }
     }
     popMainRun(opts, cb) {
-        let div = document.createElement("div");
-        let mask = document.createElement("div");
+        let [div, mask] = [document.createElement("div"), document.createElement("div")];
         mask.className = "h5pop-mask";
         mask.id = "h5PopMasks";
         div.className = "h5pop-main clearfix";
@@ -454,8 +446,7 @@ class h5PopClass extends JZFQ {
         }
         popHtml += '</div>';
         div.innerHTML = popHtml;
-        this.body.appendChild(div);
-        this.body.appendChild(mask);
+        this.body.appendChild(div), this.body.appendChild(mask);
         cb(opts)
     }
     bindEvent(opts) {
@@ -510,9 +501,7 @@ HTMLElement.prototype.css = function (opts) {
 };
 HTMLElement.prototype.removeAttr = function (attr) {
     if (this.getAttribute('style')) {
-        if (Jzfq.typeOf(attr) !== 'Array') {
-            attr = attr.split(',')
-        }
+        !Array.isArray(attr) && (attr = attr.split(','))
         let getStyles = this.getAttribute('style').replace(/\s+/g, '');
         for (let i = 0; i < attr.length; i++) {
             getStyles = getStyles.replace(new RegExp(attr[i] + ':.+?;'), '')
