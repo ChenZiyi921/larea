@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="css/index.css"> -->
+    <style>
+        html,
+        body,
+        ul,
+        li,
+        a {
+            padding: 0;
+            margin: 0;
+        }
+
+        #main {
+            width: 100%;
+            height: 100%;
+        }
+
+        #left {
+            background: #eee;
+            position: absolute;
+            width: 240px;
+            height: 100%;
+            user-select: none;
+        }
+
+        #line {
+            background: #ddd;
+            position: absolute;
+            left: 240px;
+            width: 4px;
+            height: 100%;
+            cursor: col-resize;
+        }
+
+        #right {
+            background: #fff;
+            position: absolute;
+            right: 0;
+            width: calc(100% - 244px);
+            height: 100%;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        #left {
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #left li {
+            position: relative;
+            cursor: pointer;
+        }
+
+        #left a {
+            display: inline-block;
+            width: 100%;
+            height: 20px;
+            padding: 10px 0px 10px 0;
+            font-size: 14px;
+            font-style: normal;
+            color: #333;
+            text-decoration: none;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #left span.arrows {
+            position: absolute;
+            right: 20px;
+            top: 16px;
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-top: 1px #333 solid;
+            border-right: 1px #333 solid;
+            transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transition: all .1s;
+        }
+
+        .showAlways {
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .clickbale {
+            position: relative;
+            z-index: 2;
+        }
+
+        .selectedItem {
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: -1;
+            width: 220px;
+            height: 40px;
+            background: #2d8cf0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="left">
+
+        </div>
+        <div id="line"></div>
+        <div id="right"></div>
+    </div>
+    <script src="./json.js"></script>
+    <script>
+        function DocCenter() {
+            this.init()
+        }
+        DocCenter.prototype = {
+            init: function () {
+                this.menu()
+                this.drag()
+            },
+            getNextNode: function (ele) {
+                if (ele.nextElementSibling !== undefined) {
+                    return ele.nextElementSibling;
+                } else {
+                    var item = ele.nextSibling;
+                    while (item && item.nodeType != 1) {
+                        item = item.nextSibling;
+                    }
+                    return item;
+                }
+            },
+            getElementsByClassName: function (node, classname) {
+                var a = [];
+                var re = new RegExp('(^| )' + classname + '( |$)');
+                var els = node.getElementsByTagName("*");
+                for (var i = 0, j = els.length; i < j; i++)
+                    if (re.test(els[i].className)) a.push(els[i]);
+                return a;
+            },
+            menu: function () {
+                var _this = this;
+                var res = result.data;
+                var html = '';
+                function treeMenu(id, data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].parentId == id) {
+                            html += '<ul style="padding-left:2em;"><li><a ' + (data[i].level == 0 ? 'class="firstMenu"' : '') + (data[i].children == null ? 'class="clickbale"' : '') + ' href="' + (!!data[i].url ? data[i].url : 'javascript:;') + '">' + data[i].menuName + '</a>';
+                            if (data[i].children) {
+                                html += '<span class="arrows"></span>'
+                                treeMenu(data[i].id, data[i].children)
+                            }
+                            html += '</li></ul>'
+                        }
+                    }
+                }
+                treeMenu(0, res)
+                document.getElementById('left').innerHTML = html;
+                var arrows = _this.getElementsByClassName(document, 'arrows');
+                for (var i = 0; i < arrows.length; i++) {
+                    arrows[i].parentElement.className = 'showAlways';
+                }
+                var showAlways = _this.getElementsByClassName(document, 'showAlways'),
+                    firstMenu = _this.getElementsByClassName(document, 'firstMenu'),
+                    clickbale = _this.getElementsByClassName(document, 'clickbale');
+                for (var s = 0; s < showAlways.length; s++) {
+                    showAlways[s].onclick = function (e) {
+                        var target = (e = e || window.event).target || e.srcElement;
+                        e = window.event || e;
+                        document.all ? e.cancelBubble = true : e.stopPropagation();
+                        if (_this.getNextNode(target) && _this.getNextNode(target).className == 'arrows') {
+                            if (!!this.style.height) {
+                                this.removeAttribute('style');
+                                _this.getElementsByClassName(this, 'arrows')[0].removeAttribute('style');
+                            } else {
+                                if (target.className == 'firstMenu') {
+                                    for (var c = 0; c < firstMenu.length; c++) {
+                                        firstMenu[c].parentElement.removeAttribute('style');
+                                        _this.getNextNode(firstMenu[c]).removeAttribute('style');
+                                    }
+                                }
+                                this.style.height = 'auto';
+                                this.style.overflow = 'visible';
+                                _this.getElementsByClassName(this, 'arrows')[0].style.webkitTransform = 'rotate(135deg)';
+                            }
+                        } else if (target.className == 'clickbale') {
+                            var selectedItem = document.createElement('span');
+                            selectedItem.className = 'selectedItem';
+                            for (var y = 0; y < clickbale.length; y++) {
+                                clickbale[y].removeAttribute('style');
+                                clickbale[y].childNodes[1] && clickbale[y].removeChild(clickbale[y].childNodes[1]);
+                            }
+                            target.appendChild(selectedItem)
+                            target.style.color = '#fff';
+                        }
+                    }
+                }
+            },
+            drag: function () {
+                var left = document.getElementById('left'),
+                    line = document.getElementById('line'),
+                    right = document.getElementById('right'),
+                    bodyWidth = document.body.clientWidth,
+                    leftMaxWidth = document.body.clientWidth - 200;
+                line.onmousedown = function (e) {
+                    document.onmousemove = function (e) {
+                        if (e.clientX > 240 && e.clientX < leftMaxWidth) {
+                            left.style.width = e.clientX + 'px'
+                            line.style.left = e.clientX + 'px'
+                            right.style.width = "calc(100% - " + e.clientX + "px - 4px)"
+                        }
+                        return false
+                    }
+                    document.onmouseup = function () {
+                        document.onmousemove = null
+                        document.onmouseup = null
+                    }
+                }
+            }
+        }
+        new DocCenter()
+    </script>
+</body>
+
+</html>
