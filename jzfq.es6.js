@@ -377,39 +377,21 @@ class JZFQ {
         }
         return ele
     }
-    getTime(opts) {
-        let clearI = null;
-        let ele = document.getElementById(opts.id);
-        let [ymd, hms, week] = ['', '', ''];
-        let addZero = t => { return t <= 9 ? "0" + t : t }
-        clearI = setInterval(() => {
-            let date = new Date();
-            if (opts.ymd) {
-                let year = date.getFullYear(),
-                    month = addZero(date.getMonth() + 1),
-                    day = addZero(date.getDate());
-                ymd = year + "年" + month + "月" + day + "日 ";
+    imgLoaded(imgList, callback) {
+        let clear, isLoad = true, imgs = [];
+        for (let i = 0; i < imgList.length; i++) {
+            if (imgList[i].height === 0) {
+                isLoad = false;
+                imgs.push(imgList[i])
             }
-            if (opts.hms) {
-                let hour = addZero(date.getHours()),
-                    minute = addZero(date.getMinutes()),
-                    second = addZero(date.getSeconds());
-                hms = hour + ":" + minute + ":" + second;
-            }
-            if (opts.week) {
-                switch (date.getDay()) {
-                    case 0: week = "星期天"; break;
-                    case 1: week = "星期一"; break;
-                    case 2: week = "星期二"; break;
-                    case 3: week = "星期三"; break;
-                    case 4: week = "星期四"; break;
-                    case 5: week = "星期五"; break;
-                    case 6: week = "星期六"; break;
-                }
-            }
-            ele.innerHTML = ymd + hms + " " + week;
-            clearI = null;
-        }, 1000);
+        }
+        if (isLoad) {
+            clearTimeout(clear), callback();
+        } else {
+            clear = setTimeout(function () {
+                imgLoaded(imgs, callback);
+            }, 300);
+        }
     }
 }
 class h5PopClass extends JZFQ {
