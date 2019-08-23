@@ -17,9 +17,7 @@ class JZFQ {
             success() { },
             error() { }
         };
-        for (let key in opts) {
-            defaults[key] = opts[key];
-        }
+        Object.assign(defaults, opts)
         if (this.typeOf(defaults["data"]) === 'Object') {
             let str = "";
             for (let key in defaults["data"]) {
@@ -46,25 +44,17 @@ class JZFQ {
             oXhr.setRequestHeader("Content-type", defaults["contentType"]);
             oXhr.send(defaults["data"]);
         }
-        if (defaults["setToken"] && typeof defaults["setToken"] == "function") {
-            defaults["setToken"](oXhr);
-        }
+        if (defaults["setToken"] && this.typeOf(defaults["setToken"]) === "Function") defaults["setToken"](oXhr);
         oXhr.onreadystatechange = () => {
             if (oXhr.readyState === 4) {
                 if (oXhr.status === 200) {
-                    if (typeof defaults["success"] == "function") {
-                        try {
-                            if (defaults["dataType"] == "json") {
-                                defaults["success"].call(oXhr, JSON.parse(oXhr.responseText));
-                            } else {
-                                defaults["success"].call(oXhr, oXhr.responseText);
-                            }
-                        } catch (e) { }
+                    if (this.typeOf(defaults["success"]) === "Function") {
+                        defaults["dataType"] == "json"
+                            ? defaults["success"].call(oXhr, JSON.parse(oXhr.responseText))
+                            : defaults["success"].call(oXhr, oXhr.responseText);
                     }
                 } else {
-                    if (typeof defaults["error"] == "function") {
-                        defaults["error"]();
-                    }
+                    if (this.typeOf(defaults["error"]) === "Function") defaults["error"]();
                 }
             }
         };
@@ -158,11 +148,7 @@ class JZFQ {
                 if (4 === xhr.readyState) {
                     if (200 === xhr.status) {
                         let data = JSON.parse(xhr.responseText);
-                        if (data.status == "200") {
-                            typeof opts.cb == "function" && opts.cb();
-                        } else {
-                            this.tips(data.msg);
-                        }
+                        data.status == "200" ? this.typeOf(opts.cb) === "Function" && opts.cb() : this.tips(data.msg);
                     } else {
                         this.tips("error");
                     }
@@ -181,9 +167,9 @@ class JZFQ {
                 lhtml += '<div class="circle' + l + '"></div>';
             }
             Array.from(new Array(3).keys()).forEach(i => {
-                mainHtml += '<div class="loading-container ' + classArray[i] + '">' + lhtml + '</div>';
+                mainHtml += `<div class="loading-container ${classArray[i]}">${lhtml}</div>`;
             });
-            loading.innerHTML = '<div class="loading">' + mainHtml + '</div>';
+            loading.innerHTML = `<div class="loading">${mainHtml}</div>`;
             this.body.appendChild(loading);
         }
     }
@@ -193,7 +179,7 @@ class JZFQ {
     }
     getQueryString(name) {
         let url = window.location.href;
-        if (/\?/.test(url) && !/\?$/.test(url) && /\?(.+)/.test(url)) {
+        if (/\?(.+)/.test(url)) {
             let args = url.split('?');
             if (args[0] !== url) {
                 let arr = args[1].split('&');
@@ -249,20 +235,18 @@ class JZFQ {
         }
     }
     tips(txt) {
-        if (document.getElementById("systemTips") || !txt) return;
-        let tout = null;
+        let systemTips = document.getElementById("systemTips");
+        if (systemTips || !txt) return;
+        let clear = null;
         let div = document.createElement("div");
         div.id = "systemTips";
         div.innerHTML = txt.toString();
         this.body.appendChild(div);
-        let getSystemTips = document.getElementById("systemTips");
-        if (getSystemTips) {
-            tout = setTimeout(() => {
-                if (getSystemTips.parentNode) {
-                    getSystemTips.parentNode.removeChild(getSystemTips);
-                    clearTimeout(tout);
-                }
-            }, 2000);
+        if (systemTips.parentNode) {
+            clear = setTimeout(() => {
+                systemTips.parentNode.removeChild(systemTips);
+                clearTimeout(clear);
+            }, 2000)
         }
     }
     isweixin() {
@@ -272,9 +256,7 @@ class JZFQ {
         let userAgentInfo = navigator.userAgent;
         let Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
         for (let v = 0; v < Agents.length; v++) {
-            if (userAgentInfo.indexOf(Agents[v]) > 0) {
-                return false
-            }
+            if (userAgentInfo.indexOf(Agents[v]) > 0) return false
         }
         return true;
     }
@@ -289,26 +271,8 @@ class JZFQ {
             this.body.classList.add(IsIOS ? "ios" : "android");
         }
     }
-    formatNumber(n = '0') {
-        let floatNum = '';
-        if (/\,/.test(n)) return n;
-        if (/\./.test(n)) {
-            floatNum = '.' + n.split('.')[1];
-            n = n.split('.')[0];
-        }
-        let [re, result] = [/\d{3}$/, ''];
-        while (re.test(n)) {
-            result = RegExp.lastMatch + result;
-            if (n !== RegExp.lastMatch) {
-                result = ',' + result;
-                n = RegExp.leftContext;
-            } else {
-                n = '';
-                break;
-            }
-        }
-        if (n) result = n + result;
-        return /\./.test(n + floatNum) ? result + floatNum : result;
+    toThousands(num) {
+        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
     }
     goTop(ele, scrToShow) {
         window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
@@ -380,17 +344,14 @@ class JZFQ {
     imgLoaded(imgList, callback) {
         let clear, isLoad = true, imgs = [];
         for (let i = 0; i < imgList.length; i++) {
-            if (imgList[i].height === 0) {
-                isLoad = false;
-                imgs.push(imgList[i])
-            }
+            if (imgList[i].height === 0) isLoad = false, imgs.push(imgList[i])
         }
         if (isLoad) {
-            clearTimeout(clear), callback();
+            clearTimeout(clear), callback()
         } else {
             clear = setTimeout(function () {
-                imgLoaded(imgs, callback);
-            }, 300);
+                imgLoaded(imgs, callback)
+            }, 300)
         }
     }
 }
@@ -437,20 +398,20 @@ class h5PopClass extends JZFQ {
             let target = (e = e || window.event).target || e.srcElement;
             let targetType = target.className.toLowerCase() || target.id;
             if (isEvent) {
-                if (targetType == "h5pop-cancel") {
-                    if (opts["cancelBtnRun"] && typeof opts["cancelBtnRun"] === "function") {
-                        opts["cancelBtnRun"]();
-                    }
-                }
-                if (targetType == "h5pop-confirm") {
-                    if (opts["confirmBtnRun"] && typeof opts["confirmBtnRun"] === "function") {
-                        opts["confirmBtnRun"]();
-                    }
-                }
                 if (targetType == "h5pop-close" || targetType == "h5pop-cancel" || targetType == "h5pop-confirm") {
-                    e.preventDefault();
-                    this.removePop();
-                    isEvent = false;
+                    return this.removePop(), e.preventDefault(), isEvent = false;
+                }
+                switch (targetType) {
+                    case "h5pop-cancel":
+                        if (opts["cancelBtnRun"] && typeof opts["cancelBtnRun"] === "function") {
+                            opts["cancelBtnRun"]();
+                        }
+                        break;
+                    case "h5pop-confirm":
+                        if (opts["confirmBtnRun"] && typeof opts["confirmBtnRun"] === "function") {
+                            opts["confirmBtnRun"]();
+                        }
+                        break;
                 }
             }
         });
