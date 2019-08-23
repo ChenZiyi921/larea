@@ -61,7 +61,7 @@ class JZFQ {
     }
     ranStr(n) {
         for (let e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIZKLMNOPQRSTUVWXYZ0123456789", a = "", r = 0; r < n; r++) {
-            let i = Math.floor(Math.random() * (e.length - 1));
+            let i = ~~(Math.random() * (e.length - 1));
             a += e.charAt(i);
         }
         return a;
