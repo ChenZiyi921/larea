@@ -1,10 +1,10 @@
 class JZFQ {
-    // body = document.querySelector("body");
+    static body = document.querySelector("body");
+    static head = document.querySelector("head");
     constructor() {
-        this.body = document.querySelector("body");
-        this.head = document.querySelector("head");
+
     }
-    ajax(opts) {
+    static ajax(opts) {
         let defaults = {
             type: "GET",
             url: "",
@@ -66,7 +66,7 @@ class JZFQ {
         }
         return a;
     }
-    jsonpAjax(opts = { // 未测试移除 removeNode中this有问题
+    static jsonpAjax(opts = { // 未测试移除 removeNode中this有问题
         url: '',
         data: {} || [],
         success() { },
@@ -97,7 +97,7 @@ class JZFQ {
         creatScript = document.createElement("script");
         creatScript.loaded = false;
         window[cbName] = data => {
-            if (!typeof opts.success == 'function') return;
+            if (this.typeOf(opts.success) !== 'Function') return;
             opts.success(data)
             creatScript.loaded = true;
         }
@@ -139,7 +139,7 @@ class JZFQ {
             }, timeout);
         }
     }
-    uploadImg(opts) {
+    static uploadImg(opts) {
         if (this.typeOf(opts) === 'Object') {
             let [formData, xhr] = [new FormData(), new XMLHttpRequest()];
             formData.append("image", opts.ele.files[0]);
@@ -157,7 +157,7 @@ class JZFQ {
             xhr.send(formData);
         }
     }
-    loading() {
+    static loading() {
         if (!document.getElementById('loadingWrap')) {
             let lhtml = '', mainHtml = '';
             let classArray = ['loadfirst', 'second', 'loadlast'];
@@ -173,11 +173,11 @@ class JZFQ {
             this.body.appendChild(loading);
         }
     }
-    removeLoading() {
+    static removeLoading() {
         let loading = document.getElementById('loadingWrap');
         loading && this.body.removeChild(loading);
     }
-    getQueryString(name) {
+    static getQueryString(name) {
         let url = window.location.href;
         if (/\?(.+)/.test(url)) {
             let args = url.split('?');
@@ -192,7 +192,7 @@ class JZFQ {
             }
         }
     }
-    urlSplicing(name, value) {
+    static urlSplicing(name, value) {
         if (Array.isArray(name)) {
             for (let i = 0; i < name.length; i++) {
                 for (let k in name[i]) {
@@ -218,7 +218,7 @@ class JZFQ {
             }
         }
     }
-    loadJS(pageUrl, insetPos, cb, id) {
+    static loadJS(pageUrl, insetPos, cb, id) {
         if (!document.getElementById(id)) {
             let loadJs = document.createElement("script");
             loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
@@ -234,7 +234,7 @@ class JZFQ {
             loadJs.onload = () => cb();
         }
     }
-    tips(txt) {
+    static tips(txt) {
         let systemTips = document.getElementById("systemTips");
         if (systemTips || !txt) return;
         let clear = null;
@@ -242,17 +242,14 @@ class JZFQ {
         div.id = "systemTips";
         div.innerHTML = txt.toString();
         this.body.appendChild(div);
-        if (systemTips.parentNode) {
-            clear = setTimeout(() => {
-                systemTips.parentNode.removeChild(systemTips);
-                clearTimeout(clear);
-            }, 2000)
-        }
+        clear = setTimeout(() => {
+            this.body.removeChild(div), clearTimeout(clear);
+        }, 2000)
     }
-    isweixin() {
+    static isweixin() {
         return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
     }
-    isPC() {
+    static isPC() {
         let userAgentInfo = navigator.userAgent;
         let Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
         for (let v = 0; v < Agents.length; v++) {
@@ -260,7 +257,7 @@ class JZFQ {
         }
         return true;
     }
-    isMobile() {
+    static isMobile() {
         let UA = navigator.userAgent,
             IsAndroid = /Android|HTC/i.test(UA),
             IsIPad = !IsAndroid && /iPad/i.test(UA),
@@ -271,10 +268,10 @@ class JZFQ {
             this.body.classList.add(IsIOS ? "ios" : "android");
         }
     }
-    toThousands(num) {
+    static toThousands(num) {
         return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
     }
-    goTop(ele, scrToShow) {
+    static goTop(ele, scrToShow) {
         window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
         let el = document.querySelector(ele);
         window.addEventListener('scroll', () => {
@@ -290,7 +287,7 @@ class JZFQ {
             }
         }, !1);
     }
-    copy(text, tips) {
+    static copy(text, tips) {
         if (!this.body.querySelector('.cInpt')) {
             let input = document.createElement('input');
             input.setAttribute('readonly', 'readonly');
@@ -304,7 +301,7 @@ class JZFQ {
             setTimeout(() => this.body.removeChild(input), 2e3);
         }
     }
-    typeOf(value) {
+    static typeOf(value) {
         let typeArray = ['Number', 'String', 'Boolean', 'Object', 'Array', 'Null', 'Undefined', 'Function'];
         let i = 0, l = typeArray.length;
         let v = Object.prototype.toString.call(value);
@@ -315,7 +312,7 @@ class JZFQ {
         }
     }
     // 同 getBoundingClientRect
-    offsetTop(ele) {
+    static offsetTop(ele) {
         let top = ele.offsetTop;
         let parent = ele.offsetParent;
         while (parent) {
@@ -324,7 +321,7 @@ class JZFQ {
         }
         return top
     }
-    offsetLeft(ele) {
+    static offsetLeft(ele) {
         let left = ele.offsetLeft;
         let parent = ele.offsetParent;
         while (parent) {
@@ -333,7 +330,7 @@ class JZFQ {
         }
         return left
     }
-    parents(ele, selector) {
+    static parents(ele, selector) {
         let matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
         while (ele) {
             if (matchesSelector.call(ele, selector)) break;
@@ -341,7 +338,7 @@ class JZFQ {
         }
         return ele
     }
-    imgLoaded(imgList, callback) {
+    static imgLoaded(imgList, callback) {
         let clear, isLoad = true, imgs = [];
         for (let i = 0; i < imgList.length; i++) {
             if (imgList[i].height === 0) isLoad = false, imgs.push(imgList[i])
@@ -389,7 +386,7 @@ class h5PopClass extends JZFQ {
         }
         popHtml += '</div>';
         div.innerHTML = popHtml;
-        this.body.appendChild(div), this.body.appendChild(mask);
+        JZFQ.body.appendChild(div), JZFQ.body.appendChild(mask);
         cb(opts)
     }
     bindEvent(opts) {
@@ -398,9 +395,6 @@ class h5PopClass extends JZFQ {
             let target = (e = e || window.event).target || e.srcElement;
             let targetType = target.className.toLowerCase() || target.id;
             if (isEvent) {
-                if (targetType == "h5pop-close" || targetType == "h5pop-cancel" || targetType == "h5pop-confirm") {
-                    return this.removePop(), e.preventDefault(), isEvent = false;
-                }
                 switch (targetType) {
                     case "h5pop-cancel":
                         if (opts["cancelBtnRun"] && typeof opts["cancelBtnRun"] === "function") {
@@ -412,6 +406,9 @@ class h5PopClass extends JZFQ {
                             opts["confirmBtnRun"]();
                         }
                         break;
+                }
+                if (targetType == "h5pop-close" || targetType == "h5pop-cancel" || targetType == "h5pop-confirm") {
+                    return this.removePop(), e.preventDefault(), isEvent = false;
                 }
             }
         });
@@ -426,7 +423,7 @@ class h5PopClass extends JZFQ {
     }
 }
 Array.prototype.isInArray = function (value, type) {
-    if (this.indexOf && Jzfq.typeOf(this.indexOf) === 'Function') {
+    if (this.indexOf && JZFQ.typeOf(this.indexOf) === 'Function') {
         let index = this.indexOf(value);
         if (index >= 0) {
             return type == 'i' ? index : type == 'v' ? value : true;
@@ -459,5 +456,3 @@ NodeList.prototype.replaceClass = function replaceClass(...args) {
     this.forEach(item => item.replaceClass(...args));
     return this;
 };
-
-const Jzfq = new JZFQ
