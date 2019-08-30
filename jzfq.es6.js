@@ -242,9 +242,7 @@ class JZFQ {
         div.id = "systemTips";
         div.innerHTML = txt.toString();
         this.body.appendChild(div);
-        clear = setTimeout(() => {
-            this.body.removeChild(div), clearTimeout(clear);
-        }, 2000)
+        clear = setTimeout(() => { this.body.removeChild(div), clearTimeout(clear) }, 2000)
     }
     static isweixin() {
         return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
@@ -343,25 +341,19 @@ class JZFQ {
         for (let i = 0; i < imgList.length; i++) {
             if (imgList[i].height === 0) isLoad = false, imgs.push(imgList[i])
         }
-        if (isLoad) {
-            clearTimeout(clear), callback()
-        } else {
-            clear = setTimeout(function () {
-                imgLoaded(imgs, callback)
-            }, 300)
-        }
+        isLoad ? (clearTimeout(clear), callback()) : clear = setTimeout(() => imgLoaded(imgs, callback), 300)
     }
 }
-class h5PopClass extends JZFQ {
+class Pop extends JZFQ {
     constructor(opts) {
         super();
         if (/Object/.test(Object.prototype.toString.call(opts))) {
-            this.popMainRun(opts, opts => {
-                this.bindEvent(opts);
+            this.main(opts, opts => {
+                this.event(opts);
             })
         }
     }
-    popMainRun(opts, cb) {
+    main(opts, cb) {
         let [div, mask] = [document.createElement("div"), document.createElement("div")];
         mask.className = "h5pop-mask";
         mask.id = "h5PopMasks";
@@ -389,7 +381,7 @@ class h5PopClass extends JZFQ {
         JZFQ.body.appendChild(div), JZFQ.body.appendChild(mask);
         cb(opts)
     }
-    bindEvent(opts) {
+    event(opts) {
         let isEvent = true;
         document.querySelector('#h5PopMainEle').addEventListener('click', e => {
             let target = (e = e || window.event).target || e.srcElement;
@@ -408,12 +400,12 @@ class h5PopClass extends JZFQ {
                         break;
                 }
                 if (targetType == "h5pop-close" || targetType == "h5pop-cancel" || targetType == "h5pop-confirm") {
-                    return this.removePop(), e.preventDefault(), isEvent = false;
+                    return this.remove(), e.preventDefault(), isEvent = false;
                 }
             }
         });
     }
-    removePop() {
+    remove() {
         let getMasks = document.getElementById("h5PopMasks");
         let getPopMains = document.getElementById("h5PopMainEle");
         if (getMasks.parentNode && getPopMains.parentNode) {
@@ -433,19 +425,17 @@ Array.prototype.isInArray = function (value, type) {
 HTMLElement.prototype.css = function (opts) {
     if (/Object/.test(Object.prototype.toString.call(opts))) {
         for (let key in opts) {
-            if (opts[key]) {
-                this.style[key] = opts[key].toString();
-            }
+            opts[key] && (this.style[key] = opts[key].toString())
         }
     }
 };
 HTMLElement.prototype.removeAttr = function (attr) {
     if (this.getAttribute('style')) {
         !Array.isArray(attr) && (attr = attr.split(','))
-        let getStyles = this.getAttribute('style').replace(/\s+/g, '');
+        let styles = this.getAttribute('style').replace(/\s+/g, '');
         for (let i = 0; i < attr.length; i++) {
-            getStyles = getStyles.replace(new RegExp(attr[i] + ':.+?;'), '')
-            this.setAttribute('style', getStyles)
+            styles = styles.replace(new RegExp(attr[i] + ':.+?;'), '')
+            this.setAttribute('style', styles)
         }
     }
 };
