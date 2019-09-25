@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="keywords" content="桔子分期,分期,分期网,手机分期,笔记本分期,相机分期,分期付款,兼职">
+    <meta name="description"
+        content="桔子分期是一家专注于年轻人分期购物的在线商城及金融服务平台，所有商品100%正品行货,支持全网分期,产品以限时特卖、零首付分期付款为主，是国内领先的年轻人分期消费服务商。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="email=no" />
+    <meta name="format-detection" content="address=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="copyright" content="Copyright (c) juzifenqi.com">
+    <link rel="stylesheet" href="./css/h5.reset.css" />
+    <style>
+        body {
+            background: #F4F4F4;
+        }
+
+        .wrap {
+            padding: 0 .3rem;
+            box-sizing: border-box;
+        }
+
+        .content {
+            margin: 0.86rem auto 1rem auto;
+        }
+
+        .content h2 {
+            display: inline-block;
+            width: 100%;
+            margin: .28rem 0;
+            text-align: center;
+            font-weight: normal;
+            line-height: .40rem;
+            font-size: .28rem;
+            color: #333;
+        }
+
+        .checkCode-wrap {
+            display: flex;
+            width: 100%;
+            height: .8rem;
+            margin: .28rem 0;
+            align-items: center;
+            background: rgba(255, 255, 255, 1);
+            border-radius: .1rem;
+        }
+
+        .checkCode-wrap em {
+            flex: 1;
+            padding: 0 .2rem;
+        }
+
+        .checkCode-wrap input {
+            flex: 4;
+            padding: 0 .2rem;
+            height: 100%;
+        }
+
+        .checkCode-wrap a {
+            display: flex;
+            padding: 0 .2rem;
+            height: 100%;
+            align-items: center;
+        }
+
+        .checkCode-wrap em,
+        .checkCode-wrap input,
+        .checkCode-wrap a {
+            font-size: .28rem;
+        }
+
+        .checkCode-wrap input::placeholder {
+            color: #ccc;
+        }
+
+        .next {
+            display: inline-block;
+            width: 100%;
+            height: .96rem;
+            line-height: .96rem;
+            margin: .28rem 0;
+            text-align: center;
+            background: rgba(221, 221, 221, 1);
+            border-radius: .1rem;
+            font-size: .36rem;
+            color: #fff;
+        }
+
+        .pink {
+            background: linear-gradient(90deg, rgba(255, 83, 144, 1) 0%, rgba(255, 64, 112, 1) 100%);
+        }
+
+        /* 发送验证码结束 */
+        /* 交易密码 */
+        .password {
+            position: relative;
+            padding: .28rem .3rem;
+        }
+
+        .pwd-wrap {
+            display: flex;
+            width: 100%;
+            height: 1rem;
+            background: #fff;
+            border-radius: .1rem;
+            border: 1px solid #dcdcdc;
+            box-sizing: border-box;
+        }
+
+        .pwd-wrap li {
+            flex: 1;
+            border-left: 1px solid #dcdcdc;
+        }
+
+        .pwd-wrap li:nth-of-type(1) {
+            border: none;
+        }
+
+        .pwd-input {
+            position: absolute;
+            top: .26rem;
+            left: 0;
+            width: 100%;
+            height: 1rem;
+            background: transparent;
+            outline: none;
+            color: transparent;
+        }
+
+        .inputed {
+            background: url(images/i-point.png) center center no-repeat;
+            background-size: .4rem .4rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="content" style="display: none;">
+            <h2>我们将发送验证码到您的手机上<br /><span>158****8970</span></h2>
+            <div class="checkCode-wrap">
+                <em>验证码</em>
+                <input type="text" placeholder="请输入验证码" />
+                <a href="javascript:;">获取验证码</a>
+            </div>
+            <a class="next pink" href="javascript:;">下一步</a>
+        </div>
+        <div class="content">
+            <h2><span class="pwd-title">请输入新交易密码</span><br />&nbsp;</h2>
+            <div class="password">
+                <ul class="pwd-wrap">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <input class="pwd-input" type="number" style="z-index: 2;" />
+                <input class="pwd-input" type="number" style="z-index: 1;" />
+            </div>
+            <a id="confirm" class="next pink" style="display: none;" href="javascript:;">完成</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="./js/pwd.js"></script>
+</body>
+
+</html>

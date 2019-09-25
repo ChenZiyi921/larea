@@ -343,6 +343,7 @@ class JZFQ {
         }
         isLoad ? (clearTimeout(clear), callback()) : clear = setTimeout(() => imgLoaded(imgs, callback), 300)
     }
+    static turnArray(nodeList) { return [].slice.call(nodeList) }
 }
 class Pop extends JZFQ {
     constructor(opts) {
@@ -446,3 +447,4 @@ NodeList.prototype.replaceClass = function replaceClass(...args) {
     this.forEach(item => item.replaceClass(...args));
     return this;
 };
+
