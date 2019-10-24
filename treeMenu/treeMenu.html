@@ -23,7 +23,7 @@
         }
 
         #left {
-            background: #eee;
+            background: #0c1635;
             position: absolute;
             width: 240px;
             height: 100%;
@@ -69,7 +69,7 @@
             padding: 10px 0px 10px 0;
             font-size: 14px;
             font-style: normal;
-            color: #333;
+            color: #fff;
             text-decoration: none;
             white-space: nowrap;
             -webkit-tap-highlight-color: transparent;
@@ -82,8 +82,8 @@
             display: inline-block;
             width: 6px;
             height: 6px;
-            border-top: 1px #333 solid;
-            border-right: 1px #333 solid;
+            border-top: 1px #fff solid;
+            border-right: 1px #fff solid;
             transform: rotate(45deg);
             -ms-transform: rotate(45deg);
             -moz-transform: rotate(45deg);
@@ -143,7 +143,7 @@
                     return item;
                 }
             },
-            getElementsByClassName: function (node, classname) {
+            getClassName: function (node, classname) {
                 var a = [];
                 var re = new RegExp('(^| )' + classname + '( |$)');
                 var els = node.getElementsByTagName("*");
@@ -169,13 +169,13 @@
                 }
                 treeMenu(0, res)
                 document.getElementById('left').innerHTML = html;
-                var arrows = _this.getElementsByClassName(document, 'arrows');
+                var arrows = _this.getClassName(document, 'arrows');
                 for (var i = 0; i < arrows.length; i++) {
                     arrows[i].parentElement.className = 'showAlways';
                 }
-                var showAlways = _this.getElementsByClassName(document, 'showAlways'),
-                    firstMenu = _this.getElementsByClassName(document, 'firstMenu'),
-                    clickbale = _this.getElementsByClassName(document, 'clickbale');
+                var showAlways = _this.getClassName(document, 'showAlways'),
+                    firstMenu = _this.getClassName(document, 'firstMenu'),
+                    clickbale = _this.getClassName(document, 'clickbale');
                 for (var s = 0; s < showAlways.length; s++) {
                     showAlways[s].onclick = function (e) {
                         var target = (e = e || window.event).target || e.srcElement;
@@ -184,7 +184,7 @@
                         if (_this.getNextNode(target) && _this.getNextNode(target).className == 'arrows') {
                             if (!!this.style.height) {
                                 this.removeAttribute('style');
-                                _this.getElementsByClassName(this, 'arrows')[0].removeAttribute('style');
+                                _this.getClassName(this, 'arrows')[0].removeAttribute('style');
                             } else {
                                 if (target.className == 'firstMenu') {
                                     for (var c = 0; c < firstMenu.length; c++) {
@@ -194,7 +194,7 @@
                                 }
                                 this.style.height = 'auto';
                                 this.style.overflow = 'visible';
-                                _this.getElementsByClassName(this, 'arrows')[0].style.webkitTransform = 'rotate(135deg)';
+                                _this.getClassName(this, 'arrows')[0].style.webkitTransform = 'rotate(135deg)';
                             }
                         } else if (target.className == 'clickbale') {
                             var selectedItem = document.createElement('span');

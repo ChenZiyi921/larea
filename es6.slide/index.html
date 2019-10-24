@@ -22,9 +22,9 @@
         <div class="aspen-slide-element"><img src="http://img.mall.juzifenqi.com/181016/08a0fd54-15bd-46ad-84d3-6d6ba79c289c.jpg" title="浦发银行"></div>
         <div class="aspen-slide-item" id="aspenSlideitem1"><i class="actives"></i><i></i><i></i></div>
     </div>
-    <script type="text/javascript" src="aspenSlideClass.js"></script>
+    <script type="text/javascript" src="aspenSlideClass.es6.js"></script>
     <script type="text/javascript">
-        new aspenJZFQSlide({
+        new AspenSlide({
             wrap: document.getElementById('aspenSlideWrap'),
             content: document.querySelectorAll('#aspenSlideWrap .aspen-slide-element'),
             itemEle: document.querySelectorAll('#aspenSlideitem i'),
@@ -32,7 +32,7 @@
             isAuto: true,
             lateX: 60,
         });
-        new aspenJZFQSlide({
+        new AspenSlide({
             wrap: document.getElementById('aspenSlideWrap1'),
             content: document.querySelectorAll('#aspenSlideWrap1 .aspen-slide-element'),
             itemEle: document.querySelectorAll('#aspenSlideitem1 i'),
