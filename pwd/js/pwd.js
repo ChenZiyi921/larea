@@ -10,14 +10,7 @@ class Password {
                 if (len > opts.items.length) {
                     this.value = this.value.substr(0, 6);
                 }
-                switch (this.index) {
-                    case 0:
-                        opts.input.length > 1 && _this.clearSelected()
-                        break;
-                    case 1:
-                        len >= opts.items.length || _this.clearSelected()
-                        break;
-                }
+                len >= opts.items.length || _this.clearSelected()
                 for (let l = 0; l < len; l++) {
                     len > opts.items.length || opts.items[l].classList.add('inputed');
                 }
@@ -68,24 +61,3 @@ class Password {
         });
     }
 }
-
-new Password().start({
-    items: document.querySelectorAll('.pwd-wrap li'),
-    input: document.querySelectorAll('.pwd-input'),
-    confirm: document.getElementById('confirm'),
-    tipsContainer: document.querySelector('.pwd-title'),
-    tips: '请再次输入6位数字交易密码',
-    callback() {
-        // document.querySelector('.tipsText').style.display = 'none';
-    }
-})
-document.getElementById('confirm').addEventListener('click', () => {
-    (new Password).confirm({
-        input: document.querySelectorAll('.pwd-input')
-    }).then(res => {
-        console.log(res)
-        new Password().init().then(res => {
-            res.tipsContainer.innerText = '请输入6位数字交易密码';
-        })
-    })
-})
