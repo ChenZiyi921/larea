@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0 auto;
+            max-width: 750px;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 24%;
+            width: 100%;
+            max-width: 750px;
+        }
+
+        #pointer {
+            position: absolute;
+            left: 50%;
+            top: 46%;
+            transform: translateX(-50%);
+            width: 32%;
+        }
+        .shadow {
+			position: absolute;
+			top: 24%;
+			width: 100%;
+			max-width: 750px;
+		}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="back"><img src="back.jpg" /></div>
+        <div class="shadow"><img src="shadow.png" alt=""></div>
+        <canvas id="canvas"></canvas>
+        <div id="pointer"><img src="pointer.png" /></div>
+    </div>
+    <script>
+        class Draw {
+            constructor(opts) {
+                this.opts = opts;
+                this.dpr = window.devicePixelRatio;
+                this.clientWidth = document.body.clientWidth;
+                this.cvs = document.getElementById('canvas');
+                this.ctx = this.cvs.getContext('2d');
+                this.num = 0;
+                this.click = true;
+                this.init(opts);
+            }
+            init(opts) {
+                const _this = this;
+                this.img = new Image();
+                this.img.src = opts.turnImgUrl;
+                this.img.onload = function () {
+                    _this.cvs.width = _this.tf(this.width);
+                    _this.cvs.height = _this.tf(this.height);
+                    _this.ctx.drawImage(this, (_this.cvs.width - _this.tf(this.width)) / 2, 0, _this.tf(this.width), _this.tf(this.height));
+                    _this.x = _this.cvs.width / 2;
+                    _this.y = _this.cvs.height / 2;
+                }
+                this.start(opts)
+            }
+            start(opts) {
+                document.querySelector(opts.el).addEventListener('click', () => {
+                    if (!this.click) return;
+                    this.click = false;
+                    opts.event().then(() => {
+                        this.deg = opts.deg * (360 / opts.copies) + this.opts.circle * 360;
+                        // this.deg = this.random(1, 6) * 60 + this.opts.circle * 360;
+                        window.requestAnimationFrame(render)
+                    })
+                })
+                let render = () => {
+                    this.num = Math.ceil(this.num + (this.deg - this.num) / (this.num < this.deg / 3 ? 90 : 80));
+                    this.ctx.clearRect(0, 0, this.cvs.width, this.cvs.height);
+                    this.ctx.save();
+                    this.ctx.translate(this.x, this.y);
+                    this.ctx.rotate(this.num * (Math.PI / 180));
+                    this.ctx.translate(-this.x, -this.y);
+                    this.ctx.drawImage(this.img, 0, 0, this.cvs.width, this.cvs.height);
+                    this.ctx.restore();
+                    if (this.num === this.deg) {
+                        window.cancelAnimationFrame(render)
+                        this.num = 0;
+                        this.click = true;
+                        opts.callback(this.deg / (360 / opts.copies) % opts.copies);
+                    } else {
+                        window.requestAnimationFrame(render)
+                    }
+                }
+            }
+            tf(val) {
+                return Math.abs((val / 750) * this.clientWidth * this.dpr);
+            }
+            random(min, max) {
+                return ~~(Math.random() * (max - min + 1) + min);
+            }
+        }
+        new Draw({
+            circle: 4,
+            turnImgUrl: 'turn.png',
+            el: '#pointer',
+            deg: 0,
+            copies: 6,
+            event() {
+                // 发起请求
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        this.deg = 0;
+                        resolve(this.deg)
+                    }, 100)
+                }).then((res) => {
+                    console.log(res)
+                })
+            },
+            callback(res) {
+                // 旋转结束回调
+                // console.log(res)
+            }
+        })
+    </script>
+</body>
+
+</html>

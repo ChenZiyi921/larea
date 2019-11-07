@@ -1,6 +1,9 @@
 
 git ³£ÓÃÃüÁî
 
+git pull -v
+git checkout xxx
+
 git reset --hard release
 git push origin master -f
 
