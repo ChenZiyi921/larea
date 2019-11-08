@@ -49,7 +49,7 @@
         class slideList {
             constructor(opts) {
                 this.init(opts)
-                this.data(opts)
+                opts.data()
             }
             init(opts) {
                 let clearI = setInterval(() => {
@@ -64,13 +64,6 @@
                     setTimeout(() => this.init(opts), opts.delay)
                 }
             }
-            data(opts) {
-                opts.list.innerHTML = '';
-                for (let i = 0; i < 20; i++) {
-                    opts.list.innerHTML += '<li>在每一次要创建定时器之前，判断是否已经有定时器在工作了，有则删之</li>';
-                }
-                setTimeout(() => this.data(opts), opts.update)
-            }
         }
         new slideList({
             container: document.querySelector('.div'),
@@ -78,7 +71,12 @@
             startPos: 0,
             delay: 1000,
             speed: 25,
-            update: 3e3
+            data(){
+                this.list.innerHTML = '';
+                for (let i = 0; i < 20; i++) {
+                    this.list.innerHTML += '<li>在每一次要创建定时器之前，判断是否已经有定时器在工作了，有则删之</li>';
+                }
+            }
         })
     </script>
 </body>
