@@ -24,7 +24,9 @@ document.getElementById('confirm').addEventListener('click', () => {
 })
 `
 `
+
 // 无需确认密码  
+
 new Password().start({    
 
     items: document.querySelectorAll('.pwd-wrap li'),  
@@ -34,17 +36,29 @@ new Password().start({
     confirm: document.getElementById('confirm'),
 
     tipsContainer: document.querySelector('.pwd-title'),
-    
+
     tips: '',
+
     callback() {
+
         this.confirm.style.display = 'block';
+
     }
+
 })
+
 document.getElementById('confirm').addEventListener('click', () => {
+
     (new Password).confirm({
+
         input: document.querySelectorAll('.pwd-input')
+
     }).then(res => {
+
         new Password().init()
+
     })
+
 })
+
 `
