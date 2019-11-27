@@ -1,7 +1,7 @@
 class Password {
     start(opts) {
         const _this = this;
-        window.paymentPasswordOpts = opts;
+        this.opts = opts;
         for (let i = 0; i < opts.input.length; i++) {
             opts.input[i].index = i;
             opts.input[i].addEventListener('input', function () {
@@ -34,21 +34,20 @@ class Password {
             });
         }
     }
-    confirm(opts) {
+    confirm() {
         return new Promise((resolve, reject) => {
             let resVal = {};
-            for (let i = 0; i < opts.input.length; i++) {
-                resVal[`input${i + 1}`] = opts.input[i].getAttribute('data-value')
+            for (let i = 0; i < this.opts.input.length; i++) {
+                resVal[`input${i + 1}`] = this.opts.input[i].getAttribute('data-value')
             }
             resolve(resVal);
         });
     }
     clearSelected() {
-        for (let l = 0; l < window.paymentPasswordOpts.items.length; l++) window.paymentPasswordOpts.items[l].classList.remove('inputed');
+        for (let l = 0; l < this.opts.items.length; l++) this.opts.items[l].classList.remove('inputed');
     }
     init() {
         return new Promise((resolve, reject) => {
-            this.opts = window.paymentPasswordOpts;
             this.start(this.opts);
             this.clearSelected();
             for (let i = 0; i < this.opts.input.length; i++) {
