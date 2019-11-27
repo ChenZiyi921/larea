@@ -1,8 +1,6 @@
 ## 交易密码调用方法
 
-`
-
-> // 需确认密码
+// 需确认密码
 
 new Password().start({
 
@@ -44,7 +42,7 @@ document.getElementById('confirm').addEventListener('click', () => {
     
 })
 
-> // 无需确认密码  
+// 无需确认密码  
 
 new Password().start({    
 
@@ -79,5 +77,3 @@ document.getElementById('confirm').addEventListener('click', () => {
     })
 
 })
-
-`
