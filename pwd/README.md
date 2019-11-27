@@ -1,5 +1,5 @@
 ## 交易密码调用方法
-
+```
 // 需确认密码
 
 new Password().start({
@@ -77,3 +77,4 @@ document.getElementById('confirm').addEventListener('click', () => {
     })
 
 })
+```
