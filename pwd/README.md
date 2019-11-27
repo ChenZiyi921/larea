@@ -23,7 +23,7 @@ document.getElementById('confirm').addEventListener('click', () => {
     })
 })
 `
-
+`
 // 无需确认密码
 new Password().start({
     items: document.querySelectorAll('.pwd-wrap li'),
@@ -42,3 +42,4 @@ document.getElementById('confirm').addEventListener('click', () => {
         new Password().init()
     })
 })
+`
