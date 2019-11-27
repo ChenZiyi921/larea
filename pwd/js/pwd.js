@@ -38,7 +38,7 @@ class Password {
         return new Promise((resolve, reject) => {
             let resVal = {};
             for (let i = 0; i < this.opts.input.length; i++) {
-                resVal[`input${i + 1}`] = this.opts.input[i].getAttribute('data-value')
+                resVal[`input${i}`] = this.opts.input[i].getAttribute('data-value')
             }
             resolve(resVal);
         });
