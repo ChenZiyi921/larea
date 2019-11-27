@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="jzfq.js"></script>
+    <script>
+        JZFQ.ajax({
+            type: "GET",
+            url: "getlist",
+            data: {},
+            success() {
+
+            },
+            error() {
+
+            }
+        })
+        JZFQ.ajax({
+            type: "post",
+            url: "getBookList",
+            data: {},
+            success() {
+
+            },
+            error() {
+
+            }
+        })
+        JZFQ.ajax({
+            type: "post",
+            url: "postlistparams",
+            data: {
+                name: '陈子义',
+                age: 25
+            },
+            success() {
+
+            },
+            error() {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

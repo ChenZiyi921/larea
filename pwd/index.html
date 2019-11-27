@@ -4,16 +4,12 @@
 <head>
     <meta charset="utf-8">
     <title></title>
-    <meta name="keywords" content="桔子分期,分期,分期网,手机分期,笔记本分期,相机分期,分期付款,兼职">
-    <meta name="description"
-        content="桔子分期是一家专注于年轻人分期购物的在线商城及金融服务平台，所有商品100%正品行货,支持全网分期,产品以限时特卖、零首付分期付款为主，是国内领先的年轻人分期消费服务商。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="email=no" />
     <meta name="format-detection" content="address=no" />
     <meta name="format-detection" content="telephone=no">
-    <meta name="copyright" content="Copyright (c) juzifenqi.com">
     <link rel="stylesheet" href="./css/h5.reset.css" />
     <style>
         body {
@@ -163,7 +159,7 @@
                     <li></li>
                     <li></li>
                 </ul>
-                <input class="pwd-input" type="number" style="z-index: 2;" />
+                <!-- <input class="pwd-input" type="number" style="z-index: 2;" /> -->
                 <input class="pwd-input" type="number" style="z-index: 1;" />
             </div>
             <a id="confirm" class="next pink" style="display: none;" href="javascript:;">完成</a>
@@ -176,19 +172,16 @@
             input: document.querySelectorAll('.pwd-input'),
             confirm: document.getElementById('confirm'),
             tipsContainer: document.querySelector('.pwd-title'),
-            tips: '请再次输入6位数字交易密码',
+            tips: '',
             callback() {
-                // document.querySelector('.tipsText').style.display = 'none';
+                this.confirm.style.display = 'block';
             }
         })
         document.getElementById('confirm').addEventListener('click', () => {
             (new Password).confirm({
                 input: document.querySelectorAll('.pwd-input')
             }).then(res => {
-                console.log(res)
-                new Password().init().then(res => {
-                    res.tipsContainer.innerText = '请输入6位数字交易密码';
-                })
+                new Password().init()
             })
         })
     </script>
