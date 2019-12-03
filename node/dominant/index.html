@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="colorify.css"> -->
+    <style>
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <!-- <img id="myImg" src="images/blue.jpg"> -->
+        <!-- <img id="myImg" src="images/green.jpg"> -->
+        <img id="myImg" src="images/red.jpg">
+    </div>
+    <div id="container1"></div>
+    <script src="../jzfq.js"></script>
+    <script src="js/vibrant.js"></script>
+    <script src="js/rgbaster.js"></script>
+    <script>
+        // RGBaster
+        const img = document.querySelector('img');
+        RGBaster.colors(img, {
+            // 调色板大小，越大越精确，同时性能越差
+            paletteSize: 30,
+            // 颜色排除
+            exclude: ['rgb(255,255,255)', 'rgb(0,0,0)'],
+            success: function (payload) {
+                console.log(payload)
+                document.body.style.backgroundColor = payload.dominant;
+                console.log('Dominant color:', payload.dominant); // 主色
+                console.log('Secondary color:', payload.secondary); // 次色
+                console.log('Palette:', payload.palette); // 调色板
+            }
+        })
+
+        // Vibrant
+        // const img = document.querySelector('img');
+        // var vibrant = new Vibrant(img);
+        // var swatches = vibrant.swatches();
+        // var rgb = [];
+        // for (var swatch in swatches) {
+        //     if (swatches.hasOwnProperty(swatch) && swatches[swatch]) {
+        //         rgb.push(swatches[swatch].getHex());
+        //         console.log(swatch, swatches[swatch].getHex());
+        //     }
+        // }
+        // document.body.style.backgroundColor = rgb[0];
+        // /*
+        //  * Results into:
+        //  * Vibrant #7a4426
+        //  * Muted #7b9eae
+        //  * DarkVibrant #348945
+        //  * DarkMuted #141414
+        //  * LightVibrant #f3ccb4
+        //  */
+
+        // JZFQ.ajax({
+        //     type: "GET",
+        //     url: "http://localhost:3000/interface/getImglist",
+        //     data: {},
+        //     success(res) {
+        //         document.querySelector('img').src = res.data;
+        //         RGBaster.colors(res.data, {
+        //             paletteSize: 30,
+        //             exclude: ['rgb(255,255,255)', 'rgb(0,0,0)'],
+        //             success: function (payload) {
+        //                 console.log(payload)
+        //                 document.body.style.backgroundColor = payload.dominant;
+        //                 console.log('Dominant color:', payload.dominant);
+        //                 console.log('Secondary color:', payload.secondary);
+        //                 console.log('Palette:', payload.palette);
+        //             }
+        //         })
+        //     },
+        //     error() { }
+        // })
+    </script>
+</body>
+
+</html>

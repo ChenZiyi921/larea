@@ -13,29 +13,25 @@
     <script>
         JZFQ.ajax({
             type: "GET",
-            url: "http://localhost:3000/getlist",
+            url: "http://localhost:3000/interface/getlist",
             data: {},
             success() {
 
             },
-            error() {
-
-            }
+            error() { }
         })
         JZFQ.ajax({
             type: "post",
-            url: "getBookList",
+            url: "http://localhost:3000/interface/getBookList",
             data: {},
             success() {
 
             },
-            error() {
-
-            }
+            error() { }
         })
         JZFQ.ajax({
             type: "post",
-            url: "postlistparams",
+            url: "http://localhost:3000/interface/postlistparams",
             data: {
                 name: '陈子义',
                 age: 25
@@ -43,9 +39,7 @@
             success() {
 
             },
-            error() {
-
-            }
+            error() { }
         })
     </script>
 </body>
