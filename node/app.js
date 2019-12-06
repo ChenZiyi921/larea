@@ -30,3 +30,28 @@ const app = server.listen(3000, () => {
     const port = app.address().port;
     console.log('Example app listening at http://', port)
 });
+
+/* ====================================================== */
+
+const WebSocket = require('ws');
+
+let wss = new WebSocket.Server({
+    host: 'localhost',
+    port: 8000
+})
+
+wss.on('connection', ws => {
+    ws.on('message', message => {
+        ws.send('server: reply');
+    });
+
+    ws.on('pong', () => {
+        console.log('server: received pong from client');
+    });
+
+    ws.send('success');
+
+    // setInterval(() => {
+    //     ws.ping('', false, true);
+    // }, 2000);
+});

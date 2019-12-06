@@ -9,8 +9,24 @@
 </head>
 
 <body>
+    <input id="sendText" type="text" />
+    <button id="sendBtn">发送</button>
     <script src="jzfq.js"></script>
     <script>
+        var websocket = new WebSocket("ws://localhost:8000/");
+        websocket.onopen = () => { console.log("websocket open") }
+        websocket.onclose = () => { }
+        websocket.onmessage = (e) => {
+            console.log(e.data);
+        }
+        document.getElementById("sendBtn").onclick = () => {
+            var txt = document.getElementById("sendText").value;
+            websocket.send(txt);
+        }
+        window.onbeforeunload = () => {
+            websocket.close()
+        }
+
         JZFQ.ajax({
             type: "GET",
             url: "http://localhost:3000/interface/getlist",
