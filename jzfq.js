@@ -344,6 +344,33 @@ class JZFQ {
         isLoad ? (clearTimeout(clear), callback()) : clear = setTimeout(() => imgLoaded(imgs, callback), 300)
     }
     static turnArray(nodeList) { return [].slice.call(nodeList) }
+    static setDate() {
+        const currentDate = () => {
+            return new Date().format("MM月dd日 星期w hh:mm:ss");
+        }
+        setInterval(currentDate, 1000);
+        Date.prototype.format = function (fmt) {
+            let o = {
+                "M+": this.getMonth() + 1,
+                "d+": this.getDate(),
+                "h+": this.getHours(),
+                "m+": this.getMinutes(),
+                "s+": this.getSeconds(),
+                "q+": ~~((this.getMonth() + 3) / 3),
+                "S": this.getMilliseconds(),
+                'w': ['日', '一', '二', '三', '四', '五', '六'][this.getDay()]
+            };
+            if (/(y+)/.test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            }
+            for (let k in o) {
+                if (new RegExp("(" + k + ")").test(fmt)) {
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                }
+            }
+            return fmt
+        }
+    }
 }
 class Pop extends JZFQ {
     constructor(opts) {
