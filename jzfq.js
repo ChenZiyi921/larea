@@ -1,8 +1,7 @@
 class JZFQ {
-    static body = document.querySelector("body");
     static head = document.querySelector("head");
     constructor() {
-
+        this.body = document.body;
     }
     static ajax(opts) {
         let defaults = {
@@ -65,79 +64,6 @@ class JZFQ {
             a += e.charAt(i);
         }
         return a;
-    }
-    static jsonpAjax(opts = { // 未测试移除 removeNode中this有问题
-        url: '',
-        data: {} || [],
-        success() { },
-        error() { }
-    }) {
-        let [paraArr, paraString] = [[], ''],
-            [urlArr, cbName] = ['', ''],
-            creatScript = null,
-            supportLoad = '',
-            onEvent,
-            timeout = opts.timeout || 0,
-            ranTxt = this.ranStr(10);
-
-        for (let i in opts.data) {
-            if (opts.data.hasOwnProperty(i)) {
-                paraArr.push(encodeURIComponent(i) + "=" + encodeURIComponent(opts.data[i]));
-            }
-        }
-
-        urlArr = opts.url.split("?");
-        urlArr.length > 1 && paraArr.push(urlArr[1]);
-
-        cbName = 'cb' + ranTxt;
-        paraArr.push('cb=' + cbName);
-        paraString = paraArr.join("&");
-        opts.url = urlArr[0] + "?" + paraString;
-
-        creatScript = document.createElement("script");
-        creatScript.loaded = false;
-        window[cbName] = data => {
-            if (this.typeOf(opts.success) !== 'Function') return;
-            opts.success(data)
-            creatScript.loaded = true;
-        }
-
-        this.head.insertBefore(creatScript, this.head.firstChild);
-        creatScript.src = opts.url;
-
-        supportLoad = "onload" in creatScript;
-
-        onEvent = supportLoad ? "onload" : "onreadystatechange";
-        creatScript[onEvent] = () => {
-            if (creatScript.readyState && creatScript.readyState != "loaded") {
-                return;
-            }
-            if (creatScript.readyState == 'loaded' && creatScript.loaded == false) {
-                return creatScript.onerror()
-            }
-            setTimeout(() => {
-                (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (this.head.removeNode && this.head.removeNode(this));
-                creatScript = creatScript[onEvent] = creatScript.onerror = window[cbName] = null;
-            }, 1000);
-        }
-
-        creatScript.onerror = () => {
-            if (window[cbName] == null) {
-                this.tips("请求超时，请重试！");
-            }
-            opts.error && opts.error();
-            (creatScript.parentNode && creatScript.parentNode.removeChild(creatScript)) && (this.head.removeNode && this.head.removeNode(this));
-            creatScript = creatScript[onEvent] = creatScript.onerror = window[cbName] = null;
-        }
-
-        if (timeout != 0) {
-            setTimeout(() => {
-                if (creatScript && creatScript.loaded == false) {
-                    window[cbName] = null;
-                    creatScript.onerror();
-                }
-            }, timeout);
-        }
     }
     static uploadImg(opts) {
         if (this.typeOf(opts) === 'Object') {
@@ -309,24 +235,17 @@ class JZFQ {
             i++;
         }
     }
-    // 同 getBoundingClientRect
-    static offsetTop(ele) {
-        let top = ele.offsetTop;
-        let parent = ele.offsetParent;
-        while (parent) {
-            top += parent.offsetTop;
-            parent = parent.offsetParent;
-        }
-        return top
+    static extNumber(str) {
+        return str.replace(/[^0-9]/ig, "") * 1
     }
-    static offsetLeft(ele) {
-        let left = ele.offsetLeft;
-        let parent = ele.offsetParent;
-        while (parent) {
-            left += parent.offsetLeft;
-            parent = parent.offsetParent;
-        }
-        return left
+    static getStyle(obj, attr) {
+        return obj.currentStyle ? obj.currentStyle[attr] : document.defaultView.getComputedStyle(obj, null)[attr]
+    }
+    static GBCR(obj) {
+        return obj.getBoundingClientRect()
+    }
+    static inverse(number) {
+        return - number || 0
     }
     static parents(ele, selector) {
         let matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
@@ -406,7 +325,7 @@ class Pop extends JZFQ {
         }
         popHtml += '</div>';
         div.innerHTML = popHtml;
-        JZFQ.body.appendChild(div), JZFQ.body.appendChild(mask);
+        this.body.appendChild(div), this.body.appendChild(mask);
         cb(opts)
     }
     event(opts) {
@@ -415,16 +334,17 @@ class Pop extends JZFQ {
             let target = (e = e || window.event).target || e.srcElement;
             let targetType = target.className.toLowerCase() || target.id;
             if (isEvent) {
+                let isExist = key => {
+                    if (opts[key] && typeof opts[key] === "function") {
+                        opts[key]()
+                    }
+                }
                 switch (targetType) {
                     case "h5pop-cancel":
-                        if (opts["cancelBtnRun"] && typeof opts["cancelBtnRun"] === "function") {
-                            opts["cancelBtnRun"]();
-                        }
+                        isExist('cancelBtnRun')
                         break;
                     case "h5pop-confirm":
-                        if (opts["confirmBtnRun"] && typeof opts["confirmBtnRun"] === "function") {
-                            opts["confirmBtnRun"]();
-                        }
+                        isExist('confirmBtnRun')
                         break;
                 }
                 if (targetType == "h5pop-close" || targetType == "h5pop-cancel" || targetType == "h5pop-confirm") {
@@ -474,4 +394,3 @@ NodeList.prototype.replaceClass = function replaceClass(...args) {
     this.forEach(item => item.replaceClass(...args));
     return this;
 };
-
