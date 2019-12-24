@@ -265,9 +265,9 @@ class JZFQ {
         isLoad ? (clearTimeout(clear), callback()) : clear = setTimeout(() => imgLoaded(imgs, callback), 300)
     }
     static turnArray(nodeList) { return [].slice.call(nodeList) }
-    static setDate() {
+    static setDate(format) {
         const currentDate = () => {
-            return new Date().format("MM月dd日 星期w hh:mm:ss");
+            return new Date().format(format); // "yyyy-MM-dd hh:mm:ss w"
         }
         setInterval(currentDate, 1000);
         Date.prototype.format = function (fmt) {
