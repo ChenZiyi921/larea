@@ -1,8 +1,10 @@
 class JZFQ {
     static head = document.querySelector("head");
     constructor() {
+        // if (new.target === JZFQ) {}
         this.body = document.body;
     }
+    // set prop() {  }
     static ajax(opts) {
         let defaults = {
             type: "GET",
