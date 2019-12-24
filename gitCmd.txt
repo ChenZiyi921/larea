@@ -10,6 +10,7 @@ git push origin master -f
 git reset --hard 556ca75d4fd01e44a75411f674cd70b918459169
 git push -f -u origin test1
 
+git push origin :dbg_lichen_star
 
 git push origin release:dev1 -f
 
@@ -182,13 +183,3 @@ git reset --keep <commit>
 
 git submodule add 仓库地址 路径
 
-
-其他人协同
-git clone /path/to/repos/helloworld_parent.git
-git submodule init
-git submodule update
-
-移除
-1.删除git cache和物理文件夹
-2.删除.gitmodules的内容（或者整个文件） 因为本例只有两个子模块，直接删除文件
-3.删除.git/config的submodule配置 源文件
