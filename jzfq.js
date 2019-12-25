@@ -1,11 +1,13 @@
 class JZFQ {
-    static head = document.querySelector("head");
+    head = document.querySelector("head");
     constructor() {
-        // if (new.target === JZFQ) {}
-        this.body = document.body;
+        if (new.target === JZFQ) {
+            this.body = document.body;
+        }
     }
-    // set prop() {  }
-    static ajax(opts) {
+    set prop() { }
+    get prop() { }
+    ajax(opts) {
         let defaults = {
             type: "GET",
             url: "",
@@ -67,7 +69,7 @@ class JZFQ {
         }
         return a;
     }
-    static uploadImg(opts) {
+    uploadImg(opts) {
         if (this.typeOf(opts) === 'Object') {
             let [formData, xhr] = [new FormData(), new XMLHttpRequest()];
             formData.append("image", opts.ele.files[0]);
@@ -85,7 +87,7 @@ class JZFQ {
             xhr.send(formData);
         }
     }
-    static loading() {
+    loading() {
         if (!document.getElementById('loadingWrap')) {
             let lhtml = '', mainHtml = '';
             let classArray = ['loadfirst', 'second', 'loadlast'];
@@ -101,11 +103,11 @@ class JZFQ {
             this.body.appendChild(loading);
         }
     }
-    static removeLoading() {
+    removeLoading() {
         let loading = document.getElementById('loadingWrap');
         loading && this.body.removeChild(loading);
     }
-    static getQueryString(name) {
+    getQueryString(name) {
         let url = window.location.href;
         if (/\?(.+)/.test(url)) {
             let args = url.split('?');
@@ -120,7 +122,7 @@ class JZFQ {
             }
         }
     }
-    static urlSplicing(name, value) {
+    urlSplicing(name, value) {
         if (Array.isArray(name)) {
             for (let i = 0; i < name.length; i++) {
                 for (let k in name[i]) {
@@ -146,7 +148,7 @@ class JZFQ {
             }
         }
     }
-    static loadJS(pageUrl, insetPos, cb, id) {
+    loadJS(pageUrl, insetPos, cb, id) {
         if (!document.getElementById(id)) {
             let loadJs = document.createElement("script");
             loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
@@ -162,7 +164,7 @@ class JZFQ {
             loadJs.onload = () => cb();
         }
     }
-    static tips(txt) {
+    tips(txt) {
         let systemTips = document.getElementById("systemTips");
         if (systemTips || !txt) return;
         let clear = null;
@@ -172,10 +174,10 @@ class JZFQ {
         this.body.appendChild(div);
         clear = setTimeout(() => { this.body.removeChild(div), clearTimeout(clear) }, 2000)
     }
-    static isweixin() {
+    isweixin() {
         return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
     }
-    static isPC() {
+    isPC() {
         let userAgentInfo = navigator.userAgent;
         let Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
         for (let v = 0; v < Agents.length; v++) {
@@ -183,7 +185,7 @@ class JZFQ {
         }
         return true;
     }
-    static isMobile() {
+    isMobile() {
         let UA = navigator.userAgent,
             IsAndroid = /Android|HTC/i.test(UA),
             IsIPad = !IsAndroid && /iPad/i.test(UA),
@@ -194,10 +196,10 @@ class JZFQ {
             this.body.classList.add(IsIOS ? "ios" : "android");
         }
     }
-    static toThousands(num) {
+    toThousands(num) {
         return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
     }
-    static goTop(ele, scrToShow) {
+    goTop(ele, scrToShow) {
         window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
         let el = document.querySelector(ele);
         window.addEventListener('scroll', () => {
@@ -213,7 +215,7 @@ class JZFQ {
             }
         }, !1);
     }
-    static copy(text, tips) {
+    copy(text, tips) {
         if (!this.body.querySelector('.cInpt')) {
             let input = document.createElement('input');
             input.setAttribute('readonly', 'readonly');
@@ -237,19 +239,19 @@ class JZFQ {
             i++;
         }
     }
-    static extNumber(str) {
+    extNumber(str) {
         return str.replace(/[^0-9]/ig, "") * 1
     }
-    static getStyle(obj, attr) {
+    getStyle(obj, attr) {
         return obj.currentStyle ? obj.currentStyle[attr] : document.defaultView.getComputedStyle(obj, null)[attr]
     }
-    static GBCR(obj) {
+    GBCR(obj) {
         return obj.getBoundingClientRect()
     }
-    static inverse(number) {
+    inverse(number) {
         return - number || 0
     }
-    static parents(ele, selector) {
+    parents(ele, selector) {
         let matchesSelector = ele.matches || ele.webkitMatchesSelector || ele.mozMatchesSelector || ele.msMatchesSelector;
         while (ele) {
             if (matchesSelector.call(ele, selector)) break;
@@ -257,15 +259,15 @@ class JZFQ {
         }
         return ele
     }
-    static imgLoaded(imgList, callback) {
+    imgLoaded(imgList, callback) {
         let clear, isLoad = true, imgs = [];
         for (let i = 0; i < imgList.length; i++) {
             if (imgList[i].height === 0) isLoad = false, imgs.push(imgList[i])
         }
         isLoad ? (clearTimeout(clear), callback()) : clear = setTimeout(() => imgLoaded(imgs, callback), 300)
     }
-    static turnArray(nodeList) { return [].slice.call(nodeList) }
-    static setDate(format) {
+    turnArray(nodeList) { return [].slice.call(nodeList) }
+    setDate(format) {
         const currentDate = () => {
             return new Date().format(format); // "yyyy-MM-dd hh:mm:ss w"
         }
