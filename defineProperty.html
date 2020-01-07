@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function depth(obj) {
+            if (!obj || typeof obj != 'object') {
+                return
+            }
+            for (var i in obj) {
+                definePro(obj, i, obj[i]);
+            }
+        }
+        function definePro(obj, key, value) {
+            depth(value);
+            Object.defineProperty(obj, key, {
+                get: function () {
+                    return value;
+                },
+                set: function (newval) {
+                    console.log('检测变化', newval);
+                    value = newval;
+                }
+            })
+        }
+        function Observe(obj) {
+            for (var key in obj) {
+                definePro(obj, key, obj[key])
+            }
+        }
+
+        Observe(data)
+    </script>
+</body>
+
+</html>

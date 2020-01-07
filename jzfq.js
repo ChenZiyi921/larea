@@ -7,61 +7,6 @@ class JZFQ {
     }
     set prop() { }
     get prop() { }
-    ajax(opts) {
-        let defaults = {
-            type: "GET",
-            url: "",
-            data: "",
-            dataType: "json",
-            async: true,
-            cache: true,
-            contentType: "application/x-www-form-urlencoded;charset=utf-8",
-            param: "",
-            success() { },
-            error() { }
-        };
-        Object.assign(defaults, opts)
-        if (this.typeOf(defaults["data"]) === 'Object') {
-            let str = "";
-            for (let key in defaults["data"]) {
-                str += key + "=" + defaults["data"][key] + "&";
-            }
-            defaults["data"] = str.substring(0, str.length - 1);
-        }
-        defaults["type"] = defaults["type"].toUpperCase();
-        defaults["cache"] = defaults["cache"] ? "" : "&" + new Date().getTime();
-        if (defaults["type"] === "GET" && (defaults["data"] || defaults["cache"])) {
-            defaults["url"] += "?" + defaults["data"] + defaults["cache"];
-        }
-        let oXhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-        oXhr.param = defaults["param"];
-        oXhr.open(defaults["type"], defaults["url"], defaults["async"]);
-        if (defaults["headers"]) {
-            for (let k in defaults["headers"]) {
-                oXhr.setRequestHeader(k, defaults["headers"][k]);
-            }
-        }
-        if (defaults["type"] === "GET") {
-            oXhr.send(null);
-        } else {
-            oXhr.setRequestHeader("Content-type", defaults["contentType"]);
-            oXhr.send(defaults["data"]);
-        }
-        if (defaults["setToken"] && this.typeOf(defaults["setToken"]) === "Function") defaults["setToken"](oXhr);
-        oXhr.onreadystatechange = () => {
-            if (oXhr.readyState === 4) {
-                if (oXhr.status === 200) {
-                    if (this.typeOf(defaults["success"]) === "Function") {
-                        defaults["dataType"] == "json"
-                            ? defaults["success"].call(oXhr, JSON.parse(oXhr.responseText))
-                            : defaults["success"].call(oXhr, oXhr.responseText);
-                    }
-                } else {
-                    if (this.typeOf(defaults["error"]) === "Function") defaults["error"]();
-                }
-            }
-        };
-    }
     ranStr(n) {
         for (let e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIZKLMNOPQRSTUVWXYZ0123456789", a = "", r = 0; r < n; r++) {
             let i = ~~(Math.random() * (e.length - 1));
@@ -77,8 +22,8 @@ class JZFQ {
             xhr.onreadystatechange = () => {
                 if (4 === xhr.readyState) {
                     if (200 === xhr.status) {
-                        let data = JSON.parse(xhr.responseText);
-                        data.status == "200" ? this.typeOf(opts.cb) === "Function" && opts.cb() : this.tips(data.msg);
+                        let res = JSON.parse(xhr.responseText);
+                        this.typeOf(opts.cb) === "Function" && opts.cb(res)
                     } else {
                         this.tips("error");
                     }
@@ -398,3 +343,11 @@ NodeList.prototype.replaceClass = function replaceClass(...args) {
     this.forEach(item => item.replaceClass(...args));
     return this;
 };
+if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = function (callback, thisArg) {
+        thisArg = thisArg || window;
+        for (let i = 0; i < this.length; i++) {
+            callback.call(thisArg, this[i], i, this);
+        }
+    };
+}
