@@ -23,7 +23,7 @@ class JZFQ {
                 if (4 === xhr.readyState) {
                     if (200 === xhr.status) {
                         let res = JSON.parse(xhr.responseText);
-                        this.typeOf(opts.cb) === "Function" && opts.cb(res)
+                        opts.cb(res)
                     } else {
                         this.tips("error");
                     }
@@ -96,8 +96,9 @@ class JZFQ {
     loadJS(pageUrl, insetPos, cb, id) {
         if (!document.getElementById(id)) {
             let loadJs = document.createElement("script");
-            loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id || '';
-            document.querySelectorAll(insetPos || "body")[0].appendChild(loadJs);
+            // Object.assign(loadJs, { src: pageUrl, type: "text/javascript", id: id })
+            loadJs.src = pageUrl, loadJs.type = "text/javascript", loadJs.id = id;
+            document.querySelector(insetPos || "body").appendChild(loadJs);
             if (loadJs.readyState) {
                 loadJs.onreadystatechange = () => {
                     if (loadJs.readyState == "loaded" || loadJs.readyState == "complete") {
@@ -110,8 +111,7 @@ class JZFQ {
         }
     }
     tips(txt) {
-        let systemTips = document.getElementById("systemTips");
-        if (systemTips || !txt) return;
+        if (document.getElementById("systemTips")) return;
         let clear = null;
         let div = document.createElement("div");
         div.id = "systemTips";
@@ -119,30 +119,15 @@ class JZFQ {
         this.body.appendChild(div);
         clear = setTimeout(() => { this.body.removeChild(div), clearTimeout(clear) }, 2000)
     }
-    isweixin() {
-        return "micromessenger" == window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
-    }
-    isPC() {
-        let userAgentInfo = navigator.userAgent;
-        let Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
-        for (let v = 0; v < Agents.length; v++) {
-            if (userAgentInfo.indexOf(Agents[v]) > 0) return false
+    browserInfo() {
+        return {
+            isAndroid: Boolean(navigator.userAgent.match(/android/ig)),
+            isIphone: Boolean(navigator.userAgent.match(/iphone|ipod/ig)),
+            isIpad: Boolean(navigator.userAgent.match(/ipad/ig)),
+            isWeixin: Boolean(navigator.userAgent.match(/MicroMessenger/ig)),
+            isAli: Boolean(navigator.userAgent.match(/AlipayClient/ig)),
+            isPhone: Boolean(/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent))
         }
-        return true;
-    }
-    isMobile() {
-        let UA = navigator.userAgent,
-            IsAndroid = /Android|HTC/i.test(UA),
-            IsIPad = !IsAndroid && /iPad/i.test(UA),
-            IsIPhone = !IsAndroid && /iPod|iPhone/i.test(UA),
-            IsIOS = IsIPad || IsIPhone;
-        if (IsIOS || IsAndroid) {
-            this.body.classList.add("mobile");
-            this.body.classList.add(IsIOS ? "ios" : "android");
-        }
-    }
-    toThousands(num) {
-        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
     }
     goTop(ele, scrToShow) {
         window.animation = window.requestAnimationFrame || function (fn) { return setTimeout(fn, 1000 / 60) };
@@ -166,7 +151,7 @@ class JZFQ {
             input.setAttribute('readonly', 'readonly');
             input.value = text;
             this.body.appendChild(input);
-            this.body.className.indexOf('ios') != -1 ? input.setSelectionRange(0, text.length) : input.select();
+            this.body.className.includes('ios') ? input.setSelectionRange(0, text.length) : input.select();
             document.execCommand("Copy");
             input.className = 'cInpt';
             input.style.display = 'none';
@@ -205,18 +190,20 @@ class JZFQ {
         return ele
     }
     imgLoaded(imgList, callback) {
-        let clear, isLoad = true, imgs = [];
+        let [clear, isLoad, imgs] = [null, true, []];
         for (let i = 0; i < imgList.length; i++) {
             if (imgList[i].height === 0) isLoad = false, imgs.push(imgList[i])
         }
         isLoad ? (clearTimeout(clear), callback()) : clear = setTimeout(() => imgLoaded(imgs, callback), 300)
     }
     turnArray(nodeList) { return [].slice.call(nodeList) }
+    toThousands(num) {
+        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    }
     setDate(format) {
-        const currentDate = () => {
+        setInterval(() => {
             return new Date().format(format); // "yyyy-MM-dd hh:mm:ss w"
-        }
-        setInterval(currentDate, 1000);
+        }, 1000);
         Date.prototype.format = function (fmt) {
             let o = {
                 "M+": this.getMonth() + 1,
@@ -311,14 +298,7 @@ class Pop extends JZFQ {
         }
     }
 }
-Array.prototype.isInArray = function (value, type) {
-    if (this.indexOf && JZFQ.typeOf(this.indexOf) === 'Function') {
-        let index = this.indexOf(value);
-        if (index >= 0) {
-            return type == 'i' ? index : type == 'v' ? value : true;
-        }
-    }
-};
+
 HTMLElement.prototype.css = function (opts) {
     if (/Object/.test(Object.prototype.toString.call(opts))) {
         for (let key in opts) {
