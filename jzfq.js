@@ -2,11 +2,16 @@ class JZFQ {
     head = document.querySelector("head");
     constructor() {
         if (new.target === JZFQ) {
-            this.body = document.body;
+            
         }
+        this.body = document.body;
     }
-    set prop() { }
-    get prop() { }
+    get prop() {
+        return 'set prop'
+    }
+    set prop(val) {
+        console.log(val)
+    }
     ranStr(n) {
         for (let e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIZKLMNOPQRSTUVWXYZ0123456789", a = "", r = 0; r < n; r++) {
             let i = ~~(Math.random() * (e.length - 1));
@@ -15,7 +20,7 @@ class JZFQ {
         return a;
     }
     uploadImg(opts) {
-        if (this.typeOf(opts) === 'Object') {
+        if (this.typeOf(opts, 'Object')) {
             let [formData, xhr] = [new FormData(), new XMLHttpRequest()];
             formData.append("image", opts.ele.files[0]);
             xhr.open("post", opts.url, true);
@@ -159,15 +164,9 @@ class JZFQ {
             setTimeout(() => this.body.removeChild(input), 2e3);
         }
     }
-    static typeOf(value) {
-        let typeArray = ['Number', 'String', 'Boolean', 'Object', 'Array', 'Null', 'Undefined', 'Function'];
-        let i = 0, l = typeArray.length;
-        let v = Object.prototype.toString.call(value);
-        let type = v.substring(0, v.length - 1).split(' ')[1];
-        while (i < l) {
-            if (type === typeArray[i]) return type;
-            i++;
-        }
+    static typeOf(tgt, type) {
+        const dataType = Object.prototype.toString.call(tgt).replace(/\[object (\w+)\]/, "$1");
+        return type ? dataType === type : dataType;
     }
     extNumber(str) {
         return str.replace(/[^0-9]/ig, "") * 1
@@ -271,7 +270,7 @@ class Pop extends JZFQ {
             let targetType = target.className.toLowerCase() || target.id;
             if (isEvent) {
                 let isExist = key => {
-                    if (opts[key] && typeof opts[key] === "function") {
+                    if (opts[key] && this.typeOf(opts[key], 'Function')) {
                         opts[key]()
                     }
                 }
@@ -290,11 +289,11 @@ class Pop extends JZFQ {
         });
     }
     remove() {
-        let getMasks = document.getElementById("h5PopMasks");
-        let getPopMains = document.getElementById("h5PopMainEle");
-        if (getMasks.parentNode && getPopMains.parentNode) {
-            getMasks.parentNode.removeChild(getMasks);
-            getPopMains.parentNode.removeChild(getPopMains);
+        let popMask = document.getElementById("h5PopMasks");
+        let popMain = document.getElementById("h5PopMainEle");
+        if (popMask.parentNode && popMain.parentNode) {
+            popMask.parentNode.removeChild(popMask);
+            popMain.parentNode.removeChild(popMain);
         }
     }
 }
