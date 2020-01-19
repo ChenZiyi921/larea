@@ -180,3 +180,7 @@ git reset <commit>
 git reset --keep <commit>
 
 git submodule add 仓库地址 路径
+
+>推送报错 The remote end hung up unexpectedly
+git config --global http.lowSpeedLimit 0
+git config --global http.lowSpeedTime 999999
