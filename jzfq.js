@@ -72,32 +72,6 @@ class JZFQ {
             }
         }
     }
-    urlSplicing(name, value) {
-        if (Array.isArray(name)) {
-            for (let i = 0; i < name.length; i++) {
-                for (let k in name[i]) {
-                    if (!this.getQueryString(k)) {
-                        location.search += `${/^\?/.test(location.search) ? '&' : '?'}${k + '=' + name[i][k]}`
-                    }
-                }
-            }
-        } else {
-            if (!this.getQueryString(name)) {
-                location.search += `${/^\?/.test(location.search) ? '&' : '?'}${name + '=' + value}`
-            } else {
-                let search = this.getQueryString();
-                let searchStr = '';
-                search[name] = value;
-                for (const key in search) {
-                    if (search.hasOwnProperty(key)) {
-                        const val = search[key];
-                        searchStr += (/\?/.test(searchStr) ? '&' : '?') + key + '=' + val;
-                    }
-                }
-                location.search = searchStr
-            }
-        }
-    }
     loadJS(pageUrl, insetPos, cb, id) {
         if (!document.getElementById(id)) {
             let loadJs = document.createElement("script");
@@ -164,7 +138,7 @@ class JZFQ {
             setTimeout(() => this.body.removeChild(input), 2e3);
         }
     }
-    static typeOf(tgt, type) {
+    typeOf(tgt, type) {
         const dataType = Object.prototype.toString.call(tgt).replace(/\[object (\w+)\]/, "$1");
         return type ? dataType === type : dataType;
     }
