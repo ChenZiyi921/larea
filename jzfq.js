@@ -1,16 +1,10 @@
 class JZFQ {
     head = document.querySelector("head");
     constructor() {
-        if (new.target === JZFQ) {
+        // if (new.target === JZFQ) {
             
-        }
+        // }
         this.body = document.body;
-    }
-    get prop() {
-        return 'set prop'
-    }
-    set prop(val) {
-        console.log(val)
     }
     ranStr(n) {
         for (let e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIZKLMNOPQRSTUVWXYZ0123456789", a = "", r = 0; r < n; r++) {
