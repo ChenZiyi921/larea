@@ -1,0 +1,61 @@
+@charset "utf-8";
+@media screen and (min-width: 320px) { html{ font-size:42px; }}
+@media screen and (min-width: 360px) { html{ font-size:48px; }}
+@media screen and (min-width: 375px) { html{ font-size:50px; }}
+@media screen and (min-width: 400px) { html{ font-size:54px; }}
+@media screen and (min-width: 414px) { html{ font-size:56px; }}
+@media screen and (min-width: 440px) { html{ font-size:58px; }}
+@media screen and (min-width: 480px) { html{ font-size:64px; }}
+@media screen and (min-width: 520px) { html{ font-size:70px; }}
+@media screen and (min-width: 560px) { html{ font-size:74px; }}
+@media screen and (min-width: 600px) { html{ font-size:80px; }}
+@media screen and (min-width: 640px) { html{ font-size:86px; }}
+@media screen and (min-width: 680px) { html{ font-size:90px; }}
+@media screen and (min-width: 720px) { html{ font-size:96px; }}
+@media screen and (min-width: 750px) { html{ font-size:100px; }}
+/* @media screen and (min-width: 768px) { html{ font-size:102px; }} */
+body{ line-height:normal; margin: 0; font-size: .24rem; color: #555;-webkit-tap-highlight-color:transparent;}
+body,html{ min-height: 100%;user-select: none;  }
+body,input,button,textarea,select,option,label{ font-family:Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",\5B8B\4F53,\5FAE\8F6F\96C5\9ED1,\9ED1\4F53,sans-self; color: #333; }
+div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{ margin:0; padding:0; border:0; outline:0; /*font-size:.24rem; font-weight: normal; vertical-align: baseline;*/ background: transparent; font-style: normal; }
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{ display:block; }
+input,button,textarea,select,option{ margin: 0; padding: 0; outline: none; border: 0; -webkit-appearance:none; -moz-appearance:none; -ms-appearance:none; -webkit-tap-highlight-color:rgba(0,0,0,0); border-radius: 0; }
+nav,ul,ol{ list-style:none; }
+blockquote,q{ quotes:none; }
+blockquote:before,blockquote:after,q:before,q:after{ content:none; }
+a{ margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent;color: #555;text-decoration: none; }
+img { border: none; max-width: 100%; max-height: 100%; height: auto;vertical-align: middle; user-select: none; pointer-events: none; }
+ins{ background:#ff9; color:#000; text-decoration:none; }
+mark{ background:#ff9; color:#000; font-style:italic; font-weight:bold; }
+del{ text-decoration: line-through; }
+abbr[title],dfn[title]{ border-bottom: 1px dotted; cursor:help; }
+table{ border-collapse: collapse; border-spacing:0; }
+hr{ display:block; height:1px; border:0; margin: .1rem 0; padding: 0; }
+input,select{ vertical-align:middle; }
+a, i, img, em, strong, span{ display: block; }
+strong{ font-weight: normal; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; font-size:0; }
+.clearfix{ zoom:1; }
+.fl { float: left; }
+.fr { float: right; }
+.flex { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex; }
+.fx1 { -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1; }
+.h5pop-main{ width: 80%; max-height: 70%; padding: 0; background: #fff; background: rgba(255,255,255,.9); border-radius: 0.1rem; position: fixed; z-index: 999999; top: 50%; left: 10%; text-align: center; -webkit-transform: translateY(-50%); -moz-transform: translateY(-50%); -ms-transform: translateY(-50%); overflow: hidden; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; overflow-x: hidden; overflow-y: auto; }
+.h5pop-mask{ width: 100%; height: 100%; background: rgba(0,0,0,.7); position: fixed; z-index: 999998; top: 0; left: 0; }
+.h5pop-close{ width: 0.8rem; height: 0.8rem; line-height: 0.8rem; margin: 0; padding: 0;font-size: 0.48rem; text-align: center; position: absolute; top: 0; right: 0; cursor: pointer; text-decoration: none; color: #333; }
+.h5pop-close:active{  color: #ff6811; }
+.h5pop-content{ padding: 0.2rem 0; margin: .1rem; text-align: center; max-height: 2rem; overflow-y:auto; }
+.h5pop-content::-webkit-scrollbar {width: 6px; height: 10px; background: #f5f5f5; }
+.h5pop-content::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); border-radius: 6px; background: #f5f5f5; }
+.h5pop-content::-webkit-scrollbar-thumb {border-radius: 6px; -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3); background: #ff7726; }
+.h5tips-title {display: block; width: 100%; height: 0.8rem; line-height: 0.8rem; margin: 0; padding: 0; border-bottom: 1px solid #ddd;  text-align: center; font-size: 0.36rem;font-weight: normal;}
+.h5tips-txt{ display: block; width: 100%; line-height: 160%; padding: 0.2rem 0; text-align: center; }
+.h5tips-txt img{ max-width: 200px; vertical-align: top; }
+.h5pop-footer{ text-align: right;display: -webkit-box;display: -moz-box;display: -ms-flexbox;display: -webkit-flex;	display: flex; }
+.h5pop-confirm,.h5pop-cancel{ display: inline-block; height:0.8rem; line-height: 0.8rem; font-size: 0.36rem; cursor: pointer; outline: none; -webkit-box-flex: 1; -webkit-flex: 1;-ms-flex: 1;flex: 1; border:none;-webkit-appearance: none;appearance: none;border-radius: 0;margin:0 -0.05rem; text-decoration: none; text-align: center; }
+.h5pop-confirm{ background: #ff6811;color: #fff; }
+.h5pop-cancel{ background: #e4e4e4;border-right: 1px solid #ddd; color: #333; }
+.h5pop-cancel:active{ background: #fff; }
+.h5pop-confirm:active{ background: #ff5000; }
+/* loading */
+#loadingWrap,body{width:100%;max-width:750px}body{margin:0 auto}#loadingWrap{position:fixed;top:0;z-index: 999;height:100%;background:rgba(0,0,0,.3)}.loading{left:50%;top:50%;transform:translate(-50%,-50%);width:20px;height:20px;position:relative}.first>div,.last>div,.second>div{width:6px;height:6px;background-color:#333;border-radius:100%;position:absolute;-webkit-animation:bounce 1.2s infinite ease-in-out;animation:bounce 1.2s infinite ease-in-out;-webkit-animation-fill-mode:both;animation-fill-mode:both}.loading .loading-container{position:absolute;width:100%;height:100%}.second{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}.last{-webkit-transform:rotateZ(90deg);transform:rotateZ(90deg)}.circle1{top:0;left:0}.circle2{top:0;right:0}.circle3{right:0;bottom:0}.circle4{left:0;bottom:0}.second .circle1{-webkit-animation-delay:-1.1s;animation-delay:-1.1s}.last .circle1{-webkit-animation-delay:-1s;animation-delay:-1s}.first .circle2{-webkit-animation-delay:-.9s;animation-delay:-.9s}.second .circle2{-webkit-animation-delay:-.8s;animation-delay:-.8s}.last .circle2{-webkit-animation-delay:-.7s;animation-delay:-.7s}.first .circle3{-webkit-animation-delay:-.6s;animation-delay:-.6s}.second .circle3{-webkit-animation-delay:-.5s;animation-delay:-.5s}.last .circle3{-webkit-animation-delay:-.4s;animation-delay:-.4s}.first .circle4{-webkit-animation-delay:-.3s;animation-delay:-.3s}.second .circle4{-webkit-animation-delay:-.2s;animation-delay:-.2s}.last .circle4{-webkit-animation-delay:-.1s;animation-delay:-.1s}@-webkit-keyframes bounce{0%,100%,80%{-webkit-transform:scale(0)}40%{-webkit-transform:scale(1)}}@keyframes bounce{0%,100%,80%{transform:scale(0);-webkit-transform:scale(0)}40%{transform:scale(1);-webkit-transform:scale(1)}}

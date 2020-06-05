@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幸运大转盘</title>
+    <link rel="stylesheet" href="./css/h5.reset.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="container">
+            <div class="list-container">
+                <ul class="prize-list">
+                    <li><img src="images/ip1.png" /><em>满300减150</em></li>
+                    <li><img src="images/ip2.png" /><em>满300减150</em></li>
+                    <li><img src="images/ip3.png" /><em>满300减150</em></li>
+                    <li><img src="images/ip4.png" /><em>满300减150</em></li>
+                    <span id="startbutton"></span>
+                    <li><img src="images/ip7.png" /><em>满300减150</em></li>
+                    <li><img src="images/ip7.png" /><em>满300减150</em></li>
+                    <li><img src="images/ip6.png" /><em>满300减150</em></li>
+                    <li><img src="images/ip5.png" /><em>满300减150</em></li>
+                </ul>
+            </div>
+            <p class="prize-num">您还有<span>3</span>次抽奖机会</p>
+            <a href="" class="entry1"><img src="images/entry1.png" alt=""></a>
+        </div>
+        <div class="scroll-warp">
+            <img src="./images/prize-s-b.png" alt="">
+            <div class="scroll-container">
+                <ul class="scroll-list"></ul>
+            </div>
+        </div>
+        <div class="rule">
+            <h3 class="title"><span class="block"></span><span class="block"></span>活动规则<span class="block"></span><span
+                    class="block"></span></h3>
+            <p>1、活动时间和优惠券使用时间：6月15日0点-6月30日24点；</p>
+            <p>2、优惠券使用范围：全品类商品均可用，特价、秒杀商品除外；</p>
+            <p>3、活动期间，用户每天均默认有1次抽奖机会，成功下单并进入发货状态可再次获得1次抽奖机会；</p>
+            <p>4、抽中优惠券奖品后，优惠券自动发放到桔子分期个人账户中；</p>
+            <p>5、抽奖实物奖品iPhone SE后，登记收货信息，系统自动发货；</p>
+            <p>6、活动仅限分期订单参加，全款订单不参加；</p>
+            <p>7、参与活动的用户若存在不正当行为（如同一用户作弊领取、恶意套现、刷取信誉、虚假交易等）桔子分期有权取消用户优惠券使用资格和活动参与资格，并保留追究法律责任的权利；</p>
+            <p>8、桔子分期对本次活动拥有法律允许范围内的解释权，如有疑问欢迎咨询官方客服。</p>
+        </div>
+        <a href="" class="entry2"><img src="images/entry2.png" alt=""></a>
+        <div class="prize-mask">
+            <div class="prize-pop">
+                <img class="head-back" src="./images/p-h-b.png" alt="">
+                <div class="content">
+                    <!-- 中奖 -->
+                    <!-- <img src="./images/p-h-ta.png" alt="">
+                    <img src="./images/ip1.png" alt="">
+                    <em>满300减150优惠券</em>
+                    <a class="confirm" href="javascript:;">确定</a>
+                    <span>可在我的-优惠券中查看</span> -->
+                    <!-- 未中奖 -->
+                    <!-- <img src="./images/p-h-tb.png" alt="">
+                    <img src="./images/ip7.png" alt="">
+                    <a class="place-order" href="javascript:;">下单赢取抽奖机会 GO ></a>
+                    <a class="confirm" href="javascript:;">确定</a> -->
+                </div>
+                <img class="foot-back" src="./images/p-b-b.png" alt="">
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="./js/slideList.js"></script>
+<script type="text/javascript">
+    const dataJson = [
+        { "phone": "189****1487", "name": "chenz1111111iyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chen222ziyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chenziyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chenziyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chenziyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "cheeeenziyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chenziyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chenziyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chenzeiyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chenziyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1487", "name": "chenzeeeqweqweqweiyi", 'prize': '获得  满399减60券', 'text': '恭喜' },
+        { "phone": "189****1977", "name": "洗护兑换券", 'prize': '获得  满399减60券', 'text': '恭喜' }
+    ]
+    new slideList({
+        container: document.querySelector('.scroll-container'),
+        list: document.querySelector('.scroll-list'),
+        startPos: 0,
+        delay: 1000,
+        speed: 25,
+        data() {
+            let html = '';
+            dataJson.forEach((item, index) => {
+                html += `<li><span>${item.text}</span><span>${item.name}</span><span>${item.phone}</span><span>${item.name}</span></li>`
+            })
+            this.list.innerHTML = html;
+        }
+    })
+    var Draw = (function () {
+        var container = document.getElementById('container'),
+            li = container.querySelectorAll('li'),
+            startbutton = document.getElementById('startbutton'),
+            timer = null,
+            bReady = true;
+        var prize = [0, 1, 2, 4, 7, 6, 5, 3];
+        var num = 0;
+        var prizeContainer = document.querySelector('.prize-mask');
+        var prizeContent = document.querySelector('.prize-pop .content');
+        var prizeHtml = [`<img src="./images/p-h-ta.png" alt=""><img src="./images/ip1.png" alt=""><em>满300减150优惠券</em><a class="confirm" href="javascript:;">确定</a><span>可在我的-优惠券中查看</span>`, `<img src="./images/p-h-tb.png" alt=""><img src="./images/ip7.png" alt=""><a class="place-order" href="javascript:;">下单赢取抽奖机会 GO ></a><a class="confirm" href="javascript:;">确定</a>`
+        ]
+        startbutton.addEventListener('click', function () {
+            startlottery()
+        })
+        function startlottery() {
+            if (bReady) {
+                bReady = false;
+                num = getrandomnum(1, 9)
+                startinit(num);
+            }
+        }
+        function getrandomnum(n, m) {
+            return parseInt((m - n) * Math.random() + n);
+        }
+        function startinit(num) {
+            var i = 0;
+            var t = 100;
+            var rounds = 5;
+            var rNum = rounds * 8;
+            timer = setTimeout(startscroll, t);
+            function startscroll() {
+                for (var j = 0; j < li.length; j++) {
+                    li[j].className = '';
+                }
+                var prizenum = prize[i % li.length];
+                li[prizenum].className = "active";
+                i++;
+                if (i < rNum - 8) {
+                    timer = setTimeout(startscroll, t);
+                } else if (i >= rNum - 8 && i < rNum + num) {
+                    t += (i - rNum + 8) * 5;
+                    timer = setTimeout(startscroll, t);
+                }
+                if (i >= rNum + num) {
+                    bReady = true;
+                    clearTimeout(timer);
+                    prizeContainer.style.display = 'block';
+                    switch (num) {
+                        case 1:
+                            prizeContent.innerHTML = prizeHtml[0]
+                            break;
+                        case 2:
+                            prizeContent.innerHTML = prizeHtml[0]
+                            break;
+                        case 3:
+                            prizeContent.innerHTML = prizeHtml[0]
+                            break;
+                        case 4:
+                            prizeContent.innerHTML = prizeHtml[1]
+                            break;
+                        case 5:
+                            prizeContent.innerHTML = prizeHtml[0]
+                            break;
+                        case 6:
+                            prizeContent.innerHTML = prizeHtml[0]
+                            break;
+                        case 7:
+                            prizeContent.innerHTML = prizeHtml[1]
+                            break;
+                        case 8:
+                            prizeContent.innerHTML = prizeHtml[0]
+                            break;
+                    }
+                    popHandler()
+                }
+            }
+        }
+        function popHandler() {
+            var confirmBtn = document.querySelector('.confirm');
+            confirmBtn.addEventListener('click', function () {
+                prizeContainer.style.display = 'none';
+            })
+        }
+    })()
+</script>
+
+</html>
