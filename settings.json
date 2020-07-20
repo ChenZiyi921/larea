@@ -1,0 +1,103 @@
+{
+    "workbench.statusBar.feedback.visible": false,
+    "editor.fontSize": 14,
+    "gitlens.keymap": "alternate",
+    "vetur.format.defaultFormatter.html": "js-beautify-html",
+    "explorer.confirmDelete": false,
+    "window.zoomLevel": 0,
+    "gitlens.advanced.messages": {
+        "suppressCommitHasNoPreviousCommitWarning": false,
+        "suppressCommitNotFoundWarning": false,
+        "suppressFileNotUnderSourceControlWarning": false,
+        "suppressGitVersionWarning": false,
+        "suppressLineUncommittedWarning": false,
+        "suppressNoRepositoryWarning": false,
+        "suppressResultsExplorerNotice": false,
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.historyExplorer.enabled": true,
+    "terminal.integrated.shell.windows": "C:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "workbench.startupEditor": "newUntitledFile",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "vetur.validation.template": false,
+    "px-to-rem.px-per-rem": 16,
+    "files.associations": {
+        "*.cjson": "jsonc",
+        "*.wxss": "css",
+        "*.wxs": "css",
+        "*.css": "css",
+        "*.html": "html",
+        "*.js": "javascript",
+        "*.jsx": "javascriptreact"
+    },
+    "emmet.includeLanguages": {
+        "wxml": "html"
+    },
+    "minapp-vscode.disableAutoConfig": true,
+    "git.autofetch": true,
+    "workbench.settings.enableNaturalLanguageSearch": false,
+    "workbench.colorCustomizations": {
+        "editor.background": "#111",
+        "editorIndentGuide.background": "#686666",
+        "editorIndentGuide.activeBackground": "#fff",
+        "editorCursor.foreground": "#f7fca5",
+        "activityBar.background": "#111",
+        "activityBar.foreground": "#00ffff",
+        "editorBracketMatch.background": "#999"
+    },
+    "editor.formatOnType": true,
+    "easysass.formats": [
+        // {
+        //     "format": "expanded",
+        //     "extension": ".css"
+        // },
+        {
+            "format": "compressed",
+            "extension": ".css"
+        }
+    ],
+    "explorer.confirmDragAndDrop": false,
+    "terminal.integrated.rendererType": "dom",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "view-in-browser.customBrowser": "chrome",
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+        
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+        
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "vsonline.authentication.accountProvider": "Microsoft",
+    "vsonline.accountProvider": "Microsoft",
+    "todo-tree.tree.showScanModeButton": false,
+    "workbench.colorTheme": "One Dark Pro",
+    "sync.removeExtensions": true,
+    "sync.syncExtensions": true,
+    "sync.gist": "b5ad5b33501c1fb48c338257515833e3",
+    "sync.quietSync": false,
+    "sync.autoUpload": false,
+    "sync.autoDownload": false,
+    "codespaces.accountProvider": "Microsoft"
+}
