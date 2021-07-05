@@ -2,7 +2,10 @@
 # git 常用命令
 
 >拉取代码
-git pull -v
+git pull
+
+>不用输入用户名密码提交
+git config  credential.helper store 
 
 >重置成什么分支
 git reset --hard release
